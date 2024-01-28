@@ -39,6 +39,8 @@ def get_movies(directors, min_rating=Decimal("4.0"),
         added_for_this_director = 0
         movie_candidates = []
         for movie in films:
+            if any(movie == m for m in movies):
+                continue
             if Decimal(movie.rating) < min_rating:
                 break
             if added_for_this_director >= max_per_director * 3:

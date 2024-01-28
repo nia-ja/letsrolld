@@ -6,6 +6,13 @@ from letsrolld.base import BaseObject
 
 class Film(BaseObject):
 
+    def __eq__(self, other):
+        return (
+            self.name == other.name and
+            self.year == other.year and
+            self.rating == other.rating
+        )
+
     @property
     def _full_title(self):
         return (
