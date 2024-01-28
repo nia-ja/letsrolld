@@ -30,12 +30,16 @@ class Film(BaseObject):
             return match.group(1).strip()
 
     @property
-    def director(self):
+    def directors(self):
         for crew in self.soup.find_all(id="tab-crew"):
             for h3 in crew.find_all("h3"):
-                if "Director\n" in h3.text.strip():
-                    return director.Director(
-                        url=h3.next_sibling.next_sibling.find("a").get("href"))
+                text = h3.text.strip()
+                if "Director\n" in text or "Directors\n" in text:
+                    text_slug = h3.next_sibling.next_sibling
+                    return [
+                        director.Director(url=a.get("href"))
+                        for a in text_slug.find_all("a")
+                    ]
 
     @property
     def rating(self):

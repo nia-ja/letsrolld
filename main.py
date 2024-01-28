@@ -54,9 +54,10 @@ def get_directors(watch_list):
     directors = {}
     for wle in watch_list:
         movie = film.Film(wle.uri)
-        if movie.director.url not in directors:
-            directors[movie.director.url] = movie.director
-            yield movie.director
+        for director in movie.directors:
+            if director.url not in directors:
+                directors[director.url] = director
+                yield director
 
 
 def main():
