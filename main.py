@@ -18,7 +18,7 @@ def already_seen(seen, film):
 
 
 def get_movies(directors, min_rating=Decimal("4.0"),
-               max_movies=5, max_per_director=2):
+               max_movies=5, max_per_director=1):
     movies = []
 
     for director in directors:

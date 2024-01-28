@@ -13,7 +13,6 @@ class Director(BaseObject):
     @property
     def url(self):
         url = super().url
-        print("ihar", url)
         if not url.endswith("/by/rating/"):
             return os.path.join(url, "by/rating/")
         return url
