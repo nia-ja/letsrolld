@@ -7,9 +7,7 @@ from letsrolld import watchlist
 from letsrolld import film
 
 
-# TODO: publish
 # TODO: filter by length
-# TODO: sort input by rating
 
 
 def already_seen(seen, film):
@@ -19,36 +17,33 @@ def already_seen(seen, film):
     return False
 
 
-def get_movies(directors, min_rating=Decimal("4.0"), max=5, max_per_director=2):
+def get_movies(directors, min_rating=Decimal("4.0"),
+               max_movies=5, max_per_director=2):
     movies = []
 
     for director in directors:
-        if len(movies) >= max:
+        if len(movies) >= max_movies:
             return movies
 
-        print(f'Getting movies for {director.name}...')
-
-        # get all films by director
-        films = list(director.films())
-
-        # filter out films that I saw
         file_name = 'watched.csv'
         watched_list = list(watchlist.read_watch_list(file_name))
-        films = [
-            f for f in films
+
+        print(f'Getting movies for {director.name}...')
+        films = (
+            f for f in director.films()
+            # filter out films that I saw
             if not already_seen(watched_list, f)
-        ]
+        )
 
         # print first max films by rating
         added_for_this_director = 0
-        for movie in sorted(films,
-                            key=lambda x: float(x.rating),
-                            reverse=True):
-            if Decimal(movie.rating) >= min_rating:
-                movies.append(movie)
-                added_for_this_director += 1
+        for movie in films:
+            if Decimal(movie.rating) < min_rating:
+                break
             if added_for_this_director >= max_per_director:
                 break
+            movies.append(movie)
+            added_for_this_director += 1
     return movies
 
 
@@ -77,7 +72,7 @@ def main():
     watch_list = list(watchlist.read_watch_list(file_name))
     random.shuffle(watch_list)
 
-    movies = get_movies(get_directors(watch_list), max=5)
+    movies = get_movies(get_directors(watch_list), max_movies=5)
     print("\n--------------------\n")
 
     for movie in movies:
