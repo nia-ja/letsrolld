@@ -1,6 +1,8 @@
+import argparse
 import random
 from decimal import Decimal
 
+from letsrolld import http
 from letsrolld import watchlist
 from letsrolld import film
 
@@ -63,6 +65,14 @@ def get_directors(watch_list):
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--debug", help="enable debug logging",
+                        action='store_true')
+    args = parser.parse_args()
+
+    if args.debug:
+        http.enable_debug()
+
     file_name = 'watchlist.csv'
     watch_list = list(watchlist.read_watch_list(file_name))
     random.shuffle(watch_list)
