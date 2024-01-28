@@ -23,7 +23,7 @@ def get_movies(directors, min_rating=Decimal("4.0"),
 
     for director in directors:
         if len(movies) >= max_movies:
-            return movies
+            break
 
         file_name = 'watched.csv'
         watched_list = list(watchlist.read_watch_list(file_name))
@@ -37,13 +37,19 @@ def get_movies(directors, min_rating=Decimal("4.0"),
 
         # print first max films by rating
         added_for_this_director = 0
+        movie_candidates = []
         for movie in films:
             if Decimal(movie.rating) < min_rating:
                 break
-            if added_for_this_director >= max_per_director:
+            if added_for_this_director >= max_per_director * 3:
                 break
-            movies.append(movie)
+            movie_candidates.append(movie)
             added_for_this_director += 1
+
+        if movie_candidates:
+            random.shuffle(movie_candidates)
+            movies.append(movie_candidates[0])
+
     return movies
 
 
