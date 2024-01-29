@@ -1,10 +1,9 @@
 import re
 from bs4 import BeautifulSoup
 
-from simplejustwatchapi import justwatch as jw
-
 from letsrolld import director
 from letsrolld import http
+from letsrolld import justwatch as jw
 from letsrolld.base import BaseObject
 
 
@@ -39,9 +38,7 @@ class Film(BaseObject):
     @property
     def jw(self):
         if not self._jw_fetched:
-            # TODO: fetch justwatch link from letterboxd instead of fuzzy search
-            result = jw.search(f"{self.name}", "US", "en", 1, False)
-            self._jw = None if len(result) == 0 else result[0]
+            self._jw = jw.get_title(self.jw_url)
             self._jw_fetched = True
         return self._jw
 
@@ -75,6 +72,14 @@ class Film(BaseObject):
             if offer.technical_name == service:
                 return True
         return False
+
+    @property
+    def jw_url(self):
+        for x in self.avail_soup.find_all("a", class_="jw-branding"):
+            link = x.get("href")
+            if not link.startswith("https://www.justwatch.com/us/movie/"):
+                return None
+            return link
 
     @property
     def _full_title(self):
