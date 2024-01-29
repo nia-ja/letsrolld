@@ -81,12 +81,13 @@ def main():
     watch_list = list(watchlist.read_watch_list(file_name))
     random.shuffle(watch_list)
 
-    movies = get_movies(get_directors(watch_list), max_movies=5)
+    movies = get_movies(get_directors(watch_list), max_movies=1)
     print("\n--------------------\n")
 
     for movie in sorted(movies, key=lambda m: m.rating, reverse=True):
-        print(f'{movie.name} - {movie.runtime} - {movie.rating} - '
-              f'{movie.director_names}')
+        print(f'{movie.name}')
+        print(f'  time:{movie.runtime} - rated:{movie.rating} - '
+              f'genres:{movie.genre_names} - by:{movie.director_names}')
         print(f'  Letterboxd: {movie.url}')
         available = ", ".join(s for s in film.SERVICES if movie.available(s))
         print(f'  Available: {available}')

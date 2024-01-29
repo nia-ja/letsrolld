@@ -28,7 +28,7 @@ query GetUrlTitleDetails($fullPath: String!, $country: Country!, $language: Lang
           }
           fullPath
           genres {
-            shortName
+            slug(language: $language)
           }
           posterUrl
           runtime
@@ -67,7 +67,7 @@ def _parse_entry(json):
     date = content.get("originalReleaseDate")
     runtime_minutes = content.get("runtime")
     short_description = content.get("shortDescription")
-    genres = [node.get("shortName") for node in content.get("genres", []) if node]
+    genres = [node.get("slug") for node in content.get("genres", []) if node]
     external_ids = content.get("externalIds")
     imdb_id = external_ids.get("imdbId") if external_ids else None
     poster_url_field = content.get("posterUrl")
