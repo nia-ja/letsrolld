@@ -89,6 +89,7 @@ def main():
         print(f'- time:{movie.runtime} - rated:{movie.rating} - '
               f'genres:{movie.genre_names}')
         print(f'  Letterboxd: {movie.url}')
+        print(f'  > {movie.description}')
         available = ", ".join(s for s in film.SERVICES if movie.available(s))
         print(f'  Available: {available}')
         print()

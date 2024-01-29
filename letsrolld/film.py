@@ -58,6 +58,10 @@ class Film(BaseObject):
         )
 
     @property
+    def description(self):
+        return "unknown" if self.jw is None else self.jw.short_description
+
+    @property
     def avail_soup(self):
         if self._avail_soup is None:
             url = self.url.replace("letterboxd.com", "letterboxd.com/csi") + "availability/"
