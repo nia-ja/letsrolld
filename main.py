@@ -85,7 +85,10 @@ def main():
     print("\n--------------------\n")
 
     for movie in movies:
-        print(f'{movie.name} - {movie.rating} - {movie.url}')
+        print(f'{movie.name} - {movie.rating}')
+        print(f'  Letterboxd: {movie.url}')
+        available = ", ".join(s for s in film.SERVICES if movie.available(s))
+        print(f'  Available: {available}')
 
 
 if __name__ == '__main__':
