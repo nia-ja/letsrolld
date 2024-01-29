@@ -17,7 +17,7 @@ def already_seen(seen, film):
     return False
 
 
-def get_movies(directors, min_rating=Decimal("3.0"),
+def get_movies(directors, min_rating=Decimal("4.0"),
                max_movies=5, max_per_director=1):
     movies = []
 
@@ -81,11 +81,12 @@ def main():
     watch_list = list(watchlist.read_watch_list(file_name))
     random.shuffle(watch_list)
 
-    movies = get_movies(get_directors(watch_list), max_movies=1)
+    movies = get_movies(get_directors(watch_list), max_movies=5)
     print("\n--------------------\n")
 
-    for movie in movies:
-        print(f'{movie.name} - {movie.rating}')
+    for movie in sorted(movies, key=lambda m: m.rating, reverse=True):
+        print(f'{movie.name} - {movie.runtime} - {movie.rating} - '
+              f'{movie.director_names}')
         print(f'  Letterboxd: {movie.url}')
         available = ", ".join(s for s in film.SERVICES if movie.available(s))
         print(f'  Available: {available}')

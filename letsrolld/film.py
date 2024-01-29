@@ -82,6 +82,12 @@ class Film(BaseObject):
             return link
 
     @property
+    def runtime(self):
+        if self.jw is None:
+            return "unknown"
+        return f"{self.jw.runtime_minutes}m"
+
+    @property
     def _full_title(self):
         return (
             # TODO: extract name and year from the body?
@@ -104,17 +110,28 @@ class Film(BaseObject):
         if match:
             return match.group(1).strip()
 
-    @property
-    def directors(self):
+    def _get_director_slugs(self):
         for crew in self.soup.find_all(id="tab-crew"):
             for h3 in crew.find_all("h3"):
                 text = h3.text.strip()
                 if "Director\n" in text or "Directors\n" in text:
                     text_slug = h3.next_sibling.next_sibling
-                    return [
-                        director.Director(url=a.get("href"))
-                        for a in text_slug.find_all("a")
-                    ]
+                    return text_slug.find_all("a")
+        return []
+
+    @property
+    def directors(self):
+        return [
+            director.Director(url=a.get("href"))
+            for a in self._get_director_slugs()
+        ]
+
+    @property
+    def director_names(self):
+        return ', '.join(
+            a.text.strip()
+            for a in self._get_director_slugs()
+        )
 
     @property
     def rating(self):
