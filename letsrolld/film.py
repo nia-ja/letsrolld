@@ -50,7 +50,7 @@ class Film(BaseObject):
         return (
             self.name == other.name and
             self.year == other.year and
-            self.rating == other.ratin
+            self.rating == other.rating
         )
 
     @property
