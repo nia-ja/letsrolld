@@ -92,6 +92,12 @@ class Film(BaseObject):
     @property
     def runtime(self):
         if self.jw is None:
+            return 0
+        return self.jw.runtime_minutes
+
+    @property
+    def runtime_string(self):
+        if self.jw is None:
             return "unknown"
         return f"{self.jw.runtime_minutes}m"
 

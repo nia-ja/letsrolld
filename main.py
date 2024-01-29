@@ -17,8 +17,10 @@ def already_seen(seen, film):
     return False
 
 
+# TODO: make parameters configurable
 def get_movies(directors, min_rating=Decimal("4.0"),
-               max_movies=5, max_per_director=1):
+               max_movies=5, max_per_director=1,
+               min_length=60):
     movies = []
 
     for director in directors:
@@ -39,10 +41,12 @@ def get_movies(directors, min_rating=Decimal("4.0"),
         added_for_this_director = 0
         movie_candidates = []
         for movie in films:
-            if any(movie == m for m in movies):
-                continue
             if Decimal(movie.rating) < min_rating:
                 break
+            if any(movie == m for m in movies):
+                continue
+            if movie.runtime < min_length:
+                continue
             if added_for_this_director >= max_per_director * 3:
                 break
             movie_candidates.append(movie)
@@ -86,7 +90,7 @@ def main():
 
     for movie in sorted(movies, key=lambda m: m.rating, reverse=True):
         print(f'{movie.name} | y:{movie.year} | by:{movie.director_names}')
-        print(f'- time:{movie.runtime} - rated:{movie.rating} - '
+        print(f'- time:{movie.runtime_string} - rated:{movie.rating} - '
               f'genres:{movie.genre_names}')
         print(f'  Letterboxd: {movie.url}')
         print(f'  > {movie.description}')
