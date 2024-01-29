@@ -85,7 +85,7 @@ def main():
     print("\n--------------------\n")
 
     for movie in sorted(movies, key=lambda m: m.rating, reverse=True):
-        print(f'{movie.name} | by:{movie.director_names}')
+        print(f'{movie.name} | y:{movie.year} | by:{movie.director_names}')
         print(f'- time:{movie.runtime} - rated:{movie.rating} - '
               f'genres:{movie.genre_names}')
         print(f'  Letterboxd: {movie.url}')
