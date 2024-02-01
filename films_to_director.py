@@ -27,6 +27,7 @@ def main():
         writer.writerow(["Name", "Letterboxd URI"])
 
         for director_ in director.get_directors_by_films(film_list):
+            print("Processing director: {}".format(director_.name))
             writer.writerow([director_.name, director_.base_url])
 
 
