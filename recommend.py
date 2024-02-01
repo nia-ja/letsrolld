@@ -62,10 +62,9 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-D", "--debug", help="enable debug logging",
                         action='store_true')
-    # group = parser.add_mutually_exclusive_group()
-    parser.add_argument('-m', '--movies', help="input movie list file",
-                        required=True)
-    # group.add_argument('-d', '--directors', help="input director list file")
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument('-m', '--movies', help="input movie list file")
+    group.add_argument('-d', '--directors', help="input director list file")
     args = parser.parse_args()
 
     if args.debug:
