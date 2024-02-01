@@ -9,9 +9,6 @@ from letsrolld import film
 from letsrolld import director
 
 
-# TODO: filter by length
-
-
 def already_seen(seen, film):
     for s in seen:
         if s.name == film.name and s.year == film.year:
