@@ -5,6 +5,7 @@ from decimal import Decimal
 from letsrolld import http
 from letsrolld import watchlist
 from letsrolld import film
+from letsrolld import director
 
 
 # TODO: filter by length
@@ -23,16 +24,16 @@ def get_movies(directors, min_rating=Decimal("4.0"),
                min_length=60):
     movies = []
 
-    for director in directors:
+    for director_ in directors:
         if len(movies) >= max_movies:
             break
 
         file_name = 'watched.csv'
         watched_list = list(watchlist.read_watch_list(file_name))
 
-        print(f'Getting movies for {director.name}...')
+        print(f'Getting movies for {director_.name}...')
         films = (
-            f for f in director.films()
+            f for f in director_.films()
             # filter out films that I saw
             if not already_seen(watched_list, f)
         )
@@ -59,19 +60,6 @@ def get_movies(directors, min_rating=Decimal("4.0"),
     return movies
 
 
-def get_directors(watch_list):
-    watch_list = watch_list[:]
-    random.shuffle(watch_list)
-
-    directors = {}
-    for wle in watch_list:
-        movie = film.Film(wle.uri)
-        for director in movie.directors:
-            if director.url not in directors:
-                directors[director.url] = director
-                yield director
-
-
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--debug", help="enable debug logging",
@@ -85,7 +73,7 @@ def main():
     watch_list = list(watchlist.read_watch_list(file_name))
     random.shuffle(watch_list)
 
-    movies = get_movies(get_directors(watch_list), max_movies=5)
+    movies = get_movies(director.get_directors(watch_list), max_movies=5)
     print("\n--------------------\n")
 
     for movie in sorted(movies, key=lambda m: m.rating, reverse=True):
