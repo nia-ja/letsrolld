@@ -32,12 +32,12 @@ class Director(BaseObject):
             yield film.Film(url=movie.get("data-target-link"))
 
 
-def get_directors(watch_list, by_rating=True):
-    watch_list = watch_list[:]
-    random.shuffle(watch_list)
+def get_directors_by_films(film_list, by_rating=True):
+    film_list = film_list[:]
+    random.shuffle(film_list)
 
     directors = {}
-    for wle in watch_list:
+    for wle in film_list:
         movie = film.Film(wle.uri)
         for director in movie.directors:
             if director.base_url not in directors:

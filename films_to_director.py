@@ -4,7 +4,7 @@ import csv
 
 from letsrolld import http
 from letsrolld import director
-from letsrolld import watchlist
+from letsrolld import filmlist
 
 
 def main():
@@ -20,13 +20,13 @@ def main():
     if args.debug:
         http.enable_debug()
 
-    watch_list = list(watchlist.read_watch_list(args.input))
+    film_list = list(filmlist.read_film_list(args.input))
 
     with open(args.output, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(["Name", "Letterboxd URI"])
 
-        for director_ in director.get_directors(watch_list):
+        for director_ in director.get_directors_by_films(film_list):
             writer.writerow([director_.name, director_.base_url])
 
 

@@ -4,7 +4,7 @@ import random
 from decimal import Decimal
 
 from letsrolld import http
-from letsrolld import watchlist
+from letsrolld import filmlist
 from letsrolld import film
 from letsrolld import director
 
@@ -27,7 +27,7 @@ def get_movies(directors, min_rating=Decimal("4.0"),
             break
 
         file_name = 'watched.csv'
-        watched_list = list(watchlist.read_watch_list(file_name))
+        watched_list = list(filmlist.read_film_list(file_name))
 
         print(f'Getting movies for {director_.name}...')
         films = (
@@ -62,19 +62,20 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-D", "--debug", help="enable debug logging",
                         action='store_true')
-    group = parser.add_mutually_exclusive_group()
-    group.add_argument('-m', '--movies', help="input movie list file")
-    group.add_argument('-d', '--directors', help="input director list file")
+    # group = parser.add_mutually_exclusive_group()
+    parser.add_argument('-m', '--movies', help="input movie list file",
+                        required=True)
+    # group.add_argument('-d', '--directors', help="input director list file")
     args = parser.parse_args()
 
     if args.debug:
         http.enable_debug()
 
-    file_name = 'watchlist.csv'
-    watch_list = list(watchlist.read_watch_list(file_name))
-    random.shuffle(watch_list)
+    film_list = list(filmlist.read_film_list(args.movies))
+    random.shuffle(film_list)
 
-    movies = get_movies(director.get_directors(watch_list), max_movies=5)
+    movies = get_movies(director.get_directors_by_films(film_list),
+                        max_movies=5)
     print("\n--------------------\n")
 
     for movie in sorted(movies, key=lambda m: m.rating, reverse=True):
