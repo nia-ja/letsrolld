@@ -26,6 +26,7 @@ def get_movies(directors, min_rating=Decimal("4.0"),
         if len(movies) >= max_movies:
             break
 
+        # TODO: make this input configurable?
         file_name = 'watched.csv'
         watched_list = list(filmlist.read_film_list(file_name))
 
