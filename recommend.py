@@ -80,8 +80,10 @@ def main():
         directors = director.get_directors_by_urls(
             list(directorlist.read_director_list(args.directors)))
 
+    movies = get_movies(directors, max_movies=5)
     print("\n--------------------\n")
-    for movie in sorted(get_movies(directors, max_movies=5),
+
+    for movie in sorted(movies,
                         key=lambda m: m.rating, reverse=True):
         print(f'{movie.name} | y:{movie.year} | by:{movie.director_names}')
         print(f'- time:{movie.runtime_string} - rated:{movie.rating} - '
