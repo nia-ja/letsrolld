@@ -4,9 +4,10 @@ import random
 from decimal import Decimal
 
 from letsrolld import http
-from letsrolld import filmlist
-from letsrolld import film
 from letsrolld import director
+from letsrolld import directorlist
+from letsrolld import film
+from letsrolld import filmlist
 
 
 def already_seen(seen, film):
@@ -71,14 +72,17 @@ def main():
     if args.debug:
         http.enable_debug()
 
-    film_list = list(filmlist.read_film_list(args.movies))
-    random.shuffle(film_list)
+    if args.movies:
+        film_list = list(filmlist.read_film_list(args.movies))
+        random.shuffle(film_list)
+        directors = director.get_directors_by_films(film_list)
+    else:
+        directors = director.get_directors_by_urls(
+            list(directorlist.read_director_list(args.directors)))
 
-    movies = get_movies(director.get_directors_by_films(film_list),
-                        max_movies=5)
     print("\n--------------------\n")
-
-    for movie in sorted(movies, key=lambda m: m.rating, reverse=True):
+    for movie in sorted(get_movies(directors, max_movies=5),
+                        key=lambda m: m.rating, reverse=True):
         print(f'{movie.name} | y:{movie.year} | by:{movie.director_names}')
         print(f'- time:{movie.runtime_string} - rated:{movie.rating} - '
               f'genres:{movie.genre_names}')
