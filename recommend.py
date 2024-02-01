@@ -60,8 +60,11 @@ def get_movies(directors, min_rating=Decimal("4.0"),
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-d", "--debug", help="enable debug logging",
+    parser.add_argument("-D", "--debug", help="enable debug logging",
                         action='store_true')
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('-m', '--movies', help="input movie list file")
+    group.add_argument('-d', '--directors', help="input director list file")
     args = parser.parse_args()
 
     if args.debug:
