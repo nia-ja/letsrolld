@@ -89,6 +89,7 @@ class Film(BaseObject):
                 return None
             return link
 
+    # TODO: extract runtime from letterboxd if quickwatch is not available
     @property
     def runtime(self):
         if self.jw is None:
