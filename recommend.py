@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 import argparse
+import functools
 import random
 from decimal import Decimal
+import sys
 import textwrap
 
-from cli_color_py import red, green, blue, bold
+from letsrolld.colors import colorize, red, green, blue, bold
 
 from letsrolld import http
 from letsrolld import director
@@ -146,7 +148,7 @@ def main():
         print(f'  Letterboxd: {movie.url or ""}')
         print(f'  QuickWatch: {movie.jw_url or ""}')
         for line in textwrap.wrap(movie.description):
-            print(f'  | {line}')
+            print(bold(f'  | {line}'))
         available = ", ".join(
             get_colored_service(s)
             for s in film.SERVICES
