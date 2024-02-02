@@ -1,6 +1,7 @@
-from httpx import post
 from simplejustwatchapi import justwatch as jw
 from simplejustwatchapi import query as jw_query
+
+from letsrolld import http
 
 
 _GRAPHQL_GET_TITLE_QUERY = """
@@ -99,7 +100,6 @@ def parse_get_title_response(json):
 def get_title(url):
     if url is None:
         return None
-    request = prepare_get_title_request(url)
-    response = post(jw._GRAPHQL_API_URL, json=request)
-    response.raise_for_status()
-    return parse_get_title_response(response.json())
+    json = prepare_get_title_request(url)
+    response = http.get_json(jw._GRAPHQL_API_URL, json)
+    return parse_get_title_response(response)
