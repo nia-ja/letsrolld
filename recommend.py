@@ -13,6 +13,7 @@ from letsrolld import filmlist
 _DEFAULT_NUM_MOVIES = 5
 _DEFAULT_NUM_MOVIES_PER_DIRECTOR = 1
 _DEFAULT_MIN_LENGTH = 60
+_DEFAULT_MIN_RATING = Decimal("4.0")
 
 
 def already_seen(seen, film):
@@ -23,7 +24,7 @@ def already_seen(seen, film):
 
 
 # TODO: make parameters configurable
-def get_movies(directors, min_rating=Decimal("4.0"),
+def get_movies(directors, min_rating=_DEFAULT_MIN_RATING,
                max_movies=_DEFAULT_NUM_MOVIES,
                max_per_director=_DEFAULT_NUM_MOVIES_PER_DIRECTOR,
                min_length=_DEFAULT_MIN_LENGTH,
@@ -89,6 +90,8 @@ def main():
                         help="number of movies per director to get")
     parser.add_argument('-L', '--min-length', type=int,
                         help="minimum length of movie in minutes")
+    parser.add_argument('-R', '--min-rating', type=Decimal,
+                        help="minimum movie rating")
     args = parser.parse_args()
 
     if args.debug:
@@ -104,6 +107,7 @@ def main():
 
     movies = get_movies(
         directors,
+        min_rating=args.min_rating or _DEFAULT_MIN_RATING,
         max_movies=args.num or _DEFAULT_NUM_MOVIES,
         max_per_director=args.director_num or _DEFAULT_NUM_MOVIES_PER_DIRECTOR,
         min_length=args.min_length or _DEFAULT_MIN_LENGTH,
