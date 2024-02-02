@@ -2,6 +2,7 @@
 import argparse
 import random
 from decimal import Decimal
+import textwrap
 
 from letsrolld import http
 from letsrolld import director
@@ -130,7 +131,8 @@ def main():
               f'📎:{movie.genre_names}')
         print(f'  Letterboxd: {movie.url or ""}')
         print(f'  QuickWatch: {movie.jw_url or ""}')
-        print(f'  > {movie.description}')
+        for line in textwrap.wrap(movie.description):
+            print(f'  | {line}')
         available = ", ".join(s for s in film.SERVICES if movie.available(s))
         print(f'  Available: {available}')
         print()
