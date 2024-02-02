@@ -23,6 +23,7 @@ def enable_debug():
 def get_url(url):
     global _CACHE_INSTALLED
     if not _CACHE_INSTALLED:
+        # TODO: expire the cache after a certain time
         requests_cache.install_cache('cache')
         _CACHE_INSTALLED = True
     try:
