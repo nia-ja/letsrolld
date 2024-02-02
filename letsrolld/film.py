@@ -160,7 +160,6 @@ class Film(BaseObject):
         if match:
             return match.group(1).strip()
 
-    @functools.cache
     def _get_director_slugs(self):
         for crew in self.soup.find_all(id="tab-crew"):
             for h3 in crew.find_all("h3"):
@@ -170,7 +169,7 @@ class Film(BaseObject):
                     return text_slug.find_all("a")
         return []
 
-    @functools.cached_property
+    @property
     def directors(self):
         return [
             director.Director(url=a.get("href"))
