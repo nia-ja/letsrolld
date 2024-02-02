@@ -47,8 +47,12 @@ class Film(BaseObject):
         return [] if self.jw is None else self.jw.offers
 
     @property
+    def genres(self):
+        return [] if self.jw is None else self.jw.genres
+
+    @property
     def genre_names(self):
-        return "unknown" if self.jw is None else ','.join(self.jw.genres)
+        return "unknown" if not self.genres else ','.join(self.genres)
 
     def __eq__(self, other):
         return (
