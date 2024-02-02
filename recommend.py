@@ -10,6 +10,10 @@ from letsrolld import film
 from letsrolld import filmlist
 
 
+_DEFAULT_NUM_MOVIES = 5
+_DEFAULT_NUM_MOVIES_PER_DIRECTOR = 1
+
+
 def already_seen(seen, film):
     for s in seen:
         if s.name == film.name and s.year == film.year:
@@ -19,7 +23,8 @@ def already_seen(seen, film):
 
 # TODO: make parameters configurable
 def get_movies(directors, min_rating=Decimal("4.0"),
-               max_movies=5, max_per_director=1,
+               max_movies=_DEFAULT_NUM_MOVIES,
+               max_per_director=_DEFAULT_NUM_MOVIES_PER_DIRECTOR,
                min_length=60, genre=None, services=None):
     movies = []
 
@@ -76,6 +81,10 @@ def main():
     parser.add_argument('-g', '--genre', help="filter by genre")
     parser.add_argument('-s', '--service', action="append",
                         help="filter by services")
+    parser.add_argument('-n', '--num', type=int,
+                        help="number of movies to get")
+    parser.add_argument('-N', '--director-num', type=int,
+                        help="number of movies per director to get")
     args = parser.parse_args()
 
     if args.debug:
@@ -89,8 +98,11 @@ def main():
         directors = director.get_directors_by_urls(
             list(directorlist.read_director_list(args.directors)))
 
-    movies = get_movies(directors, max_movies=5,
-                        services=args.service, genre=args.genre)
+    movies = get_movies(
+        directors,
+        max_movies=args.num or _DEFAULT_NUM_MOVIES,
+        max_per_director=args.director_num or _DEFAULT_NUM_MOVIES_PER_DIRECTOR,
+        services=args.service, genre=args.genre)
     print("\n--------------------\n")
 
     for movie in sorted(movies,
