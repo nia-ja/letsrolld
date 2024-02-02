@@ -28,7 +28,6 @@ class Director(BaseObject):
             return os.path.join(url, _DEFAULT_SORT)
         return url
 
-    @functools.cache
     def films(self):
         for movie in self.soup.find_all("div", class_="film-poster"):
             yield film.Film(url=movie.get("data-target-link"))
