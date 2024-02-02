@@ -1,4 +1,6 @@
 import re
+import urllib.parse
+
 from bs4 import BeautifulSoup
 
 from letsrolld import director
@@ -68,7 +70,10 @@ class Film(BaseObject):
     @property
     def avail_soup(self):
         if self._avail_soup is None:
-            url = self.url.replace("letterboxd.com", "letterboxd.com/csi") + "availability/"
+            url = urllib.parse.urljoin(
+                self.url.replace("letterboxd.com", "letterboxd.com/csi"),
+                "availability/"
+            )
             self._avail_soup = BeautifulSoup(http.get_url(url), 'html.parser')
         return self._avail_soup
 
