@@ -93,7 +93,19 @@ def _parse_entry(json):
     )
 
 
+def is_valid_title_response(response):
+    return (
+        "data" in response and
+        response["data"] is not None and
+        "urlV2" in response["data"] and
+        "node" in response["data"]["urlV2"] and
+        "content" in response["data"]["urlV2"]["node"]
+    )
+
+
 def parse_get_title_response(json):
+    if not is_valid_title_response(json):
+        return None
     return _parse_entry(json["data"]["urlV2"]["node"])
 
 
@@ -101,5 +113,6 @@ def get_title(url):
     if url is None:
         return None
     json = prepare_get_title_request(url)
-    response = http.get_json(jw._GRAPHQL_API_URL, json)
+    response = http.get_json(jw._GRAPHQL_API_URL, json,
+                             validator=is_valid_title_response)
     return parse_get_title_response(response)

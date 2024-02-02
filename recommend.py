@@ -91,6 +91,7 @@ def main():
                         help="minimum length of movie in minutes")
     parser.add_argument('-R', '--min-rating', type=Decimal,
                         help="minimum movie rating")
+    # TODO: add preseed option
     args = parser.parse_args()
 
     if args.debug:
