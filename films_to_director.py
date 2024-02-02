@@ -26,8 +26,10 @@ def main():
         writer = csv.writer(csvfile)
         writer.writerow(["Name", "Letterboxd URI"])
 
-        for director_ in director.get_directors_by_films(film_list):
-            print("Processing director: {}".format(director_.name))
+        for i, director_ in enumerate(
+                director.get_directors_by_films(film_list),
+                start=1):
+            print(f"Processing director #{i}: {director_.name}")
             writer.writerow([director_.name, director_.base_url])
 
 
