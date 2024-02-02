@@ -1,3 +1,4 @@
 beautifulsoup4
 requests
+requests-cache
 simple-justwatch-python-api

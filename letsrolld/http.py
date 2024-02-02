@@ -2,6 +2,10 @@ import logging
 from http.client import HTTPConnection
 
 import requests
+import requests_cache
+
+
+_CACHE_INSTALLED = False
 
 
 # stolen from stackoverflow
@@ -17,6 +21,10 @@ def enable_debug():
 
 
 def get_url(url):
+    global _CACHE_INSTALLED
+    if not _CACHE_INSTALLED:
+        requests_cache.install_cache('cache')
+        _CACHE_INSTALLED = True
     try:
         response = requests.get(url)
         return response.text
