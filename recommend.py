@@ -12,6 +12,7 @@ from letsrolld import filmlist
 
 _DEFAULT_NUM_MOVIES = 5
 _DEFAULT_NUM_MOVIES_PER_DIRECTOR = 1
+_DEFAULT_MIN_LENGTH = 60
 
 
 def already_seen(seen, film):
@@ -25,7 +26,8 @@ def already_seen(seen, film):
 def get_movies(directors, min_rating=Decimal("4.0"),
                max_movies=_DEFAULT_NUM_MOVIES,
                max_per_director=_DEFAULT_NUM_MOVIES_PER_DIRECTOR,
-               min_length=60, genre=None, services=None):
+               min_length=_DEFAULT_MIN_LENGTH,
+               genre=None, services=None):
     movies = []
 
     services = services or film.SERVICES
@@ -85,6 +87,8 @@ def main():
                         help="number of movies to get")
     parser.add_argument('-N', '--director-num', type=int,
                         help="number of movies per director to get")
+    parser.add_argument('-L', '--min-length', type=int,
+                        help="minimum length of movie in minutes")
     args = parser.parse_args()
 
     if args.debug:
@@ -102,6 +106,7 @@ def main():
         directors,
         max_movies=args.num or _DEFAULT_NUM_MOVIES,
         max_per_director=args.director_num or _DEFAULT_NUM_MOVIES_PER_DIRECTOR,
+        min_length=args.min_length or _DEFAULT_MIN_LENGTH,
         services=args.service, genre=args.genre)
     print("\n--------------------\n")
 
