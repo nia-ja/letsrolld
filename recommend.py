@@ -23,7 +23,6 @@ def already_seen(seen, film):
     return False
 
 
-# TODO: make parameters configurable
 def get_movies(directors, min_rating=_DEFAULT_MIN_RATING,
                max_movies=_DEFAULT_NUM_MOVIES,
                max_per_director=_DEFAULT_NUM_MOVIES_PER_DIRECTOR,
