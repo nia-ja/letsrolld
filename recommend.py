@@ -20,8 +20,10 @@ def already_seen(seen, film):
 # TODO: make parameters configurable
 def get_movies(directors, min_rating=Decimal("4.0"),
                max_movies=5, max_per_director=1,
-               min_length=60, genre=None):
+               min_length=60, genre=None, services=None):
     movies = []
+
+    services = services or film.SERVICES
 
     for director_ in directors:
         if len(movies) >= max_movies:
@@ -50,6 +52,8 @@ def get_movies(directors, min_rating=Decimal("4.0"),
                 continue
             if genre is not None and genre not in movie.genres:
                 continue
+            if not any(movie.available(s) for s in services):
+                continue
             if added_for_this_director >= max_per_director * 3:
                 break
             movie_candidates.append(movie)
@@ -70,6 +74,8 @@ def main():
     group.add_argument('-m', '--movies', help="input movie list file")
     group.add_argument('-d', '--directors', help="input director list file")
     parser.add_argument('-g', '--genre', help="filter by genre")
+    parser.add_argument('-s', '--service', action="append",
+                        help="filter by services")
     args = parser.parse_args()
 
     if args.debug:
@@ -83,7 +89,8 @@ def main():
         directors = director.get_directors_by_urls(
             list(directorlist.read_director_list(args.directors)))
 
-    movies = get_movies(directors, max_movies=5, genre=args.genre)
+    movies = get_movies(directors, max_movies=5,
+                        services=args.service, genre=args.genre)
     print("\n--------------------\n")
 
     for movie in sorted(movies,
