@@ -126,9 +126,10 @@ def main():
     for movie in sorted(movies,
                         key=lambda m: m.rating, reverse=True):
         print(f'{movie.name} | y:{movie.year} | by:{movie.director_names}')
-        print(f'- time:{movie.runtime_string} - rated:{movie.rating} - '
-              f'genres:{movie.genre_names}')
-        print(f'  Letterboxd: {movie.url}')
+        print(f'- ⌛:{movie.runtime_string} - ⭐:{movie.rating} - '
+              f'📎:{movie.genre_names}')
+        print(f'  Letterboxd: {movie.url or ""}')
+        print(f'  QuickWatch: {movie.jw_url or ""}')
         print(f'  > {movie.description}')
         available = ", ".join(s for s in film.SERVICES if movie.available(s))
         print(f'  Available: {available}')
