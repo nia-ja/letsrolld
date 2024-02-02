@@ -1,3 +1,4 @@
+import functools
 import re
 import urllib.parse
 
@@ -62,22 +63,22 @@ class Film(BaseObject):
         self._jw_fetched = False
         self._avail_soup = None
 
-    @property
+    @functools.cached_property
     def jw(self):
         if not self._jw_fetched:
             self._jw = jw.get_title(self.jw_url)
             self._jw_fetched = True
         return self._jw
 
-    @property
+    @functools.cached_property
     def offers(self):
         return [] if self.jw is None else self.jw.offers
 
-    @property
+    @functools.cached_property
     def genres(self):
         return [] if self.jw is None else self.jw.genres
 
-    @property
+    @functools.cached_property
     def genre_names(self):
         return "unknown" if not self.genres else ','.join(self.genres)
 
@@ -88,11 +89,11 @@ class Film(BaseObject):
             self.rating == other.rating
         )
 
-    @property
+    @functools.cached_property
     def description(self):
         return "unknown" if self.jw is None else self.jw.short_description
 
-    @property
+    @functools.cached_property
     def avail_soup(self):
         if self._avail_soup is None:
             url = urllib.parse.urljoin(
@@ -115,7 +116,7 @@ class Film(BaseObject):
                 return True
         return False
 
-    @property
+    @functools.cached_property
     def jw_url(self):
         for x in self.avail_soup.find_all("a", class_="jw-branding"):
             link = x.get("href")
@@ -124,19 +125,19 @@ class Film(BaseObject):
             return link
 
     # TODO: extract runtime from letterboxd if quickwatch is not available
-    @property
+    @functools.cached_property
     def runtime(self):
         if self.jw is None:
             return 0
         return self.jw.runtime_minutes
 
-    @property
+    @functools.cached_property
     def runtime_string(self):
         if self.jw is None:
             return "unknown"
         return f"{self.jw.runtime_minutes}m"
 
-    @property
+    @functools.cached_property
     def _full_title(self):
         return (
             # TODO: extract name and year from the body?
@@ -145,20 +146,21 @@ class Film(BaseObject):
             replace(u'\u200e', "")
         )
 
-    @property
+    @functools.cached_property
     def name(self):
         pattern = r'^(.*?)\s*\(\d{4}\)'
         match = re.search(pattern, self._full_title)
         if match:
             return match.group(1).strip()
 
-    @property
+    @functools.cached_property
     def year(self):
         pattern = r'\((\d{4})\)'
         match = re.search(pattern, self._full_title)
         if match:
             return match.group(1).strip()
 
+    @functools.cache
     def _get_director_slugs(self):
         for crew in self.soup.find_all(id="tab-crew"):
             for h3 in crew.find_all("h3"):
@@ -168,21 +170,21 @@ class Film(BaseObject):
                     return text_slug.find_all("a")
         return []
 
-    @property
+    @functools.cached_property
     def directors(self):
         return [
             director.Director(url=a.get("href"))
             for a in self._get_director_slugs()
         ]
 
-    @property
+    @functools.cached_property
     def director_names(self):
         return ', '.join(
             a.text.strip()
             for a in self._get_director_slugs()
         )
 
-    @property
+    @functools.cached_property
     def rating(self):
         # TODO: parse as json
         for script in self.soup.find_all("script"):
