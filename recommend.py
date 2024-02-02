@@ -13,6 +13,7 @@ from letsrolld import filmlist
 _DEFAULT_NUM_MOVIES = 5
 _DEFAULT_NUM_MOVIES_PER_DIRECTOR = 1
 _DEFAULT_MIN_LENGTH = 60
+_DEFAULT_MAX_LENGTH = 240
 _DEFAULT_MIN_RATING = Decimal("4.0")
 
 
@@ -27,6 +28,7 @@ def get_movies(directors, min_rating=_DEFAULT_MIN_RATING,
                max_movies=_DEFAULT_NUM_MOVIES,
                max_per_director=_DEFAULT_NUM_MOVIES_PER_DIRECTOR,
                min_length=_DEFAULT_MIN_LENGTH,
+               max_length=_DEFAULT_MAX_LENGTH,
                genre=None, services=None):
     movies = []
 
@@ -57,6 +59,8 @@ def get_movies(directors, min_rating=_DEFAULT_MIN_RATING,
             if any(movie == m for m in movies):
                 continue
             if movie.runtime < min_length:
+                continue
+            if movie.runtime > max_length:
                 continue
             if genre is not None and genre not in movie.genres:
                 continue
@@ -89,8 +93,10 @@ def main():
                         help="number of movies to get")
     parser.add_argument('-N', '--director-num', type=int,
                         help="number of movies per director to get")
-    parser.add_argument('-L', '--min-length', type=int,
+    parser.add_argument('-l', '--min-length', type=int,
                         help="minimum length of movie in minutes")
+    parser.add_argument('-L', '--max-length', type=int,
+                        help="maximum length of movie in minutes")
     parser.add_argument('-R', '--min-rating', type=Decimal,
                         help="minimum movie rating")
     # TODO: add preseed option
@@ -113,6 +119,7 @@ def main():
         max_movies=args.num or _DEFAULT_NUM_MOVIES,
         max_per_director=args.director_num or _DEFAULT_NUM_MOVIES_PER_DIRECTOR,
         min_length=args.min_length or _DEFAULT_MIN_LENGTH,
+        max_length=args.max_length or _DEFAULT_MAX_LENGTH,
         services=args.service, genre=args.genre)
     print("\n--------------------\n")
 
