@@ -40,7 +40,8 @@ def get_movies(directors, min_rating=_DEFAULT_MIN_RATING,
         file_name = 'watched.csv'
         watched_list = list(filmlist.read_film_list(file_name))
 
-        print(f'Getting movies for {director_.name}...')
+        print(f'({len(movies)}/{max_movies}) '
+              f'Getting movies for {director_.name}...')
         films = (
             f for f in director_.films()
             # filter out films that I saw
@@ -69,6 +70,7 @@ def get_movies(directors, min_rating=_DEFAULT_MIN_RATING,
         if movie_candidates:
             random.shuffle(movie_candidates)
             movies.append(movie_candidates[0])
+            print(f'  Added {movie_candidates[0].name} by {director_.name}')
 
     return movies
 
