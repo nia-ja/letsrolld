@@ -20,6 +20,10 @@ def enable_debug():
     requests_log.propagate = True
 
 
+# TODO: configure different expire times for different entities
+# e.g. update directors once a month in case new movies are released
+# but never movies themselves (except justwatch availability info
+# that is more dynamic)
 def _install_cache():
     global _CACHE_INSTALLED
     if not _CACHE_INSTALLED:
