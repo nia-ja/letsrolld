@@ -4,7 +4,6 @@ import csv
 
 from letsrolld import http
 from letsrolld import director
-from letsrolld import film
 from letsrolld import filmlist
 
 

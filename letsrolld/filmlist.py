@@ -15,6 +15,7 @@ class FilmListEntry:
         return f'{self.name} ({self.year})'
 
 
+# TODO: automatically detect header row and handle "list" format
 def read_film_list(file_name):
     for row in csv.read_csv_file(file_name):
         yield FilmListEntry(**row)
