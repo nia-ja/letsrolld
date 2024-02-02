@@ -32,7 +32,7 @@ def get_movies(directors, min_rating=_DEFAULT_MIN_RATING,
                genre=None, services=None):
     movies = []
 
-    services = services or film.SERVICES
+    services = film.get_services(services)
 
     for director_ in directors:
         if len(movies) >= max_movies:

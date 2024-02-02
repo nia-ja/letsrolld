@@ -28,6 +28,25 @@ SERVICES = [
     PHYSICAL,
 ]
 
+SERVICE_ALIASES = {
+    "FREE": [KANOPY, HOOPLA, AMAZONPRIME],
+    "STREAM": [KANOPY, HOOPLA, AMAZONPRIME, AMAZON, YOUTUBE, CRITERION],
+}
+
+
+def get_services(services):
+    if services is None:
+        return SERVICES
+    res = set()
+    for s in services:
+        if s in SERVICE_ALIASES:
+            res.update(SERVICE_ALIASES[s])
+        elif s in SERVICES:
+            res.add(s)
+        else:
+            print(f"Unknown service: {s}")
+    return res
+
 
 class Film(BaseObject):
 
