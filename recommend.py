@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 import argparse
-import functools
 import random
 from decimal import Decimal
-import sys
 import textwrap
 
 from letsrolld.colors import colorize, red, green, blue, bold
