@@ -4,6 +4,8 @@ import random
 from decimal import Decimal
 import textwrap
 
+from cli_color_py import red, green, blue, bold
+
 from letsrolld import http
 from letsrolld import director
 from letsrolld import directorlist
@@ -75,9 +77,20 @@ def get_movies(directors, min_rating=_DEFAULT_MIN_RATING,
         if movie_candidates:
             random.shuffle(movie_candidates)
             movies.append(movie_candidates[0])
-            print(f'  Added {movie_candidates[0].name} by {director_.name}')
+            print(green(
+                f'  Added {movie_candidates[0].name} by {director_.name}'
+            ))
 
     return movies
+
+
+def get_colored_service(service):
+    color = blue
+    if service == film.PHYSICAL:
+        color = red
+    elif service in film.SERVICE_ALIASES["FREE"]:
+        color = green
+    return color(service)
 
 
 def main():
@@ -126,14 +139,19 @@ def main():
 
     for movie in sorted(movies,
                         key=lambda m: m.rating, reverse=True):
-        print(f'{movie.name} | 📅:{movie.year} | 📽:{movie.director_names}')
+        print(f'{bold(movie.name)} | 📅:{movie.year} | '
+              f'📽:{movie.director_names}')
         print(f'- ⌛:{movie.runtime_string} - ⭐:{movie.rating} - '
               f'📎:{movie.genre_names}')
         print(f'  Letterboxd: {movie.url or ""}')
         print(f'  QuickWatch: {movie.jw_url or ""}')
         for line in textwrap.wrap(movie.description):
             print(f'  | {line}')
-        available = ", ".join(s for s in film.SERVICES if movie.available(s))
+        available = ", ".join(
+            get_colored_service(s)
+            for s in film.SERVICES
+            if movie.available(s)
+        )
         print(f'  Available: {available}')
         print()
 
