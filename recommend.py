@@ -157,6 +157,6 @@ def main():
 
 
 if __name__ == '__main__':
-    import cProfile
-    cProfile.run('main()', sort='cumulative')
-    # main()
+    # import cProfile
+    # cProfile.run('main()', sort='cumulative')
+    main()
