@@ -8,14 +8,13 @@ class FilmListEntry:
                 self.name = value
             elif key == 'Year':
                 self.year = value
-            elif key == 'Letterboxd URI':
+            elif key == 'Letterboxd URI' or key == 'URL':
                 self.uri = value
 
     def __str__(self):
         return f'{self.name} ({self.year})'
 
 
-# TODO: automatically detect header row and handle "list" format
 def read_film_list(file_name):
     for row in csv.read_csv_file(file_name):
         yield FilmListEntry(**row)
