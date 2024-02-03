@@ -1,4 +1,5 @@
-cache.sqlite
+*.sqlite
+*.db
 */__pycache__/
 *.csv
 *.pyc
