@@ -29,7 +29,7 @@ class BaseObject:
     def __getattribute__(self, item):
         persisted = item in super().__getattribute__('persistent_attributes')
         if persisted:
-            val = self.db[item]
+            val = self.db.get(item, None)
             if val is not None:
                 return val
         val = super().__getattribute__(item)
