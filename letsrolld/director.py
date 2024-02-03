@@ -11,7 +11,7 @@ _DEFAULT_SORT = "by/rating/"
 
 class Director(BaseObject):
 
-    persistent_attributes = ["name"]
+    persistent_attributes = ["name", "film_urls"]
 
     @functools.cached_property
     def name(self):
@@ -30,9 +30,16 @@ class Director(BaseObject):
             return os.path.join(url, _DEFAULT_SORT)
         return url
 
-    def films(self):
+    @property
+    def film_urls(self):
+        urls = []
         for movie in self.soup.find_all("div", class_="film-poster"):
-            yield film.Film(url=movie.get("data-target-link"))
+            urls.append(movie.get("data-target-link"))
+        return urls
+
+    def films(self):
+        for url in self.film_urls:
+            yield film.Film(url=url)
 
 
 def get_directors_by_films(film_list):
