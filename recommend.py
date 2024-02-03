@@ -37,7 +37,7 @@ def get_movies(directors, min_rating=_DEFAULT_MIN_RATING,
 
     services = film.get_services(services)
 
-    for director_ in directors:
+    for i, director_ in enumerate(directors, start=1):
         if len(movies) >= max_movies:
             break
 
@@ -46,7 +46,7 @@ def get_movies(directors, min_rating=_DEFAULT_MIN_RATING,
         watched_list = list(filmlist.read_film_list(file_name))
 
         print(f'({len(movies)}/{max_movies}) '
-              f'Getting movies for {director_.name}...')
+              f'{i}: Getting movies for {director_.name}...')
         films = (
             f for f in director_.films()
             # filter out films that I saw
