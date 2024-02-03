@@ -9,7 +9,7 @@ from letsrolld import filmlist
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-d", "--debug", help="enable debug logging",
+    parser.add_argument("-D", "--debug", help="enable debug logging",
                         action='store_true')
     parser.add_argument("-i", "--input", help="input movie list file",
                         required=True)
