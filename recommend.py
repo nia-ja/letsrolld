@@ -67,7 +67,7 @@ def get_movies(directors, min_rating=_DEFAULT_MIN_RATING,
                 continue
             if genre is not None and genre not in movie.genres:
                 continue
-            if not any(movie.available(s) for s in services):
+            if services and not any(movie.available(s) for s in services):
                 continue
             if added_for_this_director >= max_per_director * 3:
                 break

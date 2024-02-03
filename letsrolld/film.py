@@ -43,7 +43,7 @@ SERVICE_ALIASES = {
 
 def get_services(services):
     if services is None:
-        return SERVICES
+        return []
     res = set()
     for s in services:
         if s in SERVICE_ALIASES:
