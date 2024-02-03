@@ -14,19 +14,22 @@ class BaseObject:
     def __init__(self, url):
         self._url = url
         self._soup = None
+        self._db = None
+
+    @property
+    def db(self):
+        if self._db is None:
+            self._db = _DB.get(self.url, {})
+        return self._db
 
     def _persist_in_db(self, key, value):
-        values = _DB.get(self.url, {})
-        values[key] = value
-        _DB[self.url] = values
-
-    def _get_from_db(self, key):
-        return _DB.get(self.url, {}).get(key, None)
+        self.db[key] = value
+        _DB[self.url] = self.db
 
     def __getattribute__(self, item):
         persisted = item in super().__getattribute__('persistent_attributes')
         if persisted:
-            val = self._get_from_db(item)
+            val = self.db[item]
             if val is not None:
                 return val
         val = super().__getattribute__(item)
