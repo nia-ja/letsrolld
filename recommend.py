@@ -19,6 +19,8 @@ _DEFAULT_MIN_LENGTH = 60
 _DEFAULT_MAX_LENGTH = 240
 _DEFAULT_MIN_RATING = Decimal("4.0")
 
+_PROFILE = False
+
 
 def already_seen(seen, film):
     for s in seen:
@@ -157,6 +159,8 @@ def main():
 
 
 if __name__ == '__main__':
-    # import cProfile
-    # cProfile.run('main()', sort='cumulative')
-    main()
+    if _PROFILE:
+        import cProfile
+        cProfile.run('main()', sort='cumulative')
+    else:
+        main()
