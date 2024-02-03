@@ -3,3 +3,4 @@ cli-color-py
 requests
 requests-cache
 simple-justwatch-python-api
+sqlitedict

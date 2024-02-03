@@ -11,6 +11,8 @@ _DEFAULT_SORT = "by/rating/"
 
 class Director(BaseObject):
 
+    persistent_attributes = ["name"]
+
     @functools.cached_property
     def name(self):
         for desc in self.soup.find_all("meta", property="og:title"):

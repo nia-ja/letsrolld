@@ -57,6 +57,8 @@ def get_services(services):
 
 class Film(BaseObject):
 
+    persistent_attributes = ["name", "genres", "rating", "year", "runtime"]
+
     def __init__(self, url=None):
         super().__init__(url)
         self._jw = None
