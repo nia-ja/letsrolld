@@ -44,6 +44,7 @@ def main():
                 continue
             print(f"Processing director #{i}: {director_.name}")
             writer.writerow([director_.name, director_.base_url])
+            csvfile.flush()
 
 
 if __name__ == "__main__":
