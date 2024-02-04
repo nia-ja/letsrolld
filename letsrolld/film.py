@@ -130,7 +130,7 @@ class Film(BaseObject):
     @functools.cached_property
     def runtime(self):
         if self.jw is None:
-            return 0
+            return 1
         return self.jw.runtime_minutes
 
     @functools.cached_property
