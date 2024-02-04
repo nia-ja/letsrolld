@@ -20,21 +20,10 @@ _PROFILE = False
 _WATCHED_FILE = 'watched.csv'
 
 
-def get_movies(directors, cfg):
+def get_movies(directors, cfg, exclude_movies):
     movies = []
 
     services = film.get_services(cfg.services)
-
-    # one would think that this could be done with a set,
-    # but it seems that performance is better with a dict.
-    # Using a frozenset is better than a regular set,
-    # but still slower.
-    watched_list = {}
-    for f in filmlist.read_film_list(_WATCHED_FILE):
-        if f.name not in watched_list:
-            watched_list[f.name] = [f.year]
-        else:
-            watched_list[f.name].append(f.year)
 
     movies_to_find = cfg.max_movies_per_director * 3
     for i, director_ in enumerate(directors, start=1):
@@ -44,7 +33,7 @@ def get_movies(directors, cfg):
         films = (
             f for f in director_.films()
             # filter out films that I saw
-            if f.name not in watched_list or f.year not in watched_list[f.name]
+            if f.name not in exclude_movies or f.year not in exclude_movies[f.name]
         )
 
         # print first max films by rating
@@ -187,15 +176,31 @@ def main():
             ),
         ]
 
+    # one would think that this could be done with a set,
+    # but it seems that performance is better with a dict.
+    # Using a frozenset is better than a regular set,
+    # but still slower.
+    exclude_list = {}
+
+    def _add_movie_to_exclude_list(movie):
+        if movie.name not in exclude_list:
+            exclude_list[movie.name] = [movie.year]
+        else:
+            exclude_list[movie.name].append(movie.year)
+
+    for f in filmlist.read_film_list(_WATCHED_FILE):
+        _add_movie_to_exclude_list(f)
+
     for cfg in cfgs:
         random.shuffle(directors)
-        report(directors, cfg)
+        for movie in report(directors, cfg, exclude_movies=exclude_list):
+            _add_movie_to_exclude_list(movie)
 
 
-def report(directors, cfg):
+def report(directors, cfg, exclude_movies):
     print(bold(green(cfg.name)))
 
-    movies = get_movies(directors, cfg)
+    movies = get_movies(directors, cfg, exclude_movies)
     for i, movie in enumerate(sorted(movies,
                               key=lambda m: m.rating, reverse=True),
                               start=1):
@@ -214,6 +219,7 @@ def report(directors, cfg):
         )
         print(f'  Available: {available}')
         print()
+    return movies
 
 
 if __name__ == '__main__':
