@@ -188,6 +188,7 @@ def main():
         ]
 
     for cfg in cfgs:
+        random.shuffle(directors)
         report(directors, cfg)
 
 
