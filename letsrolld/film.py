@@ -82,7 +82,7 @@ class Film(BaseObject):
 
     @functools.cached_property
     def genre_names(self):
-        return "unknown" if not self.genres else ','.join(self.genres)
+        return "" if not self.genres else ','.join(self.genres)
 
     def __eq__(self, other):
         return (
