@@ -140,9 +140,9 @@ def main():
         services=args.service, genre=args.genre, text=args.text)
     print("\n--------------------\n")
 
-    for movie in sorted(movies,
-                        key=lambda m: m.rating, reverse=True):
-        print(f'{bold(movie.name)} | 📅:{movie.year} | '
+    for i, movie in enumerate(sorted(movies,
+                              key=lambda m: m.rating, reverse=True)):
+        print(f'{i}: {bold(movie.name)} | 📅:{movie.year} | '
               f'📽:{movie.director_names}')
         print(f'- ⌛:{movie.runtime_string} - ⭐:{movie.rating} - '
               f'📎:{movie.genre_names}')
