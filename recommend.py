@@ -155,7 +155,8 @@ def main():
     print("\n--------------------\n")
 
     for i, movie in enumerate(sorted(movies,
-                              key=lambda m: m.rating, reverse=True)):
+                              key=lambda m: m.rating, reverse=True),
+                              start=1):
         print(f'{i}: {bold(movie.name)} | 📅:{movie.year} | '
               f'📽:{movie.director_names}')
         print(f'- ⌛:{movie.runtime_string} - ⭐:{movie.rating} - '
