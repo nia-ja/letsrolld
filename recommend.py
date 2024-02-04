@@ -17,15 +17,13 @@ _DEFAULT_NUM_MOVIES = 5
 _DEFAULT_NUM_MOVIES_PER_DIRECTOR = 3
 _DEFAULT_MIN_LENGTH = 0
 _DEFAULT_MAX_LENGTH = 240
-_DEFAULT_MIN_RATING = Decimal("0.0")
-_DEFAULT_MAX_RATING = Decimal("5.0")
 
 _PROFILE = False
 
 
 def get_movies(directors,
-               min_rating=_DEFAULT_MIN_RATING,
-               max_rating=_DEFAULT_MAX_RATING,
+               min_rating=None,
+               max_rating=None,
                max_movies=_DEFAULT_NUM_MOVIES,
                max_per_director=_DEFAULT_NUM_MOVIES_PER_DIRECTOR,
                min_length=_DEFAULT_MIN_LENGTH,
@@ -67,9 +65,9 @@ def get_movies(directors,
         movie_candidates = []
         for movie in films:
             rating = Decimal(movie.rating)
-            if rating < min_rating:
+            if min_rating and rating < min_rating:
                 break
-            if rating > max_rating:
+            if max_rating and rating > max_rating:
                 continue
             if any(movie == m for m in movies):
                 continue
@@ -163,8 +161,8 @@ def main():
 
     movies = get_movies(
         directors,
-        min_rating=args.min_rating or _DEFAULT_MIN_RATING,
-        max_rating=args.max_rating or _DEFAULT_MAX_RATING,
+        min_rating=args.min_rating,
+        max_rating=args.max_rating,
         max_movies=args.num or _DEFAULT_NUM_MOVIES,
         max_per_director=args.director_num or _DEFAULT_NUM_MOVIES_PER_DIRECTOR,
         min_length=args.min_length or _DEFAULT_MIN_LENGTH,
