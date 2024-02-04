@@ -27,7 +27,7 @@ def get_movies(directors, min_rating=_DEFAULT_MIN_RATING,
                max_per_director=_DEFAULT_NUM_MOVIES_PER_DIRECTOR,
                min_length=_DEFAULT_MIN_LENGTH,
                max_length=_DEFAULT_MAX_LENGTH,
-               genre=None, services=None):
+               genre=None, services=None, text=None):
     movies = []
 
     services = film.get_services(services)
@@ -68,6 +68,8 @@ def get_movies(directors, min_rating=_DEFAULT_MIN_RATING,
             if genre is not None and genre not in movie.genres:
                 continue
             if services and not any(movie.available(s) for s in services):
+                continue
+            if text and text.lower() not in movie.description:
                 continue
             if added_for_this_director >= max_per_director * 3:
                 break
@@ -113,6 +115,7 @@ def main():
                         help="maximum length of movie in minutes")
     parser.add_argument('-R', '--min-rating', type=Decimal,
                         help="minimum movie rating")
+    parser.add_argument('-t', '--text', help="search for text")
     # TODO: add preseed option
     args = parser.parse_args()
 
@@ -134,7 +137,7 @@ def main():
         max_per_director=args.director_num or _DEFAULT_NUM_MOVIES_PER_DIRECTOR,
         min_length=args.min_length or _DEFAULT_MIN_LENGTH,
         max_length=args.max_length or _DEFAULT_MAX_LENGTH,
-        services=args.service, genre=args.genre)
+        services=args.service, genre=args.genre, text=args.text)
     print("\n--------------------\n")
 
     for movie in sorted(movies,
