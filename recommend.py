@@ -86,7 +86,13 @@ def get_movies(directors, cfg):
             added_for_this_director += 1
 
         random.shuffle(movie_candidates)
-        for _ in range(min(cfg.max_movies_per_director, len(movie_candidates))):
+        for _ in range(
+                min(
+                    cfg.max_movies_per_director,
+                    len(movie_candidates),
+                    cfg.max_movies - len(movies)
+                )
+        ):
             candidate = movie_candidates.pop()
             movies.append(candidate)
             print(green(
