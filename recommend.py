@@ -39,13 +39,13 @@ def get_movies(directors, min_rating=_DEFAULT_MIN_RATING,
 
     services = film.get_services(services)
 
+    # TODO: make this input configurable?
+    file_name = 'watched.csv'
+    watched_list = list(filmlist.read_film_list(file_name))
+
     for i, director_ in enumerate(directors, start=1):
         if len(movies) >= max_movies:
             break
-
-        # TODO: make this input configurable?
-        file_name = 'watched.csv'
-        watched_list = list(filmlist.read_film_list(file_name))
 
         print(f'({len(movies)}/{max_movies}) '
               f'{i}: Getting movies for {director_.name}...')
