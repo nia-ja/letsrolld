@@ -73,8 +73,8 @@ def get_movies(directors, cfg):
                 continue
             if cfg.genre is not None and cfg.genre not in movie.genres:
                 continue
-            if cfg.services:
-                if not any(movie.available(s) for s in cfg.services):
+            if services:
+                if not any(movie.available(s) for s in services):
                     continue
             if cfg.text:
                 if not (cfg.text in movie.description.lower() or
