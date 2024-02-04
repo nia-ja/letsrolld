@@ -48,6 +48,7 @@ def get_movies(directors,
         else:
             watched_list[f.name].append(f.year)
 
+    movies_to_find = max_per_director * 3
     for i, director_ in enumerate(directors, start=1):
         if len(movies) >= max_movies:
             break
@@ -88,7 +89,7 @@ def get_movies(directors,
                 continue
             if text and text.lower() not in movie.description:
                 continue
-            if added_for_this_director >= max_per_director * 3:
+            if added_for_this_director >= movies_to_find:
                 break
             movie_candidates.append(movie)
             added_for_this_director += 1
