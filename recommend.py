@@ -115,6 +115,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-D", "--debug", help="enable debug logging",
                         action='store_true')
+    parser.add_argument('-c', '--config', help="config file to use")
 
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('-m', '--movies', help="input movie list file")
@@ -165,19 +166,27 @@ def main():
         directors = director.get_directors_by_urls(
             list(directorlist.read_director_list(args.directors)))
 
-    cfg = config.Config(
-        max_movies=args.max_movies,
-        max_movies_per_director=args.max_movies_per_director,
-        min_length=args.min_length,
-        max_length=args.max_length,
-        min_rating=args.min_rating,
-        max_rating=args.max_rating,
-        min_year=args.min_year,
-        max_year=args.max_year,
-        genre=args.genre,
-        services=args.service,
-        text=args.text,
-    )
+    if args.config:
+        try:
+            cfg = config.Config.from_file(args.config)
+        except FileNotFoundError:
+            parser.error(f"config file {args.config} not found")
+        except ValueError as e:
+            parser.error(f"config file {args.config} is invalid: {e}")
+    else:
+        cfg = config.Config(
+            max_movies=args.max_movies,
+            max_movies_per_director=args.max_movies_per_director,
+            min_length=args.min_length,
+            max_length=args.max_length,
+            min_rating=args.min_rating,
+            max_rating=args.max_rating,
+            min_year=args.min_year,
+            max_year=args.max_year,
+            genre=args.genre,
+            services=args.service,
+            text=args.text,
+        )
 
     movies = get_movies(directors, cfg)
     print("\n--------------------\n")
