@@ -22,13 +22,6 @@ _DEFAULT_MIN_RATING = Decimal("4.0")
 _PROFILE = False
 
 
-def already_seen(seen, film):
-    for s in seen:
-        if s.name == film.name and s.year == film.year:
-            return True
-    return False
-
-
 def get_movies(directors, min_rating=_DEFAULT_MIN_RATING,
                max_movies=_DEFAULT_NUM_MOVIES,
                max_per_director=_DEFAULT_NUM_MOVIES_PER_DIRECTOR,
@@ -41,7 +34,12 @@ def get_movies(directors, min_rating=_DEFAULT_MIN_RATING,
 
     # TODO: make this input configurable?
     file_name = 'watched.csv'
-    watched_list = list(filmlist.read_film_list(file_name))
+    watched_list = {}
+    for f in filmlist.read_film_list(file_name):
+        if f.name not in watched_list:
+            watched_list[f.name] = [f.year]
+        else:
+            watched_list[f.name].append(f.year)
 
     for i, director_ in enumerate(directors, start=1):
         if len(movies) >= max_movies:
@@ -52,7 +50,7 @@ def get_movies(directors, min_rating=_DEFAULT_MIN_RATING,
         films = (
             f for f in director_.films()
             # filter out films that I saw
-            if not already_seen(watched_list, f)
+            if f.name not in watched_list or f.year not in watched_list[f.name]
         )
 
         # print first max films by rating
