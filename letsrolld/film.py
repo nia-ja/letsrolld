@@ -154,6 +154,7 @@ class Film(BaseObject):
         match = re.search(pattern, self._full_title)
         if match:
             return match.group(1).strip()
+        return self._full_title
 
     @functools.cached_property
     def year(self):
