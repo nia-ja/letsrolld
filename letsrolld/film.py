@@ -93,7 +93,7 @@ class Film(BaseObject):
 
     @functools.cached_property
     def description(self):
-        return "unknown" if self.jw is None else self.jw.short_description
+        return "" if self.jw is None else self.jw.short_description
 
     @functools.cached_property
     def avail_soup(self):
