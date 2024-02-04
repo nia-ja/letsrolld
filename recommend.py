@@ -35,6 +35,11 @@ def get_movies(directors, min_rating=_DEFAULT_MIN_RATING,
 
     # TODO: make this input configurable?
     file_name = 'watched.csv'
+
+    # one would think that this could be done with a set,
+    # but it seems that performance is better with a dict.
+    # Using a frozenset is better than a regular set,
+    # but still slower.
     watched_list = {}
     for f in filmlist.read_film_list(file_name):
         if f.name not in watched_list:
