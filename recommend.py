@@ -27,6 +27,7 @@ def get_movies(directors, min_rating=_DEFAULT_MIN_RATING,
                max_per_director=_DEFAULT_NUM_MOVIES_PER_DIRECTOR,
                min_length=_DEFAULT_MIN_LENGTH,
                max_length=_DEFAULT_MAX_LENGTH,
+               min_year=None, max_year=None,
                genre=None, services=None, text=None):
     movies = []
 
@@ -60,6 +61,11 @@ def get_movies(directors, min_rating=_DEFAULT_MIN_RATING,
             if Decimal(movie.rating) < min_rating:
                 break
             if any(movie == m for m in movies):
+                continue
+            year = int(movie.year)
+            if min_year and year < min_year:
+                continue
+            if max_year and year > max_year:
                 continue
             if movie.runtime < min_length:
                 continue
@@ -115,9 +121,16 @@ def main():
                         help="maximum length of movie in minutes")
     parser.add_argument('-R', '--min-rating', type=Decimal,
                         help="minimum movie rating")
+    parser.add_argument('-y', '--min-year', type=int,
+                        help="minimum movie year")
+    parser.add_argument('-Y', '--max-year', type=int,
+                        help="maximum movie year")
     parser.add_argument('-t', '--text', help="search for text")
     # TODO: add preseed option
     args = parser.parse_args()
+
+    if args.min_year and args.max_year and args.min_year > args.max_year:
+        parser.error("min year must be less than or equal to max year")
 
     if args.debug:
         http.enable_debug()
@@ -137,6 +150,7 @@ def main():
         max_per_director=args.director_num or _DEFAULT_NUM_MOVIES_PER_DIRECTOR,
         min_length=args.min_length or _DEFAULT_MIN_LENGTH,
         max_length=args.max_length or _DEFAULT_MAX_LENGTH,
+        min_year=args.min_year, max_year=args.max_year,
         services=args.service, genre=args.genre, text=args.text)
     print("\n--------------------\n")
 

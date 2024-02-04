@@ -162,6 +162,7 @@ class Film(BaseObject):
             return match.group(1).strip()
         return self._full_title
 
+    # TODO: switch to int
     @functools.cached_property
     def year(self):
         pattern = r'\((\d{4})\)'
