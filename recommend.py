@@ -6,6 +6,7 @@ import textwrap
 
 from letsrolld.colors import colorize, red, green, blue, bold
 
+from letsrolld import config
 from letsrolld import http
 from letsrolld import director
 from letsrolld import directorlist
@@ -13,29 +14,16 @@ from letsrolld import film
 from letsrolld import filmlist
 
 
-_DEFAULT_NUM_MOVIES = 5
-_DEFAULT_NUM_MOVIES_PER_DIRECTOR = 3
-_DEFAULT_MIN_LENGTH = 0
-_DEFAULT_MAX_LENGTH = 240
-
 _PROFILE = False
 
 # TODO: make this input configurable?
 _WATCHED_FILE = 'watched.csv'
 
 
-def get_movies(directors,
-               min_rating=None,
-               max_rating=None,
-               max_movies=_DEFAULT_NUM_MOVIES,
-               max_per_director=_DEFAULT_NUM_MOVIES_PER_DIRECTOR,
-               min_length=_DEFAULT_MIN_LENGTH,
-               max_length=_DEFAULT_MAX_LENGTH,
-               min_year=None, max_year=None,
-               genre=None, services=None, text=None):
+def get_movies(directors, cfg):
     movies = []
 
-    services = film.get_services(services)
+    services = film.get_services(cfg.services)
 
     # one would think that this could be done with a set,
     # but it seems that performance is better with a dict.
@@ -48,12 +36,12 @@ def get_movies(directors,
         else:
             watched_list[f.name].append(f.year)
 
-    movies_to_find = max_per_director * 3
+    movies_to_find = cfg.max_movies_per_director * 3
     for i, director_ in enumerate(directors, start=1):
-        if len(movies) >= max_movies:
+        if len(movies) >= cfg.max_movies:
             break
 
-        print(f'({len(movies)}/{max_movies}) '
+        print(f'({len(movies)}/{cfg.max_movies}) '
               f'{i}: Getting movies for {director_.name}...')
         films = (
             f for f in director_.films()
@@ -65,31 +53,32 @@ def get_movies(directors,
         added_for_this_director = 0
         movie_candidates = []
         for movie in films:
-            if min_rating or max_rating:
+            if cfg.min_rating or cfg.max_rating:
                 rating = Decimal(movie.rating)
-                if min_rating and rating < min_rating:
+                if cfg.min_rating and rating < cfg.min_rating:
                     break
-                if max_rating and rating > max_rating:
+                if cfg.max_rating and rating > cfg.max_rating:
                     continue
             if any(movie == m for m in movies):
                 continue
-            if min_year or max_year:
+            if cfg.min_year or cfg.max_year:
                 year = int(movie.year)
-                if min_year and year < min_year:
+                if cfg.min_year and year < cfg.min_year:
                     continue
-                if max_year and year > max_year:
+                if cfg.max_year and year > cfg.max_year:
                     continue
-            if movie.runtime < min_length:
+            if movie.runtime < cfg.min_length:
                 continue
-            if movie.runtime > max_length:
+            if movie.runtime > cfg.max_length:
                 continue
-            if genre is not None and genre not in movie.genres:
+            if cfg.genre is not None and cfg.genre not in movie.genres:
                 continue
-            if services and not any(movie.available(s) for s in services):
-                continue
-            if text:
-                text = text.lower()
-                if text not in movie.description and text not in movie.name.lower():
+            if cfg.services:
+                if not any(movie.available(s) for s in cfg.services):
+                    continue
+            if cfg.text:
+                if not (cfg.text in movie.description.lower() or
+                        cfg.text in movie.name.lower()):
                     continue
             if added_for_this_director >= movies_to_find:
                 break
@@ -97,7 +86,7 @@ def get_movies(directors,
             added_for_this_director += 1
 
         random.shuffle(movie_candidates)
-        for _ in range(min(max_per_director, len(movie_candidates))):
+        for _ in range(min(cfg.max_movies_per_director, len(movie_candidates))):
             candidate = movie_candidates.pop()
             movies.append(candidate)
             print(green(
@@ -120,28 +109,35 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-D", "--debug", help="enable debug logging",
                         action='store_true')
+
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('-m', '--movies', help="input movie list file")
     group.add_argument('-d', '--directors', help="input director list file")
+
     parser.add_argument('-g', '--genre', help="filter by genre")
     parser.add_argument('-s', '--service', action="append",
                         help="filter by services")
-    parser.add_argument('-n', '--num', type=int,
+
+    parser.add_argument('-n', '--max-movies', type=int,
                         help="number of movies to get")
-    parser.add_argument('-N', '--director-num', type=int,
+    parser.add_argument('-N', '--max-movies-per-director', type=int,
                         help="number of movies per director to get")
+
     parser.add_argument('-l', '--min-length', type=int,
                         help="minimum length of movie in minutes")
     parser.add_argument('-L', '--max-length', type=int,
                         help="maximum length of movie in minutes")
+
     parser.add_argument('-r', '--min-rating', type=Decimal,
                         help="minimum movie rating")
     parser.add_argument('-R', '--max-rating', type=Decimal,
                         help="maximum movie rating")
+
     parser.add_argument('-y', '--min-year', type=int,
                         help="minimum movie year")
     parser.add_argument('-Y', '--max-year', type=int,
                         help="maximum movie year")
+
     parser.add_argument('-t', '--text', help="search for text")
     # TODO: add preseed option
     args = parser.parse_args()
@@ -163,16 +159,21 @@ def main():
         directors = director.get_directors_by_urls(
             list(directorlist.read_director_list(args.directors)))
 
-    movies = get_movies(
-        directors,
+    cfg = config.Config(
+        max_movies=args.max_movies,
+        max_movies_per_director=args.max_movies_per_director,
+        min_length=args.min_length,
+        max_length=args.max_length,
         min_rating=args.min_rating,
         max_rating=args.max_rating,
-        max_movies=args.num or _DEFAULT_NUM_MOVIES,
-        max_per_director=args.director_num or _DEFAULT_NUM_MOVIES_PER_DIRECTOR,
-        min_length=args.min_length or _DEFAULT_MIN_LENGTH,
-        max_length=args.max_length or _DEFAULT_MAX_LENGTH,
-        min_year=args.min_year, max_year=args.max_year,
-        services=args.service, genre=args.genre, text=args.text)
+        min_year=args.min_year,
+        max_year=args.max_year,
+        genre=args.genre,
+        services=args.service,
+        text=args.text,
+    )
+
+    movies = get_movies(directors, cfg)
     print("\n--------------------\n")
 
     for i, movie in enumerate(sorted(movies,
