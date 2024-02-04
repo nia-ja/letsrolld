@@ -87,8 +87,10 @@ def get_movies(directors,
                 continue
             if services and not any(movie.available(s) for s in services):
                 continue
-            if text and text.lower() not in movie.description:
-                continue
+            if text:
+                text = text.lower()
+                if text not in movie.description and text not in movie.name.lower():
+                    continue
             if added_for_this_director >= movies_to_find:
                 break
             movie_candidates.append(movie)
