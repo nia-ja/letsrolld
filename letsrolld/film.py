@@ -186,6 +186,8 @@ class Film(BaseObject):
             for a in self._get_director_slugs()
         )
 
+    # TODO: calculate my own rating for movies without a rating
+    # TODO: pull rating from imdb too
     @functools.cached_property
     def rating(self):
         # TODO: parse as json
