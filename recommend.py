@@ -62,11 +62,12 @@ def get_movies(directors, min_rating=_DEFAULT_MIN_RATING,
                 break
             if any(movie == m for m in movies):
                 continue
-            year = int(movie.year)
-            if min_year and year < min_year:
-                continue
-            if max_year and year > max_year:
-                continue
+            if min_year or max_year:
+                year = int(movie.year)
+                if min_year and year < min_year:
+                    continue
+                if max_year and year > max_year:
+                    continue
             if movie.runtime < min_length:
                 continue
             if movie.runtime > max_length:
