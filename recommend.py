@@ -64,11 +64,12 @@ def get_movies(directors,
         added_for_this_director = 0
         movie_candidates = []
         for movie in films:
-            rating = Decimal(movie.rating)
-            if min_rating and rating < min_rating:
-                break
-            if max_rating and rating > max_rating:
-                continue
+            if min_rating or max_rating:
+                rating = Decimal(movie.rating)
+                if min_rating and rating < min_rating:
+                    break
+                if max_rating and rating > max_rating:
+                    continue
             if any(movie == m for m in movies):
                 continue
             if min_year or max_year:
