@@ -122,7 +122,7 @@ class Film(BaseObject):
     def jw_url(self):
         for x in self.avail_soup.find_all("a", class_="jw-branding"):
             link = x.get("href")
-            if not link.startswith("https://www.justwatch.com/us/movie/"):
+            if not link.startswith("https://www.justwatch.com/us/"):
                 return None
             return link
 
