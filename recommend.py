@@ -18,11 +18,14 @@ _DEFAULT_NUM_MOVIES_PER_DIRECTOR = 3
 _DEFAULT_MIN_LENGTH = 0
 _DEFAULT_MAX_LENGTH = 240
 _DEFAULT_MIN_RATING = Decimal("0.0")
+_DEFAULT_MAX_RATING = Decimal("5.0")
 
 _PROFILE = False
 
 
-def get_movies(directors, min_rating=_DEFAULT_MIN_RATING,
+def get_movies(directors,
+               min_rating=_DEFAULT_MIN_RATING,
+               max_rating=_DEFAULT_MAX_RATING,
                max_movies=_DEFAULT_NUM_MOVIES,
                max_per_director=_DEFAULT_NUM_MOVIES_PER_DIRECTOR,
                min_length=_DEFAULT_MIN_LENGTH,
@@ -63,8 +66,11 @@ def get_movies(directors, min_rating=_DEFAULT_MIN_RATING,
         added_for_this_director = 0
         movie_candidates = []
         for movie in films:
-            if Decimal(movie.rating) < min_rating:
+            rating = Decimal(movie.rating)
+            if rating < min_rating:
                 break
+            if rating > max_rating:
+                continue
             if any(movie == m for m in movies):
                 continue
             if min_year or max_year:
@@ -126,8 +132,10 @@ def main():
                         help="minimum length of movie in minutes")
     parser.add_argument('-L', '--max-length', type=int,
                         help="maximum length of movie in minutes")
-    parser.add_argument('-R', '--min-rating', type=Decimal,
+    parser.add_argument('-r', '--min-rating', type=Decimal,
                         help="minimum movie rating")
+    parser.add_argument('-R', '--max-rating', type=Decimal,
+                        help="maximum movie rating")
     parser.add_argument('-y', '--min-year', type=int,
                         help="minimum movie year")
     parser.add_argument('-Y', '--max-year', type=int,
@@ -138,6 +146,9 @@ def main():
 
     if args.min_year and args.max_year and args.min_year > args.max_year:
         parser.error("min year must be less than or equal to max year")
+
+    if args.min_rating and args.max_rating and args.min_rating > args.max_rating:
+        parser.error("min rating must be less than or equal to max rating")
 
     if args.debug:
         http.enable_debug()
@@ -153,6 +164,7 @@ def main():
     movies = get_movies(
         directors,
         min_rating=args.min_rating or _DEFAULT_MIN_RATING,
+        max_rating=args.max_rating or _DEFAULT_MAX_RATING,
         max_movies=args.num or _DEFAULT_NUM_MOVIES,
         max_per_director=args.director_num or _DEFAULT_NUM_MOVIES_PER_DIRECTOR,
         min_length=args.min_length or _DEFAULT_MIN_LENGTH,
