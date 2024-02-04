@@ -41,8 +41,6 @@ def get_movies(directors, cfg):
         if len(movies) >= cfg.max_movies:
             break
 
-        print(f'({len(movies)}/{cfg.max_movies}) '
-              f'{i}: Getting movies for {director_.name}...')
         films = (
             f for f in director_.films()
             # filter out films that I saw
@@ -95,9 +93,6 @@ def get_movies(directors, cfg):
         ):
             candidate = movie_candidates.pop()
             movies.append(candidate)
-            print(green(
-                f'  Added {candidate.name} by {director_.name}'
-            ))
 
     return movies
 
@@ -165,32 +160,41 @@ def main():
     else:
         directors = director.get_directors_by_urls(
             list(directorlist.read_director_list(args.directors)))
+    directors = list(directors)
 
     if args.config:
         try:
-            cfg = config.Config.from_file(args.config)
+            cfgs = config.Config.from_file(args.config)
         except FileNotFoundError:
             parser.error(f"config file {args.config} not found")
         except ValueError as e:
             parser.error(f"config file {args.config} is invalid: {e}")
     else:
-        cfg = config.Config(
-            max_movies=args.max_movies,
-            max_movies_per_director=args.max_movies_per_director,
-            min_length=args.min_length,
-            max_length=args.max_length,
-            min_rating=args.min_rating,
-            max_rating=args.max_rating,
-            min_year=args.min_year,
-            max_year=args.max_year,
-            genre=args.genre,
-            services=args.service,
-            text=args.text,
-        )
+        cfgs = [
+            config.Config(
+                name="cli",
+                max_movies=args.max_movies,
+                max_movies_per_director=args.max_movies_per_director,
+                min_length=args.min_length,
+                max_length=args.max_length,
+                min_rating=args.min_rating,
+                max_rating=args.max_rating,
+                min_year=args.min_year,
+                max_year=args.max_year,
+                genre=args.genre,
+                services=args.service,
+                text=args.text,
+            ),
+        ]
+
+    for cfg in cfgs:
+        report(directors, cfg)
+
+
+def report(directors, cfg):
+    print(bold(green(cfg.name)))
 
     movies = get_movies(directors, cfg)
-    print("\n--------------------\n")
-
     for i, movie in enumerate(sorted(movies,
                               key=lambda m: m.rating, reverse=True),
                               start=1):
