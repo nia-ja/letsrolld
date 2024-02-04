@@ -82,11 +82,12 @@ def get_movies(directors, min_rating=_DEFAULT_MIN_RATING,
             movie_candidates.append(movie)
             added_for_this_director += 1
 
-        if movie_candidates:
-            random.shuffle(movie_candidates)
-            movies.append(movie_candidates[0])
+        random.shuffle(movie_candidates)
+        for _ in range(min(max_per_director, len(movie_candidates))):
+            candidate = movie_candidates.pop()
+            movies.append(candidate)
             print(green(
-                f'  Added {movie_candidates[0].name} by {director_.name}'
+                f'  Added {candidate.name} by {director_.name}'
             ))
 
     return movies
