@@ -3,33 +3,53 @@
 		"max_movies": 5,
 		"max_movies_per_director": 1,
 		"services": ["ANY"],
-		"min_rating": "4.0",
-		"min_length": 60
+		"min_rating": "3.9",
+		"min_length": 60,
+		"exclude_genre": "documentary"
 	},
 	"Something Free": {
-		"max_movies": 2,
+		"max_movies": 3,
 		"max_movies_per_director": 1,
 		"services": ["FREE"],
 		"min_rating": "3.8",
-		"min_length": 45
+		"min_length": 45,
+		"exclude_genre": "documentary"
 	},
 	"Horrors from the Past": {
 		"max_movies": 3,
 		"max_movies_per_director": 1,
 		"services": ["ANY"],
-		"min_rating": "3.5",
+		"min_rating": "3.7",
 		"genre": "horror",
 		"min_year": 1900,
 		"max_year": 1980,
-		"min_length": 60
+		"min_length": 60,
+		"exclude_genre": "documentary"
 	},
 	"Classics": {
 		"max_movies": 3,
 		"max_movies_per_director": 1,
 		"services": ["ANY"],
-		"min_rating": "4.2",
+		"min_rating": "4.0",
 		"min_year": 1900,
 		"max_year": 1970,
-		"min_length": 60
+		"min_length": 60,
+		"exclude_genre": "documentary"
+	},
+	"Documentaries": {
+		"max_movies": 3,
+		"max_movies_per_director": 1,
+		"services": ["ANY"],
+		"min_rating": "3.8",
+		"min_length": 60,
+		"genre": "documentary"
+	},
+	"Animation": {
+		"max_movies": 3,
+		"max_movies_per_director": 1,
+		"services": ["ANY"],
+		"min_rating": "3.8",
+		"min_length": 60,
+		"genre": "animation"
 	}
 }
