@@ -36,6 +36,14 @@
 		"min_length": 60,
 		"exclude_genre": "documentary"
 	},
+	"Animation": {
+		"max_movies": 3,
+		"max_movies_per_director": 1,
+		"services": ["ANY"],
+		"min_rating": "3.8",
+		"min_length": 60,
+		"genre": "animation"
+	},
 	"Documentaries": {
 		"max_movies": 3,
 		"max_movies_per_director": 1,
@@ -44,12 +52,12 @@
 		"min_length": 60,
 		"genre": "documentary"
 	},
-	"Animation": {
-		"max_movies": 3,
+	"Shorts": {
+		"max_movies": 6,
 		"max_movies_per_director": 1,
 		"services": ["ANY"],
 		"min_rating": "3.8",
-		"min_length": 60,
-		"genre": "animation"
+		"min_length": 10,
+		"max_length": 59
 	}
 }
