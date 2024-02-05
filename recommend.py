@@ -60,6 +60,8 @@ def get_movies(directors, cfg, exclude_movies):
                 continue
             if cfg.genre is not None and cfg.genre not in movie.genres:
                 continue
+            if cfg.exclude_genre is not None and cfg.exclude_genre in movie.genres:
+                continue
             if services:
                 if not any(movie.available(s) for s in services):
                     continue
@@ -106,6 +108,8 @@ def main():
     group.add_argument('-d', '--directors', help="input director list file")
 
     parser.add_argument('-g', '--genre', help="filter by genre")
+    parser.add_argument('-G', '--exclude-genre', help="exclude genre")
+
     parser.add_argument('-s', '--service', action="append",
                         help="filter by services")
 
@@ -171,6 +175,7 @@ def main():
                 min_year=args.min_year,
                 max_year=args.max_year,
                 genre=args.genre,
+                exclude_genre=args.exclude_genre,
                 services=args.service,
                 text=args.text,
             ),
