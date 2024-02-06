@@ -25,7 +25,7 @@ def get_movies(directors, cfg, exclude_movies):
 
     services = film.get_services(cfg.services)
 
-    movies_to_find = cfg.max_movies_per_director * 3
+    movies_to_find = cfg.max_movies_per_director * 10
     for i, director_ in enumerate(directors, start=1):
         if len(movies) >= cfg.max_movies:
             break
