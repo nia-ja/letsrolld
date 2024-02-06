@@ -2,7 +2,7 @@
 	"Shorts": {
 		"max_movies": 20,
 		"max_movies_per_director": 1,
-		"services": ["ANY"],
+		"services": ["STREAM"],
 		"min_rating": "3.75",
 		"min_length": 10,
 		"max_length": 59
