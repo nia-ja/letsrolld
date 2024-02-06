@@ -10,16 +10,16 @@ _DEFAULT_MAX_LENGTH = 240
 
 class Config:
     def _set_defaults(self):
-        self.max_movies = _DEFAULT_NUM_MOVIES
-        self.max_movies_per_director = _DEFAULT_NUM_MOVIES_PER_DIRECTOR
-        self.min_length = _DEFAULT_MIN_LENGTH
-        self.max_length = _DEFAULT_MAX_LENGTH
+        self.max_movies = self.max_movies or _DEFAULT_NUM_MOVIES
+        self.max_movies_per_director = self.max_movies_per_director or _DEFAULT_NUM_MOVIES_PER_DIRECTOR
+        self.min_length = self.min_length or _DEFAULT_MIN_LENGTH
+        self.max_length = self.max_length or _DEFAULT_MAX_LENGTH
 
     def __init__(self, name, **kwargs):
         self.name = name
-        self._set_defaults()
         for k, v in kwargs.items():
             setattr(self, k, v)
+        self._set_defaults()
 
     def __setattr__(self, key, value):
         if key in ("min_rating", "max_rating"):
