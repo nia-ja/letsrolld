@@ -169,6 +169,7 @@ class Film(BaseObject):
         match = re.search(pattern, self._full_title)
         if match:
             return match.group(1).strip()
+        return "0"
 
     def _get_director_slugs(self):
         for crew in self.soup.find_all(id="tab-crew"):
