@@ -3,8 +3,8 @@
 		"max_movies": 20,
 		"max_movies_per_director": 1,
 		"services": ["STREAM"],
-		"min_rating": "3.75",
-		"min_length": 10,
+		"min_rating": "3.5",
+		"min_length": 5,
 		"max_length": 59
 	}
 }
