@@ -62,7 +62,7 @@ class Film(BaseObject):
 
     persistent_attributes = [
         "name", "genres", "rating", "year", "runtime",
-        "director_names", "jw_url"
+        "director_names", "jw_url", "countries", "description",
     ]
 
     def __init__(self, url=None):
@@ -182,13 +182,15 @@ class Film(BaseObject):
 
     @property
     def countries(self):
+        countries = []
         for details in self.soup.find_all(id="tab-details"):
             for h3 in details.find_all("h3"):
                 text = h3.text.strip()
                 if "Country" in text or "Countries" in text:
                     text_slug = h3.next_sibling.next_sibling
                     for a in text_slug.find_all("a"):
-                        yield a.text.strip()
+                        countries.append(a.text.strip())
+        return countries
 
     @functools.cached_property
     def directors(self):
