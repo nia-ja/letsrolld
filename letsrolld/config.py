@@ -1,3 +1,4 @@
+import countryflag
 from decimal import Decimal
 import json
 
