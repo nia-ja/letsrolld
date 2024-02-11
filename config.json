@@ -7,6 +7,15 @@
 		"min_length": 60,
 		"exclude_genre": ["documentary", "animation"]
 	},
+	"International": {
+		"max_movies": 3,
+		"max_movies_per_director": 1,
+		"services": ["ANY"],
+		"min_rating": "3.85",
+		"min_length": 60,
+		"exclude_genre": ["documentary", "animation"],
+		"exclude_country": ["USA", "UK", "Canada", "Australia"]
+	},
 	"Something Free": {
 		"max_movies": 3,
 		"max_movies_per_director": 1,
