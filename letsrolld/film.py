@@ -181,6 +181,16 @@ class Film(BaseObject):
         return []
 
     @property
+    def countries(self):
+        for details in self.soup.find_all(id="tab-details"):
+            for h3 in details.find_all("h3"):
+                text = h3.text.strip()
+                if "Country" in text or "Countries" in text:
+                    text_slug = h3.next_sibling.next_sibling
+                    for a in text_slug.find_all("a"):
+                        yield a.text.strip()
+
+    @functools.cached_property
     def directors(self):
         return [
             director.Director(url=a.get("href"))

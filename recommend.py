@@ -215,6 +215,7 @@ def report(directors, cfg, exclude_movies):
               f'📽:{movie.director_names}')
         print(f'- ⌛:{movie.runtime_string} - ⭐:{movie.rating} - '
               f'📎:{movie.genre_names}')
+        print(f'  Countries: {", ".join(movie.countries)}')
         print(f'  Letterboxd: {movie.url or ""}')
         print(f'  QuickWatch: {movie.jw_url or ""}')
         for line in textwrap.wrap(movie.description):
