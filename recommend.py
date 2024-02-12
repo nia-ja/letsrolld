@@ -63,6 +63,8 @@ def get_movies(directors, cfg, exclude_movies):
             if cfg.exclude_genre is not None:
                 if set(cfg.exclude_genre).intersection(movie.genres):
                     continue
+            if cfg.country is not None and cfg.country not in movie.countries:
+                continue
             if cfg.exclude_country is not None:
                 if set(cfg.exclude_country).intersection(movie.countries):
                     continue
@@ -105,7 +107,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-D", "--debug", help="enable debug logging",
                         action='store_true')
-    parser.add_argument('-c', '--config', help="config file to use")
+    parser.add_argument('--config', help="config file to use")
 
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('-m', '--movies', help="input movie list file")
@@ -115,6 +117,7 @@ def main():
     parser.add_argument('-G', '--exclude-genre', action="append",
                         help="exclude genre")
 
+    parser.add_argument('-c', '--country', help="filter by country")
     parser.add_argument('-C', '--exclude-country', action="append",
                         help="exclude country")
 
@@ -184,7 +187,8 @@ def main():
                 max_year=args.max_year,
                 genre=args.genre,
                 exclude_genre=args.exclude_genre,
-                exclude_country=args.exclude_genre,
+                country=args.country,
+                exclude_country=args.exclude_country,
                 services=args.service,
                 text=args.text,
             ),

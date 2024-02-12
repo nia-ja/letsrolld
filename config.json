@@ -51,7 +51,17 @@
 		"services": ["ANY"],
 		"min_rating": "3.75",
 		"min_length": 60,
-		"genre": "animation"
+		"genre": "animation",
+		"exclude_country": ["Japan"]
+	},
+	"Anime": {
+		"max_movies": 3,
+		"max_movies_per_director": 1,
+		"services": ["ANY"],
+		"min_rating": "3.75",
+		"min_length": 60,
+		"genre": "animation",
+		"country": "Japan"
 	},
 	"Documentaries": {
 		"max_movies": 3,
