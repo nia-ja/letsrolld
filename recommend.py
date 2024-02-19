@@ -103,6 +103,17 @@ def get_colored_service(service):
     return color(service)
 
 
+def get_directors(args):
+    if args.movies:
+        film_list = list(filmlist.read_film_list(args.movies))
+        random.shuffle(film_list)
+        directors = director.get_directors_by_films(film_list)
+    else:
+        directors = director.get_directors_by_urls(
+            list(directorlist.read_director_list(args.directors)))
+    return list(directors)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-D", "--debug", help="enable debug logging",
@@ -157,15 +168,6 @@ def main():
     if args.debug:
         http.enable_debug()
 
-    if args.movies:
-        film_list = list(filmlist.read_film_list(args.movies))
-        random.shuffle(film_list)
-        directors = director.get_directors_by_films(film_list)
-    else:
-        directors = director.get_directors_by_urls(
-            list(directorlist.read_director_list(args.directors)))
-    directors = list(directors)
-
     if args.config:
         try:
             cfgs = config.Config.from_file(args.config)
@@ -209,6 +211,7 @@ def main():
     for f in filmlist.read_film_list(_WATCHED_FILE):
         _add_movie_to_exclude_list(f)
 
+    directors = get_directors(args)
     for cfg in cfgs:
         random.shuffle(directors)
         for movie in report(directors, cfg, exclude_movies=exclude_list):
