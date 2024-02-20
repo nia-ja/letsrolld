@@ -198,33 +198,6 @@ def get_config():
     return args.debug, args.movies, args.directors, cfgs
 
 
-def main():
-    debug, movies, directors, cfgs = get_config()
-    if debug:
-        http.enable_debug()
-
-    # one would think that this could be done with a set,
-    # but it seems that performance is better with a dict.
-    # Using a frozenset is better than a regular set,
-    # but still slower.
-    exclude_list = {}
-
-    def _add_movie_to_exclude_list(movie):
-        if movie.name not in exclude_list:
-            exclude_list[movie.name] = [movie.year]
-        else:
-            exclude_list[movie.name].append(movie.year)
-
-    for f in filmlist.read_film_list(_WATCHED_FILE):
-        _add_movie_to_exclude_list(f)
-
-    directors = get_directors(movies, directors)
-    for cfg in cfgs:
-        random.shuffle(directors)
-        for movie in report(directors, cfg, exclude_movies=exclude_list):
-            _add_movie_to_exclude_list(movie)
-
-
 def report_movie(i, movie):
     print(f'{i}: {bold(movie.name)} | 📅:{movie.year} | '
           f'📽:{movie.director_names}')
@@ -260,6 +233,33 @@ def report(directors, cfg, exclude_movies):
                               start=1):
         report_movie(i, movie)
     return movies
+
+
+def main():
+    debug, movies, directors, cfgs = get_config()
+    if debug:
+        http.enable_debug()
+
+    # one would think that this could be done with a set,
+    # but it seems that performance is better with a dict.
+    # Using a frozenset is better than a regular set,
+    # but still slower.
+    exclude_list = {}
+
+    def _add_movie_to_exclude_list(movie):
+        if movie.name not in exclude_list:
+            exclude_list[movie.name] = [movie.year]
+        else:
+            exclude_list[movie.name].append(movie.year)
+
+    for f in filmlist.read_film_list(_WATCHED_FILE):
+        _add_movie_to_exclude_list(f)
+
+    directors = get_directors(movies, directors)
+    for cfg in cfgs:
+        random.shuffle(directors)
+        for movie in report(directors, cfg, exclude_movies=exclude_list):
+            _add_movie_to_exclude_list(movie)
 
 
 if __name__ == '__main__':
