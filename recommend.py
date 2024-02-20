@@ -225,6 +225,32 @@ def main():
             _add_movie_to_exclude_list(movie)
 
 
+def report_movie(i, movie):
+    print(f'{i}: {bold(movie.name)} | 📅:{movie.year} | '
+          f'📽:{movie.director_names}')
+    print(f'- ⌛:{movie.runtime_string} - ⭐:{movie.rating} - '
+          f'📎:{movie.genre_names}')
+    #print(f'  Countries: {movie.country_flags}')
+    if movie.countries:
+        print(f'  Countries: {", ".join(movie.countries)}')
+    if movie.url:
+        print(f'  Letterboxd: {movie.url}')
+    if movie.jw_url:
+        print(f'  QuickWatch: {movie.jw_url}')
+    if movie.trailer_url:
+        print(f'  Trailer: {movie.trailer_url}')
+    if movie.description:
+        for line in textwrap.wrap(movie.description):
+            print(bold(f'  | {line}'))
+    available = ", ".join(
+        get_colored_service(s)
+        for s in film.SERVICES
+        if movie.available(s)
+    )
+    print(f'  Available: {available}')
+    print()
+
+
 def report(directors, cfg, exclude_movies):
     print(bold(green(cfg.name)))
 
@@ -232,29 +258,7 @@ def report(directors, cfg, exclude_movies):
     for i, movie in enumerate(sorted(movies,
                               key=lambda m: m.rating, reverse=True),
                               start=1):
-        print(f'{i}: {bold(movie.name)} | 📅:{movie.year} | '
-              f'📽:{movie.director_names}')
-        print(f'- ⌛:{movie.runtime_string} - ⭐:{movie.rating} - '
-              f'📎:{movie.genre_names}')
-        #print(f'  Countries: {movie.country_flags}')
-        if movie.countries:
-            print(f'  Countries: {", ".join(movie.countries)}')
-        if movie.url:
-            print(f'  Letterboxd: {movie.url}')
-        if movie.jw_url:
-            print(f'  QuickWatch: {movie.jw_url}')
-        if movie.trailer_url:
-            print(f'  Trailer: {movie.trailer_url}')
-        if movie.description:
-            for line in textwrap.wrap(movie.description):
-                print(bold(f'  | {line}'))
-        available = ", ".join(
-            get_colored_service(s)
-            for s in film.SERVICES
-            if movie.available(s)
-        )
-        print(f'  Available: {available}')
-        print()
+        report_movie(i, movie)
     return movies
 
 
