@@ -2,16 +2,16 @@
 	"Short Shorts": {
 		"max_movies": 10,
 		"max_movies_per_director": 1,
-		"services": ["STREAM"],
-		"min_rating": "3.5",
+		"services": ["criterionchannel", "FREE"],
+		"min_rating": "3.9",
 		"min_length": 5,
 		"max_length": 34
 	},
 	"Long Shorts": {
 		"max_movies": 10,
 		"max_movies_per_director": 1,
-		"services": ["STREAM"],
-		"min_rating": "3.5",
+		"services": ["criterionchannel", "FREE"],
+		"min_rating": "3.8",
 		"min_length": 35,
 		"max_length": 59
 	}
