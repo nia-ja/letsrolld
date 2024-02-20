@@ -237,12 +237,17 @@ def report(directors, cfg, exclude_movies):
         print(f'- ⌛:{movie.runtime_string} - ⭐:{movie.rating} - '
               f'📎:{movie.genre_names}')
         #print(f'  Countries: {movie.country_flags}')
-        print(f'  Countries: {", ".join(movie.countries)}')
-        print(f'  Letterboxd: {movie.url or ""}')
-        print(f'  QuickWatch: {movie.jw_url or ""}')
-        print(f'  Trailer: {movie.trailer_url or ""}')
-        for line in textwrap.wrap(movie.description):
-            print(bold(f'  | {line}'))
+        if movie.countries:
+            print(f'  Countries: {", ".join(movie.countries)}')
+        if movie.url:
+            print(f'  Letterboxd: {movie.url}')
+        if movie.jw_url:
+            print(f'  QuickWatch: {movie.jw_url}')
+        if movie.trailer_url:
+            print(f'  Trailer: {movie.trailer_url}')
+        if movie.description:
+            for line in textwrap.wrap(movie.description):
+                print(bold(f'  | {line}'))
         available = ", ".join(
             get_colored_service(s)
             for s in film.SERVICES
