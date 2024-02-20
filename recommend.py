@@ -90,8 +90,7 @@ def get_movies(directors, cfg, exclude_movies):
                     cfg.max_movies - len(movies)
                 )
         ):
-            candidate = movie_candidates.pop()
-            movies.append(candidate)
+            movies.append(movie_candidates.pop())
 
     return movies
 
