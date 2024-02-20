@@ -240,6 +240,7 @@ def report(directors, cfg, exclude_movies):
         print(f'  Countries: {", ".join(movie.countries)}')
         print(f'  Letterboxd: {movie.url or ""}')
         print(f'  QuickWatch: {movie.jw_url or ""}')
+        print(f'  Trailer: {movie.trailer_url or ""}')
         for line in textwrap.wrap(movie.description):
             print(bold(f'  | {line}'))
         available = ", ".join(

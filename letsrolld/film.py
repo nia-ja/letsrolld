@@ -182,6 +182,14 @@ class Film(BaseObject):
         return []
 
     @property
+    def trailer_url(self):
+        for a in self.soup.find_all("a", class_="play track-event js-video-zoom"):
+            href = a.get("href")
+            if href:
+                yt_id = href.split("/")[4].split("?")[0]
+                return f"https://www.youtube.com/watch?v={yt_id}"
+
+    @property
     def countries(self):
         countries = []
         for details in self.soup.find_all(id="tab-details"):
