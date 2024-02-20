@@ -103,18 +103,18 @@ def get_colored_service(service):
     return color(service)
 
 
-def get_directors(args):
-    if args.movies:
-        film_list = list(filmlist.read_film_list(args.movies))
+def get_directors(movies, directors):
+    if movies:
+        film_list = list(filmlist.read_film_list(movies))
         random.shuffle(film_list)
-        directors = director.get_directors_by_films(film_list)
+        return list(director.get_directors_by_films(film_list))
     else:
-        directors = director.get_directors_by_urls(
-            list(directorlist.read_director_list(args.directors)))
-    return list(directors)
+        return list(
+            director.get_directors_by_urls(
+                list(directorlist.read_director_list(directors))))
 
 
-def main():
+def get_config():
     parser = argparse.ArgumentParser()
     parser.add_argument("-D", "--debug", help="enable debug logging",
                         action='store_true')
@@ -165,9 +165,6 @@ def main():
     if args.min_rating and args.max_rating and args.min_rating > args.max_rating:
         parser.error("min rating must be less than or equal to max rating")
 
-    if args.debug:
-        http.enable_debug()
-
     if args.config:
         try:
             cfgs = config.Config.from_file(args.config)
@@ -196,6 +193,14 @@ def main():
             ),
         ]
 
+    return args.debug, args.movies, args.directors, cfgs
+
+
+def main():
+    debug, movies, directors, cfgs = get_config()
+    if debug:
+        http.enable_debug()
+
     # one would think that this could be done with a set,
     # but it seems that performance is better with a dict.
     # Using a frozenset is better than a regular set,
@@ -211,7 +216,7 @@ def main():
     for f in filmlist.read_film_list(_WATCHED_FILE):
         _add_movie_to_exclude_list(f)
 
-    directors = get_directors(args)
+    directors = get_directors(movies, directors)
     for cfg in cfgs:
         random.shuffle(directors)
         for movie in report(directors, cfg, exclude_movies=exclude_list):
