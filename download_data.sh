@@ -1,5 +1,8 @@
 #!/bin/sh
 
+set -e
+set -x
+
 COOKIE=$(cat cookie.txt)
 
 DIR=data
