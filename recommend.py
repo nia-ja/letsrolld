@@ -27,6 +27,7 @@ def get_movies(directors, cfg, exclude_movies):
 
     movies_to_find = cfg.max_movies_per_director * 10
     for i, director_ in enumerate(directors, start=1):
+        # found enough movies
         if len(movies) >= cfg.max_movies:
             break
 
@@ -40,6 +41,7 @@ def get_movies(directors, cfg, exclude_movies):
         added_for_this_director = 0
         movie_candidates = []
         for movie in films:
+            # TODO: reimplement filters as 1st class functions
             if cfg.min_rating or cfg.max_rating:
                 rating = Decimal(movie.rating)
                 if cfg.min_rating and rating < cfg.min_rating:
