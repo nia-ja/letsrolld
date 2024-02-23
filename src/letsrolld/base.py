@@ -4,7 +4,7 @@ import sqlitedict
 from letsrolld import http
 
 
-_DB = sqlitedict.SqliteDict('letsrolld.db', autocommit=True)
+_DB = sqlitedict.SqliteDict("letsrolld.db", autocommit=True)
 
 
 class BaseObject:
@@ -27,7 +27,7 @@ class BaseObject:
         _DB[self.url] = self.db
 
     def __getattribute__(self, item):
-        persisted = item in super().__getattribute__('persistent_attributes')
+        persisted = item in super().__getattribute__("persistent_attributes")
         if persisted:
             val = self.db.get(item, None)
             if val is not None:
@@ -46,7 +46,7 @@ class BaseObject:
     @property
     def soup(self):
         if self._soup is None:
-            self._soup = BeautifulSoup(http.get_url(self.url), 'html.parser')
+            self._soup = BeautifulSoup(http.get_url(self.url), "html.parser")
         return self._soup
 
     def __str__(self):

@@ -73,7 +73,11 @@ def _parse_entry(json):
     imdb_id = external_ids.get("imdbId") if external_ids else None
     poster_url_field = content.get("posterUrl")
     poster = jw_query._IMAGES_URL + poster_url_field if poster_url_field else None
-    backdrops = [jw_query._IMAGES_URL + bd.get("backdropUrl") for bd in content.get("backdrops", []) if bd]
+    backdrops = [
+        jw_query._IMAGES_URL + bd.get("backdropUrl")
+        for bd in content.get("backdrops", [])
+        if bd
+    ]
     offers = [jw_query._parse_offer(offer) for offer in json.get("offers", []) if offer]
     return jw.MediaEntry(
         entry_id,
@@ -95,11 +99,11 @@ def _parse_entry(json):
 
 def is_valid_title_response(response):
     return (
-        "data" in response and
-        response["data"] is not None and
-        "urlV2" in response["data"] and
-        "node" in response["data"]["urlV2"] and
-        "content" in response["data"]["urlV2"]["node"]
+        "data" in response
+        and response["data"] is not None
+        and "urlV2" in response["data"]
+        and "node" in response["data"]["urlV2"]
+        and "content" in response["data"]["urlV2"]["node"]
     )
 
 
@@ -113,6 +117,7 @@ def get_title(url):
     if url is None:
         return None
     json = prepare_get_title_request(url)
-    response = http.get_json(jw._GRAPHQL_API_URL, json,
-                             validator=is_valid_title_response)
+    response = http.get_json(
+        jw._GRAPHQL_API_URL, json, validator=is_valid_title_response
+    )
     return parse_get_title_response(response)

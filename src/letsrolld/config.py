@@ -11,7 +11,9 @@ _DEFAULT_MAX_LENGTH = 240
 class Config:
     def _set_defaults(self):
         self.max_movies = self.max_movies or _DEFAULT_NUM_MOVIES
-        self.max_movies_per_director = self.max_movies_per_director or _DEFAULT_NUM_MOVIES_PER_DIRECTOR
+        self.max_movies_per_director = (
+            self.max_movies_per_director or _DEFAULT_NUM_MOVIES_PER_DIRECTOR
+        )
         self.min_length = self.min_length or _DEFAULT_MIN_LENGTH
         self.max_length = self.max_length or _DEFAULT_MAX_LENGTH
 
@@ -39,7 +41,7 @@ class Config:
     @classmethod
     def from_file(cls, filename):
         try:
-            with open(filename, 'r') as f:
+            with open(filename, "r") as f:
                 data = json.load(f)
                 for name, settings in data.items():
                     yield Config(name, **settings)

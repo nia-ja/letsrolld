@@ -10,7 +10,7 @@ _CACHE_INSTALLED = False
 
 # stolen from stackoverflow
 def enable_debug():
-    '''Switches on logging of the requests module.'''
+    """Switches on logging of the requests module."""
     HTTPConnection.debuglevel = 1
 
     logging.basicConfig()
@@ -28,8 +28,7 @@ def _install_cache():
     global _CACHE_INSTALLED
     if not _CACHE_INSTALLED:
         # TODO: expire the cache after a certain time
-        rc.install_cache(
-            'cache', allowable_methods=('GET', 'HEAD', 'POST'))
+        rc.install_cache("cache", allowable_methods=("GET", "HEAD", "POST"))
         _CACHE_INSTALLED = True
 
 
@@ -43,8 +42,7 @@ def get_url(url):
         return _get_url(url, requests)
     except Exception as e:
         print(e)
-        return _get_url(
-            url, rc.CachedSession(expire_after=rc.EXPIRE_IMMEDIATELY))
+        return _get_url(url, rc.CachedSession(expire_after=rc.EXPIRE_IMMEDIATELY))
 
 
 def get_json(url, json, validator=None):
@@ -61,6 +59,8 @@ def get_json(url, json, validator=None):
     except Exception as e:
         print(e)
         return _get_json(
-            url, json,
+            url,
+            json,
             rc.CachedSession(expire_after=rc.EXPIRE_IMMEDIATELY),
-            validator=None)
+            validator=None,
+        )

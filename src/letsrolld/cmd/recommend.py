@@ -18,7 +18,7 @@ from letsrolld import filmlist
 _PROFILE = False
 
 # TODO: make this input configurable?
-_WATCHED_FILE = 'watched.csv'
+_WATCHED_FILE = "watched.csv"
 
 
 def get_movies(directors, cfg, exclude_movies):
@@ -33,7 +33,8 @@ def get_movies(directors, cfg, exclude_movies):
             break
 
         films = (
-            f for f in director_.films()
+            f
+            for f in director_.films()
             # filter out films that I saw
             if f.name not in exclude_movies or f.year not in exclude_movies[f.name]
         )
@@ -75,8 +76,10 @@ def get_movies(directors, cfg, exclude_movies):
                 if not any(movie.available(s) for s in services):
                     continue
             if cfg.text:
-                if not (cfg.text in movie.description.lower() or
-                        cfg.text in movie.name.lower()):
+                if not (
+                    cfg.text in movie.description.lower()
+                    or cfg.text in movie.name.lower()
+                ):
                     continue
             if added_for_this_director >= movies_to_find:
                 break
@@ -85,11 +88,11 @@ def get_movies(directors, cfg, exclude_movies):
 
         random.shuffle(movie_candidates)
         for _ in range(
-                min(
-                    cfg.max_movies_per_director,
-                    len(movie_candidates),
-                    cfg.max_movies - len(movies)
-                )
+            min(
+                cfg.max_movies_per_director,
+                len(movie_candidates),
+                cfg.max_movies - len(movies),
+            )
         ):
             movies.append(movie_candidates.pop())
 
@@ -113,51 +116,54 @@ def get_directors(movies, directors):
     else:
         return list(
             director.get_directors_by_urls(
-                list(directorlist.read_director_list(directors))))
+                list(directorlist.read_director_list(directors))
+            )
+        )
 
 
 def get_config():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-D", "--debug", help="enable debug logging",
-                        action='store_true')
-    parser.add_argument('--config', help="config file to use")
+    parser.add_argument(
+        "-D", "--debug", help="enable debug logging", action="store_true"
+    )
+    parser.add_argument("--config", help="config file to use")
 
     group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument('-m', '--movies', help="input movie list file")
-    group.add_argument('-d', '--directors', help="input director list file")
+    group.add_argument("-m", "--movies", help="input movie list file")
+    group.add_argument("-d", "--directors", help="input director list file")
 
-    parser.add_argument('-g', '--genre', help="filter by genre")
-    parser.add_argument('-G', '--exclude-genre', action="append",
-                        help="exclude genre")
+    parser.add_argument("-g", "--genre", help="filter by genre")
+    parser.add_argument("-G", "--exclude-genre", action="append", help="exclude genre")
 
-    parser.add_argument('-c', '--country', help="filter by country")
-    parser.add_argument('-C', '--exclude-country', action="append",
-                        help="exclude country")
+    parser.add_argument("-c", "--country", help="filter by country")
+    parser.add_argument(
+        "-C", "--exclude-country", action="append", help="exclude country"
+    )
 
-    parser.add_argument('-s', '--service', action="append",
-                        help="filter by services")
+    parser.add_argument("-s", "--service", action="append", help="filter by services")
 
-    parser.add_argument('-n', '--max-movies', type=int,
-                        help="number of movies to get")
-    parser.add_argument('-N', '--max-movies-per-director', type=int,
-                        help="number of movies per director to get")
+    parser.add_argument("-n", "--max-movies", type=int, help="number of movies to get")
+    parser.add_argument(
+        "-N",
+        "--max-movies-per-director",
+        type=int,
+        help="number of movies per director to get",
+    )
 
-    parser.add_argument('-l', '--min-length', type=int,
-                        help="minimum length of movie in minutes")
-    parser.add_argument('-L', '--max-length', type=int,
-                        help="maximum length of movie in minutes")
+    parser.add_argument(
+        "-l", "--min-length", type=int, help="minimum length of movie in minutes"
+    )
+    parser.add_argument(
+        "-L", "--max-length", type=int, help="maximum length of movie in minutes"
+    )
 
-    parser.add_argument('-r', '--min-rating', type=Decimal,
-                        help="minimum movie rating")
-    parser.add_argument('-R', '--max-rating', type=Decimal,
-                        help="maximum movie rating")
+    parser.add_argument("-r", "--min-rating", type=Decimal, help="minimum movie rating")
+    parser.add_argument("-R", "--max-rating", type=Decimal, help="maximum movie rating")
 
-    parser.add_argument('-y', '--min-year', type=int,
-                        help="minimum movie year")
-    parser.add_argument('-Y', '--max-year', type=int,
-                        help="maximum movie year")
+    parser.add_argument("-y", "--min-year", type=int, help="minimum movie year")
+    parser.add_argument("-Y", "--max-year", type=int, help="maximum movie year")
 
-    parser.add_argument('-t', '--text', help="search for text")
+    parser.add_argument("-t", "--text", help="search for text")
     # TODO: add preseed option
     args = parser.parse_args()
 
@@ -199,27 +205,25 @@ def get_config():
 
 
 def report_movie(i, movie):
-    print(f'{i}: {bold(movie.name)} | 📅:{movie.year} | '
-          f'📽:{movie.director_names}')
-    print(f'- ⌛:{movie.runtime_string} - ⭐:{movie.rating} - '
-          f'📎:{movie.genre_names}')
+    print(f"{i}: {bold(movie.name)} | 📅:{movie.year} | " f"📽:{movie.director_names}")
+    print(
+        f"- ⌛:{movie.runtime_string} - ⭐:{movie.rating} - " f"📎:{movie.genre_names}"
+    )
     if movie.countries:
         print(f'  Countries: {", ".join(movie.countries)}')
     if movie.url:
-        print(f'  Letterboxd: {movie.url}')
+        print(f"  Letterboxd: {movie.url}")
     if movie.jw_url:
-        print(f'  QuickWatch: {movie.jw_url}')
+        print(f"  QuickWatch: {movie.jw_url}")
     if movie.trailer_url:
-        print(f'  Trailer: {movie.trailer_url}')
+        print(f"  Trailer: {movie.trailer_url}")
     if movie.description:
         for line in textwrap.wrap(movie.description):
-            print(bold(f'  | {line}'))
+            print(bold(f"  | {line}"))
     available = ", ".join(
-        get_colored_service(s)
-        for s in film.SERVICES
-        if movie.available(s)
+        get_colored_service(s) for s in film.SERVICES if movie.available(s)
     )
-    print(f'  Available: {available}')
+    print(f"  Available: {available}")
     print()
 
 
@@ -227,9 +231,9 @@ def report(directors, cfg, exclude_movies):
     print(bold(green(cfg.name)))
 
     movies = get_movies(directors, cfg, exclude_movies)
-    for i, movie in enumerate(sorted(movies,
-                              key=lambda m: m.rating, reverse=True),
-                              start=1):
+    for i, movie in enumerate(
+        sorted(movies, key=lambda m: m.rating, reverse=True), start=1
+    ):
         report_movie(i, movie)
     return movies
 
@@ -237,7 +241,8 @@ def report(directors, cfg, exclude_movies):
 def main():
     if _PROFILE:
         import cProfile
-        cProfile.run('main()', sort='cumulative')
+
+        cProfile.run("main()", sort="cumulative")
 
     debug, movies, directors, cfgs = get_config()
     if debug:
@@ -265,5 +270,5 @@ def main():
             _add_movie_to_exclude_list(movie)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -61,8 +61,15 @@ def get_services(services):
 class Film(BaseObject):
 
     persistent_attributes = [
-        "name", "genres", "rating", "year", "runtime",
-        "director_names", "jw_url", "countries", "description",
+        "name",
+        "genres",
+        "rating",
+        "year",
+        "runtime",
+        "director_names",
+        "jw_url",
+        "countries",
+        "description",
     ]
 
     def __init__(self, url=None):
@@ -88,13 +95,13 @@ class Film(BaseObject):
 
     @functools.cached_property
     def genre_names(self):
-        return "" if not self.genres else ','.join(self.genres)
+        return "" if not self.genres else ",".join(self.genres)
 
     def __eq__(self, other):
         return (
-            self.name == other.name and
-            self.year == other.year and
-            self.rating == other.rating
+            self.name == other.name
+            and self.year == other.year
+            and self.rating == other.rating
         )
 
     @functools.cached_property
@@ -106,9 +113,9 @@ class Film(BaseObject):
         if self._avail_soup is None:
             url = urllib.parse.urljoin(
                 self.url.replace("letterboxd.com", "letterboxd.com/csi"),
-                "availability/"
+                "availability/",
             )
-            self._avail_soup = BeautifulSoup(http.get_url(url), 'html.parser')
+            self._avail_soup = BeautifulSoup(http.get_url(url), "html.parser")
         return self._avail_soup
 
     def available_physical(self):
@@ -149,14 +156,14 @@ class Film(BaseObject):
     def _full_title(self):
         return (
             # TODO: extract name and year from the body?
-            self.soup.title.string.split(" directed by")[0].
-            strip().
-            replace(u'\u200e', "")
+            self.soup.title.string.split(" directed by")[0]
+            .strip()
+            .replace("\u200e", "")
         )
 
     @functools.cached_property
     def name(self):
-        pattern = r'^(.*?)\s*\(\d{4}\)'
+        pattern = r"^(.*?)\s*\(\d{4}\)"
         match = re.search(pattern, self._full_title)
         if match:
             return match.group(1).strip()
@@ -165,7 +172,7 @@ class Film(BaseObject):
     # TODO: switch to int
     @functools.cached_property
     def year(self):
-        pattern = r'\((\d{4})\)'
+        pattern = r"\((\d{4})\)"
         match = re.search(pattern, self._full_title)
         if match:
             return match.group(1).strip()
@@ -203,16 +210,12 @@ class Film(BaseObject):
     @functools.cached_property
     def directors(self):
         return [
-            director.Director(url=a.get("href"))
-            for a in self._get_director_slugs()
+            director.Director(url=a.get("href")) for a in self._get_director_slugs()
         ]
 
     @functools.cached_property
     def director_names(self):
-        return ', '.join(
-            a.text.strip()
-            for a in self._get_director_slugs()
-        )
+        return ", ".join(a.text.strip() for a in self._get_director_slugs())
 
     # TODO: calculate my own rating for movies without a rating
     # TODO: pull rating from imdb too
@@ -221,5 +224,10 @@ class Film(BaseObject):
         # TODO: parse as json
         for script in self.soup.find_all("script"):
             if "ratingValue" in script.text:
-                return script.text.split("ratingValue")[1].split(":")[1].split(",")[0].strip()
+                return (
+                    script.text.split("ratingValue")[1]
+                    .split(":")[1]
+                    .split(",")[0]
+                    .strip()
+                )
         return "0"
