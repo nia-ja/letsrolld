@@ -4,3 +4,4 @@
 *.csv
 *.pyc
 cookie.txt
+data/*
