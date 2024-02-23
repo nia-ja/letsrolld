@@ -42,7 +42,9 @@ def get_url(url):
         return _get_url(url, requests)
     except Exception as e:
         print(e)
-        return _get_url(url, rc.CachedSession(expire_after=rc.EXPIRE_IMMEDIATELY))
+        return _get_url(
+            url, rc.CachedSession(expire_after=rc.EXPIRE_IMMEDIATELY)
+        )
 
 
 def get_json(url, json, validator=None):

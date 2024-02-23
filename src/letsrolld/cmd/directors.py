@@ -11,7 +11,9 @@ def main():
     parser.add_argument(
         "-D", "--debug", help="enable debug logging", action="store_true"
     )
-    parser.add_argument("-i", "--input", help="input movie list file", required=True)
+    parser.add_argument(
+        "-i", "--input", help="input movie list file", required=True
+    )
     parser.add_argument(
         "-o", "--output", help="output director list file", required=True
     )

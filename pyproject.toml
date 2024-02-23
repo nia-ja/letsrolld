@@ -24,10 +24,14 @@ build-backend = "pdm.backend"
 [tool.pdm]
 distribution = true
 
+[tool.black]
+line-length = 79
+
 [tool.pdm.dev-dependencies]
 lint = [
     "black>=24.2.0",
 ]
+
 [project.scripts]
 recommend = "letsrolld.cmd.recommend:main"
 directors = "letsrolld.cmd.directors:main"

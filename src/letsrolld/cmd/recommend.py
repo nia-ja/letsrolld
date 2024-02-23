@@ -36,7 +36,8 @@ def get_movies(directors, cfg, exclude_movies):
             f
             for f in director_.films()
             # filter out films that I saw
-            if f.name not in exclude_movies or f.year not in exclude_movies[f.name]
+            if f.name not in exclude_movies
+            or f.year not in exclude_movies[f.name]
         )
 
         # print first max films by rating
@@ -133,16 +134,22 @@ def get_config():
     group.add_argument("-d", "--directors", help="input director list file")
 
     parser.add_argument("-g", "--genre", help="filter by genre")
-    parser.add_argument("-G", "--exclude-genre", action="append", help="exclude genre")
+    parser.add_argument(
+        "-G", "--exclude-genre", action="append", help="exclude genre"
+    )
 
     parser.add_argument("-c", "--country", help="filter by country")
     parser.add_argument(
         "-C", "--exclude-country", action="append", help="exclude country"
     )
 
-    parser.add_argument("-s", "--service", action="append", help="filter by services")
+    parser.add_argument(
+        "-s", "--service", action="append", help="filter by services"
+    )
 
-    parser.add_argument("-n", "--max-movies", type=int, help="number of movies to get")
+    parser.add_argument(
+        "-n", "--max-movies", type=int, help="number of movies to get"
+    )
     parser.add_argument(
         "-N",
         "--max-movies-per-director",
@@ -151,17 +158,31 @@ def get_config():
     )
 
     parser.add_argument(
-        "-l", "--min-length", type=int, help="minimum length of movie in minutes"
+        "-l",
+        "--min-length",
+        type=int,
+        help="minimum length of movie in minutes",
     )
     parser.add_argument(
-        "-L", "--max-length", type=int, help="maximum length of movie in minutes"
+        "-L",
+        "--max-length",
+        type=int,
+        help="maximum length of movie in minutes",
     )
 
-    parser.add_argument("-r", "--min-rating", type=Decimal, help="minimum movie rating")
-    parser.add_argument("-R", "--max-rating", type=Decimal, help="maximum movie rating")
+    parser.add_argument(
+        "-r", "--min-rating", type=Decimal, help="minimum movie rating"
+    )
+    parser.add_argument(
+        "-R", "--max-rating", type=Decimal, help="maximum movie rating"
+    )
 
-    parser.add_argument("-y", "--min-year", type=int, help="minimum movie year")
-    parser.add_argument("-Y", "--max-year", type=int, help="maximum movie year")
+    parser.add_argument(
+        "-y", "--min-year", type=int, help="minimum movie year"
+    )
+    parser.add_argument(
+        "-Y", "--max-year", type=int, help="maximum movie year"
+    )
 
     parser.add_argument("-t", "--text", help="search for text")
     # TODO: add preseed option
@@ -170,7 +191,11 @@ def get_config():
     if args.min_year and args.max_year and args.min_year > args.max_year:
         parser.error("min year must be less than or equal to max year")
 
-    if args.min_rating and args.max_rating and args.min_rating > args.max_rating:
+    if (
+        args.min_rating
+        and args.max_rating
+        and args.min_rating > args.max_rating
+    ):
         parser.error("min rating must be less than or equal to max rating")
 
     if args.config:
@@ -205,9 +230,13 @@ def get_config():
 
 
 def report_movie(i, movie):
-    print(f"{i}: {bold(movie.name)} | 📅:{movie.year} | " f"📽:{movie.director_names}")
     print(
-        f"- ⌛:{movie.runtime_string} - ⭐:{movie.rating} - " f"📎:{movie.genre_names}"
+        f"{i}: {bold(movie.name)} | 📅:{movie.year} | "
+        f"📽:{movie.director_names}"
+    )
+    print(
+        f"- ⌛:{movie.runtime_string} - ⭐:{movie.rating} - "
+        f"📎:{movie.genre_names}"
     )
     if movie.countries:
         print(f'  Countries: {", ".join(movie.countries)}')
