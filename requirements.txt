@@ -1,7 +1,0 @@
-beautifulsoup4
-cli-color-py
-countryflag
-requests
-requests-cache
-simple-justwatch-python-api
-sqlitedict

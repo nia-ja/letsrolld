@@ -1,0 +1,27 @@
+[project]
+name = "letsrolld"
+version = "0.1.0"
+description = "Letsrolld, movie recommendation engine"
+authors = [
+    {name = "Ihar Hrachyshka", email = "ihar.hrachyshka@gmail.com"},
+]
+dependencies = [
+    "beautifulsoup4",
+    "cli-color-py",
+    "countryflag",
+    "requests",
+    "requests-cache",
+    "simple-justwatch-python-api",
+    "sqlitedict",
+]
+requires-python = ">=3.11,<3.12"
+readme = "README.md"
+license = {text = "GPL-3.0-only"}
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+
+[tool.pdm]
+distribution = true
