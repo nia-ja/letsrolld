@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import argparse
 import csv
 
@@ -47,7 +46,3 @@ def main():
             print(f"Processing director #{i}: {director_.name}")
             writer.writerow([director_.name, director_.base_url])
             csvfile.flush()
-
-
-if __name__ == "__main__":
-    main()
