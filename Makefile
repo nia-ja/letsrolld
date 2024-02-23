@@ -13,3 +13,7 @@ run:
 		-v $(PWD)/cache.sqlite:/app/cache.sqlite \
 		-v $(PWD)/data:/app/data \
 		$(IMAGE_NAME)
+
+test:
+	pdm install
+	pdm run pytest
