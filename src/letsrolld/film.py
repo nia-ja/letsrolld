@@ -68,7 +68,7 @@ class Film(BaseObject):
         "description",
     ]
 
-    def __init__(self, url=None):
+    def __init__(self, url):
         super().__init__(url)
         self._jw = None
         self._jw_fetched = False

@@ -33,3 +33,7 @@ def test_get_services_alias_FREE_plus_explicit_entry():
 
 def test_get_services_unknown_service():
     assert film.get_services(["unknown-service"]) == set()
+
+
+def test_Film():
+    film.Film("https://url.com/movie")

@@ -39,7 +39,7 @@ class Director(BaseObject):
 
     def films(self):
         for url in self.film_urls:
-            yield film.Film(url=url)
+            yield film.Film(url)
 
 
 def get_directors_by_films(film_list):
