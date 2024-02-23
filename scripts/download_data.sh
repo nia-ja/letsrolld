@@ -16,5 +16,5 @@ curl 'https://letterboxd.com/data/export/' \
   -H 'x-requested-with: XMLHttpRequest' \
   --compressed > $DIR/letterboxd-export.zip
 
-unzip -o $DIR/letterboxd-export.zip -d $DIR/letterboxd-export
-cp $DIR/letterboxd-export/watched.csv .
+unzip -o $DIR/letterboxd-export.zip -d $DIR
+rm $DIR/letterboxd-export.zip

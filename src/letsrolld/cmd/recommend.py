@@ -18,7 +18,7 @@ from letsrolld import filmlist
 _PROFILE = False
 
 # TODO: make this input configurable?
-_WATCHED_FILE = "watched.csv"
+_WATCHED_FILE = "data/watched.csv"
 
 
 def get_movies(directors, cfg, exclude_movies):
