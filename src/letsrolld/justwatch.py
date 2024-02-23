@@ -5,7 +5,8 @@ from letsrolld import http
 
 
 _GRAPHQL_GET_TITLE_QUERY = """
-query GetUrlTitleDetails($fullPath: String!, $country: Country!, $language: Language!, $platform: Platform! = WEB) {
+query GetUrlTitleDetails($fullPath: String!, $country: Country!,
+                         $language: Language!, $platform: Platform! = WEB) {
   urlV2(fullPath: $fullPath) {
     node {
       ... on MovieOrShowOrSeason {
