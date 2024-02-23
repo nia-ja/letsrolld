@@ -22,10 +22,50 @@ _WATCHED_FILE = "data/watched.csv"
 _DIRECTORS_FILE = "directors.csv"
 
 
+def is_good_candidate(movie, cfg):
+    services = film.get_services(cfg.services)
+
+    # TODO: reimplement filters as 1st class functions
+    if cfg.min_rating or cfg.max_rating:
+        rating = Decimal(movie.rating)
+        if cfg.min_rating and rating < cfg.min_rating:
+            return False
+        if cfg.max_rating and rating > cfg.max_rating:
+            return False
+    if cfg.min_year or cfg.max_year:
+        year = int(movie.year)
+        if cfg.min_year and year < cfg.min_year:
+            return False
+        if cfg.max_year and year > cfg.max_year:
+            return False
+    if movie.runtime < cfg.min_length:
+        return False
+    if movie.runtime > cfg.max_length:
+        return False
+    if cfg.genre is not None and cfg.genre not in movie.genres:
+        return False
+    if cfg.exclude_genre is not None:
+        if set(cfg.exclude_genre).intersection(movie.genres):
+            return False
+    if cfg.country is not None and cfg.country not in movie.countries:
+        return False
+    if cfg.exclude_country is not None:
+        if set(cfg.exclude_country).intersection(movie.countries):
+            return False
+    if services:
+        if not any(movie.available(s) for s in services):
+            return False
+    if cfg.text:
+        if not (
+            cfg.text in movie.description.lower()
+            or cfg.text in movie.name.lower()
+        ):
+            return False
+    return True
+
+
 def get_movies(directors, cfg, exclude_movies):
     movies = []
-
-    services = film.get_services(cfg.services)
 
     movies_to_find = cfg.max_movies_per_director * 10
     for i, director_ in enumerate(directors, start=1):
@@ -45,44 +85,13 @@ def get_movies(directors, cfg, exclude_movies):
         added_for_this_director = 0
         movie_candidates = []
         for movie in films:
-            # TODO: reimplement filters as 1st class functions
-            if cfg.min_rating or cfg.max_rating:
-                rating = Decimal(movie.rating)
-                if cfg.min_rating and rating < cfg.min_rating:
-                    break
-                if cfg.max_rating and rating > cfg.max_rating:
-                    continue
+            rating = Decimal(movie.rating)
+            if cfg.min_rating and rating < cfg.min_rating:
+                break
             if any(movie == m for m in movies):
                 continue
-            if cfg.min_year or cfg.max_year:
-                year = int(movie.year)
-                if cfg.min_year and year < cfg.min_year:
-                    continue
-                if cfg.max_year and year > cfg.max_year:
-                    continue
-            if movie.runtime < cfg.min_length:
+            if not is_good_candidate(movie, cfg):
                 continue
-            if movie.runtime > cfg.max_length:
-                continue
-            if cfg.genre is not None and cfg.genre not in movie.genres:
-                continue
-            if cfg.exclude_genre is not None:
-                if set(cfg.exclude_genre).intersection(movie.genres):
-                    continue
-            if cfg.country is not None and cfg.country not in movie.countries:
-                continue
-            if cfg.exclude_country is not None:
-                if set(cfg.exclude_country).intersection(movie.countries):
-                    continue
-            if services:
-                if not any(movie.available(s) for s in services):
-                    continue
-            if cfg.text:
-                if not (
-                    cfg.text in movie.description.lower()
-                    or cfg.text in movie.name.lower()
-                ):
-                    continue
             if added_for_this_director >= movies_to_find:
                 break
             movie_candidates.append(movie)
