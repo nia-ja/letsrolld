@@ -3,7 +3,6 @@ import re
 import urllib.parse
 
 from bs4 import BeautifulSoup
-import countryflag
 
 from letsrolld import director
 from letsrolld import http
@@ -200,19 +199,6 @@ class Film(BaseObject):
                     for a in text_slug.find_all("a"):
                         countries.append(a.text.strip())
         return countries
-
-    @property
-    def country_flags(self):
-        flags = []
-        for country in self.countries:
-            try:
-                flags.append(countryflag.getflag([country]))
-            except ValueError:
-                flags.append("?")
-        res = "".join(flags)
-        if self.countries:
-            res += f" ({', '.join(self.countries)})"
-        return res
 
     @functools.cached_property
     def directors(self):

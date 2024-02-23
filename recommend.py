@@ -202,7 +202,6 @@ def report_movie(i, movie):
           f'📽:{movie.director_names}')
     print(f'- ⌛:{movie.runtime_string} - ⭐:{movie.rating} - '
           f'📎:{movie.genre_names}')
-    #print(f'  Countries: {movie.country_flags}')
     if movie.countries:
         print(f'  Countries: {", ".join(movie.countries)}')
     if movie.url:
