@@ -30,3 +30,4 @@ lint = [
 ]
 [project.scripts]
 recommend = "letsrolld.cmd.recommend:main"
+directors = "letsrolld.cmd.directors:main"
