@@ -45,10 +45,8 @@ SERVICE_ALIASES = {
 
 
 def get_services(services):
-    if services is None:
-        return []
     res = set()
-    for s in services:
+    for s in services or []:
         if s in SERVICE_ALIASES:
             res.update(SERVICE_ALIASES[s])
         elif s in SERVICES:
