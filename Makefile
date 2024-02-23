@@ -1,5 +1,9 @@
 IMAGE_NAME=letsrolld
 
+ifndef VERBOSE
+.SILENT:
+endif
+
 build:
 	docker build -t $(IMAGE_NAME) .
 
