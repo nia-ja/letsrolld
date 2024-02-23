@@ -19,6 +19,7 @@ _PROFILE = False
 
 # TODO: make this input configurable?
 _WATCHED_FILE = "data/watched.csv"
+_DIRECTORS_FILE = "directors.csv"
 
 
 def get_movies(directors, cfg, exclude_movies):
@@ -129,7 +130,7 @@ def get_config():
     )
     parser.add_argument("--config", help="config file to use")
 
-    group = parser.add_mutually_exclusive_group(required=True)
+    group = parser.add_mutually_exclusive_group()
     group.add_argument("-m", "--movies", help="input movie list file")
     group.add_argument("-d", "--directors", help="input director list file")
 
@@ -200,7 +201,7 @@ def get_config():
 
     if args.config:
         try:
-            cfgs = config.Config.from_file(args.config)
+            cfgs = list(config.Config.from_file(args.config))
         except FileNotFoundError:
             parser.error(f"config file {args.config} not found")
         except ValueError as e:
@@ -226,7 +227,8 @@ def get_config():
             ),
         ]
 
-    return args.debug, args.movies, args.directors, cfgs
+    directors = args.directors or _DIRECTORS_FILE
+    return args.debug, args.movies, directors, cfgs
 
 
 def report_movie(i, movie):

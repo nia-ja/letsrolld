@@ -1,3 +1,5 @@
+import os.path
+
 from . import csv
 
 
@@ -16,5 +18,6 @@ class FilmListEntry:
 
 
 def read_film_list(file_name):
-    for row in csv.read_csv_file(file_name):
-        yield FilmListEntry(**row)
+    if os.path.exists(file_name):
+        for row in csv.read_csv_file(file_name):
+            yield FilmListEntry(**row)
