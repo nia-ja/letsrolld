@@ -14,6 +14,13 @@ run:
 		-v $(PWD)/data:/app/data \
 		$(IMAGE_NAME)
 
-test:
+install:
 	pdm install
+
+test: install
 	pdm run pytest
+
+lint: install
+	pre-commit run --all-files
+
+all: lint test
