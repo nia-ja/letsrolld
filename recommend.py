@@ -4,7 +4,7 @@ import random
 from decimal import Decimal
 import textwrap
 
-from letsrolld.colors import colorize, red, green, blue, bold
+from letsrolld.colors import red, green, blue, bold
 
 from letsrolld import config
 from letsrolld import http
