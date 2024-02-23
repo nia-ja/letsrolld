@@ -1,0 +1,6 @@
+*.sqlite
+*.db
+.git
+.venv
+cookie.txt
+data/*
