@@ -51,8 +51,6 @@ def get_services(services):
             res.update(SERVICE_ALIASES[s])
         elif s in SERVICES:
             res.add(s)
-        else:
-            print(f"Unknown service: {s}")
     return res
 
 
