@@ -21,6 +21,8 @@ license = {text = "GPL-3.0-only"}
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"
 
-
 [tool.pdm]
 distribution = true
+
+[project.scripts]
+recommend = "letsrolld.cmd.recommend:main"
