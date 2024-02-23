@@ -14,6 +14,7 @@ from letsrolld import film
 from letsrolld import filmlist
 
 
+# TODO: make it a command line option
 _PROFILE = False
 
 # TODO: make this input configurable?
