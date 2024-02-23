@@ -1,16 +1,26 @@
+DOCKER?=docker
 IMAGE_NAME=letsrolld
+
+DB=$(PWD)/letsrolld.db
+HTTP_CACHE=$(PWD)/cache.sqlite
 
 ifndef VERBOSE
 .SILENT:
 endif
 
 build:
-	docker build -t $(IMAGE_NAME) .
+	$(DOCKER) build -t $(IMAGE_NAME) .
 
-run:
-	docker run -it --rm --name $(IMAGE_NAME) \
-		-v $(PWD)/letsrolld.db:/app/letsrolld.db \
-		-v $(PWD)/cache.sqlite:/app/cache.sqlite \
+# TODO: move cache init into container startup script?
+run-prep:
+	mkdir -p $(PWD)/data
+	test -f $(DB) || sqlite3 $(DB) "VACUUM;"
+	test -f $(HTTP_CACHE) || sqlite3 $(HTTP_CACHE) "VACUUM;"
+
+run: run-prep
+	$(DOCKER) run -it --rm --name $(IMAGE_NAME) \
+		-v $(DB):/app/letsrolld.db:z \
+		-v $(HTTP_CACHE):/app/cache.sqlite:z \
 		-v $(PWD)/data:/app/data \
 		$(IMAGE_NAME)
 
