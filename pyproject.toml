@@ -31,6 +31,9 @@ line-length = 79
 lint = [
     "black>=24.2.0",
 ]
+dev = [
+    "pre-commit>=3.6.2",
+]
 
 [project.scripts]
 recommend = "letsrolld.cmd.recommend:main"
