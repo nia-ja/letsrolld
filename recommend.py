@@ -234,6 +234,10 @@ def report(directors, cfg, exclude_movies):
 
 
 def main():
+    if _PROFILE:
+        import cProfile
+        cProfile.run('main()', sort='cumulative')
+
     debug, movies, directors, cfgs = get_config()
     if debug:
         http.enable_debug()
@@ -261,8 +265,4 @@ def main():
 
 
 if __name__ == '__main__':
-    if _PROFILE:
-        import cProfile
-        cProfile.run('main()', sort='cumulative')
-    else:
-        main()
+    main()
