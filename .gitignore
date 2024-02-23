@@ -1,7 +1,6 @@
 *.sqlite
 *.db
 */__pycache__/
-*.csv
 *.pyc
 cookie.txt
 data/*
