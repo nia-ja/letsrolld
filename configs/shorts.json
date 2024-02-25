@@ -3,7 +3,7 @@
 		"max_movies": 10,
 		"max_movies_per_director": 1,
 		"services": ["criterionchannel", "FREE"],
-		"min_rating": "3.9",
+		"min_rating": "3.7",
 		"min_length": 5,
 		"max_length": 34
 	},
@@ -11,7 +11,7 @@
 		"max_movies": 10,
 		"max_movies_per_director": 1,
 		"services": ["criterionchannel", "FREE"],
-		"min_rating": "3.8",
+		"min_rating": "3.6",
 		"min_length": 35,
 		"max_length": 59
 	}
