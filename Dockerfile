@@ -8,7 +8,7 @@ RUN touch README.md
 RUN pdm sync -v
 
 COPY . /app
-RUN pdm install -v --prod --no-editable
+RUN pdm install -v
 
 RUN pdm run pytest
 
