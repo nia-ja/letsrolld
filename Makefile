@@ -16,7 +16,7 @@ DOCKER_CMD=\
 	$(DOCKER) run $(DOCKER_ARGS) --rm --name $(IMAGE_NAME) \
 		-v $(DB):/app/letsrolld.db:z \
 		-v $(HTTP_CACHE):/app/cache.sqlite:z \
-		-v $(PWD)/data:/app/data \
+		-v $(PWD)/data:/app/data:z \
 		$(IMAGE_NAME)
 
 build:
