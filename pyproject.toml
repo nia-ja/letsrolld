@@ -12,6 +12,7 @@ dependencies = [
     "requests-cache",
     "simple-justwatch-python-api",
     "sqlitedict",
+    "SQLAlchemy>=2.0.27",
 ]
 requires-python = ">=3.11,<3.12"
 readme = "README.md"
@@ -36,3 +37,4 @@ dev = [
 [project.scripts]
 recommend = "letsrolld.cmd.recommend:main"
 directors = "letsrolld.cmd.directors:main"
+db-init = "letsrolld.cmd.db_init:main"
