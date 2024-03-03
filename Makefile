@@ -1,8 +1,12 @@
-DOCKER?=docker
 IMAGE_NAME=letsrolld
-
 DB=$(PWD)/letsrolld.db
 HTTP_CACHE=$(PWD)/cache.sqlite
+
+ifeq ($(shell command -v podman 2> /dev/null),)
+    DOCKER=docker
+else
+    DOCKER=podman
+endif
 
 ifndef VERBOSE
 .SILENT:
@@ -12,7 +16,7 @@ ifndef EMAIL
 DOCKER_ARGS=-it
 endif
 
-DOCKER_CMD=\
+DOCKER_RUN=\
 	$(DOCKER) run $(DOCKER_ARGS) --rm --name $(IMAGE_NAME) \
 		-v $(DB):/app/letsrolld.db:z \
 		-v $(HTTP_CACHE):/app/cache.sqlite:z \
@@ -29,13 +33,13 @@ run-prep:
 	test -f $(HTTP_CACHE) || sqlite3 $(HTTP_CACHE) "VACUUM;"
 
 run: run-prep
-	$(DOCKER_CMD)
+	$(DOCKER_RUN)
 
 run-shorts: run-prep
-	$(DOCKER_CMD) pdm run recommend --config configs/shorts.json
+	$(DOCKER_RUN) pdm run recommend --config configs/shorts.json
 
 run-debug: run-prep
-	$(DOCKER_CMD) bash
+	$(DOCKER_RUN) bash
 
 install:
 	pdm install
