@@ -8,6 +8,17 @@ ifndef VERBOSE
 .SILENT:
 endif
 
+ifndef EMAIL
+DOCKER_ARGS=-it
+endif
+
+DOCKER_CMD=\
+	$(DOCKER) run $(DOCKER_ARGS) --rm --name $(IMAGE_NAME) \
+		-v $(DB):/app/letsrolld.db:z \
+		-v $(HTTP_CACHE):/app/cache.sqlite:z \
+		-v $(PWD)/data:/app/data \
+		$(IMAGE_NAME)
+
 build:
 	$(DOCKER) build -t $(IMAGE_NAME) .
 
@@ -18,18 +29,10 @@ run-prep:
 	test -f $(HTTP_CACHE) || sqlite3 $(HTTP_CACHE) "VACUUM;"
 
 run: run-prep
-	$(DOCKER) run -it --rm --name $(IMAGE_NAME) \
-		-v $(DB):/app/letsrolld.db:z \
-		-v $(HTTP_CACHE):/app/cache.sqlite:z \
-		-v $(PWD)/data:/app/data \
-		$(IMAGE_NAME)
+	$(DOCKER_CMD)
 
 run-shorts: run-prep
-	$(DOCKER) run -it --rm --name $(IMAGE_NAME) \
-		-v $(DB):/app/letsrolld.db:z \
-		-v $(HTTP_CACHE):/app/cache.sqlite:z \
-		-v $(PWD)/data:/app/data \
-		$(IMAGE_NAME) pdm run recommend --config configs/shorts.json
+	$(DOCKER_CMD) pdm run recommend --config configs/shorts.json
 
 install:
 	pdm install
