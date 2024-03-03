@@ -34,6 +34,9 @@ run: run-prep
 run-shorts: run-prep
 	$(DOCKER_CMD) pdm run recommend --config configs/shorts.json
 
+run-debug: run-prep
+	$(DOCKER_CMD) bash
+
 install:
 	pdm install
 
