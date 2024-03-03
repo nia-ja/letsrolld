@@ -35,3 +35,5 @@ class Director(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
+
+    lb_url = Column(String, nullable=True)
