@@ -33,7 +33,7 @@ run-prep:
 	test -f $(HTTP_CACHE) || sqlite3 $(HTTP_CACHE) "VACUUM;"
 
 run: run-prep
-	$(DOCKER_RUN)
+	$(DOCKER_RUN) $(ARGS)
 
 run-shorts: run-prep
 	$(DOCKER_RUN) pdm run recommend --config configs/shorts.json
