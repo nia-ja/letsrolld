@@ -35,6 +35,9 @@ run-prep:
 run: run-prep
 	$(DOCKER_RUN) $(ARGS)
 
+run-db-init: run-prep
+	$(DOCKER_RUN) pdm run db-init
+
 run-shorts: run-prep
 	$(DOCKER_RUN) pdm run recommend --config configs/shorts.json
 
