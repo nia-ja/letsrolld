@@ -2,7 +2,7 @@
 	"Top Movies": {
 		"max_movies": 5,
 		"max_movies_per_director": 1,
-		"services": ["ANY"],
+		"services": ["FREE", "criterionchannel"],
 		"min_rating": "3.85",
 		"min_length": 60,
 		"exclude_genre": ["documentary", "animation"]
@@ -10,7 +10,7 @@
 	"International": {
 		"max_movies": 3,
 		"max_movies_per_director": 1,
-		"services": ["ANY"],
+		"services": ["FREE", "criterionchannel"],
 		"min_rating": "3.85",
 		"min_length": 60,
 		"exclude_genre": ["documentary", "animation"],
@@ -19,7 +19,7 @@
 	"Something Free": {
 		"max_movies": 3,
 		"max_movies_per_director": 1,
-		"services": ["FREE"],
+		"services": ["FREE", "criterionchannel"],
 		"min_rating": "3.75",
 		"min_length": 45,
 		"exclude_genre": ["documentary", "animation"]
@@ -27,7 +27,7 @@
 	"Horrors from the Past": {
 		"max_movies": 3,
 		"max_movies_per_director": 1,
-		"services": ["ANY"],
+		"services": ["FREE", "criterionchannel"],
 		"min_rating": "3.65",
 		"genre": "horror",
 		"min_year": 1900,
@@ -38,7 +38,7 @@
 	"Classics": {
 		"max_movies": 3,
 		"max_movies_per_director": 1,
-		"services": ["ANY"],
+		"services": ["FREE", "criterionchannel"],
 		"min_rating": "3.95",
 		"min_year": 1900,
 		"max_year": 1970,
@@ -48,7 +48,7 @@
 	"Animation": {
 		"max_movies": 3,
 		"max_movies_per_director": 1,
-		"services": ["ANY"],
+		"services": ["FREE", "criterionchannel"],
 		"min_rating": "3.75",
 		"min_length": 60,
 		"genre": "animation",
@@ -57,7 +57,7 @@
 	"Anime": {
 		"max_movies": 3,
 		"max_movies_per_director": 1,
-		"services": ["ANY"],
+		"services": ["FREE", "criterionchannel"],
 		"min_rating": "3.75",
 		"min_length": 60,
 		"genre": "animation",
@@ -66,7 +66,7 @@
 	"Documentaries": {
 		"max_movies": 3,
 		"max_movies_per_director": 1,
-		"services": ["ANY"],
+		"services": ["FREE", "criterionchannel"],
 		"min_rating": "3.75",
 		"min_length": 60,
 		"genre": "documentary"
