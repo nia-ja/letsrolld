@@ -38,3 +38,4 @@ dev = [
 recommend = "letsrolld.cmd.recommend:main"
 directors = "letsrolld.cmd.directors:main"
 db-init = "letsrolld.cmd.db_init:main"
+populate-directors = "letsrolld.cmd.populate_directors:main"
