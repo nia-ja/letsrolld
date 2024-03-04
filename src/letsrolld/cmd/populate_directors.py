@@ -2,6 +2,7 @@ import argparse
 import os.path
 import sys
 
+import sqlalchemy
 from sqlalchemy.orm import sessionmaker
 
 from letsrolld import db
@@ -9,13 +10,16 @@ from letsrolld.db import models
 from letsrolld.directorlist import read_director_list
 
 
-def batch(iterable, n=1):
-    buffer = []
-    for item in iterable:
-        buffer.append(item)
-        if len(buffer) >= n:
-            yield buffer
-            buffer = []
+def create_directors(engine, directors):
+    for d in directors:
+        session = sessionmaker(bind=engine)()
+        session.add(models.Director(name=d.name, lb_url=d.uri))
+        try:
+            session.commit()
+            print(f"Added director {d.name} @ {d.uri}")
+        except sqlalchemy.exc.IntegrityError:
+            session.rollback()
+            print(f"Skipping director {d.name} @ {d.uri}")
 
 
 def main():
@@ -29,16 +33,7 @@ def main():
         print(f"File {args.directors} does not exist")
         sys.exit(1)
 
-    engine = db.create_engine()
-    for directors in batch(read_director_list(args.directors), n=10):
-        session = sessionmaker(bind=engine)()
-        session.add_all(
-            models.Director(name=d.name, lb_url=d.uri) for d in directors
-        )
-        session.commit()
-
-        for d in directors:
-            print(f"Added director {d.name} @ {d.uri}")
+    create_directors(db.create_engine(), read_director_list(args.directors))
 
 
 if __name__ == "__main__":
