@@ -1,15 +1,47 @@
-from sqlalchemy import Column, Integer, String, Numeric, Table, ForeignKey
+from sqlalchemy import Integer, String, Numeric, DateTime
+from sqlalchemy import Column, Table, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import Mapped, relationship
 
 Base = declarative_base()
 
 
-fd_association_table = Table(
-    "film_director_association_table",
+director_film_association_table = Table(
+    "director_film_association_table",
     Base.metadata,
     Column("film_id", ForeignKey("films.id")),
     Column("director_id", ForeignKey("directors.id")),
 )
+
+
+film_genre_association_table = Table(
+    "film_genre_association_table",
+    Base.metadata,
+    Column("film_id", ForeignKey("films.id")),
+    Column("genre_id", ForeignKey("genres.id")),
+)
+
+
+class Genre(Base):
+    __tablename__ = "genres"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String, unique=True)
+
+
+film_country_association_table = Table(
+    "film_country_association_table",
+    Base.metadata,
+    Column("film_id", ForeignKey("films.id")),
+    Column("country_id", ForeignKey("countries.id")),
+)
+
+
+class Country(Base):
+    __tablename__ = "countries"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String, unique=True)
 
 
 class Film(Base):
@@ -26,8 +58,14 @@ class Film(Base):
     jw_url = Column(String, nullable=True)
     lb_url = Column(String, nullable=False, unique=True)
 
-    # genres = Column(String)
-    # countries = Column(String)
+    last_updated = Column(DateTime, nullable=True)
+
+    genres: Mapped[list[Genre]] = relationship(
+        secondary=film_genre_association_table
+    )
+    countries: Mapped[list[Country]] = relationship(
+        secondary=film_country_association_table
+    )
 
 
 class Director(Base):
@@ -37,3 +75,9 @@ class Director(Base):
     name = Column(String, nullable=False)
 
     lb_url = Column(String, nullable=False, unique=True)
+
+    last_updated = Column(DateTime, nullable=True)
+
+    films: Mapped[list[Film]] = relationship(
+        secondary=director_film_association_table
+    )
