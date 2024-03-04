@@ -24,7 +24,7 @@ class Film(Base):
     runtime = Column(Integer, nullable=True)
 
     jw_url = Column(String, nullable=True)
-    lb_url = Column(String, nullable=True)
+    lb_url = Column(String, nullable=False, unique=True)
 
     # genres = Column(String)
     # countries = Column(String)
@@ -36,4 +36,4 @@ class Director(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
 
-    lb_url = Column(String, nullable=True)
+    lb_url = Column(String, nullable=False, unique=True)
