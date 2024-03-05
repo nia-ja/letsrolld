@@ -9,8 +9,11 @@ from letsrolld.db import models
 from letsrolld import director as dir_obj
 
 
+_THRESHOLD = datetime.timedelta(days=30)
+
+
 def _get_director_to_update_query():
-    time_threshold = datetime.datetime.now() - datetime.timedelta(days=7)
+    time_threshold = datetime.datetime.now() - _THRESHOLD
     return or_(
         models.Director.last_updated < time_threshold,
         models.Director.last_updated == None,  # noqa
