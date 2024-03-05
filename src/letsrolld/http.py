@@ -41,7 +41,7 @@ def get_url(url):
     try:
         return _get_url(url, requests)
     except Exception as e:
-        print(e)
+        print(e, url)
         return _get_url(
             url, rc.CachedSession(expire_after=rc.EXPIRE_IMMEDIATELY)
         )
@@ -59,7 +59,7 @@ def get_json(url, json, validator=None):
     try:
         return _get_json(url, json, requests, validator=validator)
     except Exception as e:
-        print(e)
+        print(e, json)
         return _get_json(
             url,
             json,
