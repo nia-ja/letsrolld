@@ -9,8 +9,9 @@ from letsrolld.db import models
 from letsrolld import director as dir_obj
 
 
+_NOW = datetime.datetime.now()
 _THRESHOLD = datetime.timedelta(days=1)
-_BASE_THRESHOLD = datetime.datetime.now() - _THRESHOLD
+_BASE_THRESHOLD = _NOW - _THRESHOLD
 
 
 def get_refresh_threshold_multiplier(d):
@@ -20,7 +21,7 @@ def get_refresh_threshold_multiplier(d):
 
     films = sorted(d.films, key=lambda f: f.year, reverse=True)
 
-    current_year = datetime.datetime.now().year
+    current_year = _NOW.year
     for f in films[:2]:
         multiplier *= max(1, current_year - f.year)
         current_year = f.year
@@ -92,7 +93,6 @@ def update_countries(session, countries):
 
 
 def update_films(session, films):
-    now = datetime.datetime.now()
     for f in films:
         db_obj = session.query(models.Film).filter_by(lb_url=f.url).first()
         if db_obj is not None:
@@ -109,7 +109,7 @@ def update_films(session, films):
                 jw_url=f.jw_url,
                 genres=get_genres(session, f.genres),
                 countries=get_countries(session, f.countries),
-                last_updated=now,
+                last_updated=_NOW,
             )
         )
 
@@ -120,8 +120,14 @@ def get_db_films(session, films):
 
 
 def touch_director(session, director):
-    director.last_updated = datetime.datetime.now()
+    director.last_updated = _NOW
     session.add(director)
+
+
+def skip_director(director):
+    if director.last_updated is not None:
+        multiplier = get_refresh_threshold_multiplier(director)
+        return _NOW - director.last_updated < _THRESHOLD * multiplier
 
 
 def main():
@@ -132,24 +138,24 @@ def main():
 
     i = 1
 
-    now = datetime.datetime.now()
+    def loop_housekeeping(session, director):
+        touch_director(session, director)
+        session.commit()
+        sys.stdout.flush()
+
     while True:
         session = Session()
         d = get_director_to_update(session)
         if d is None:
             break
 
-        if d.last_updated is not None:
-            multiplier = get_refresh_threshold_multiplier(d)
-            if now - d.last_updated < _THRESHOLD * multiplier:
-                print(
-                    f"{i}/{n_directors}: Skipping director: "
-                    f"{d.name} @ {d.lb_url}",
-                    flush=True,
-                )
-                touch_director(session, d)
-                session.commit()
-                continue
+        if skip_director(d):
+            print(
+                f"{i}/{n_directors}: Skipping director: {d.name} @ {d.lb_url}",
+                flush=True,
+            )
+            loop_housekeeping(session, d)
+            continue
 
         print(
             f"{i}/{n_directors}: Updating director: {d.name} @ {d.lb_url}",
@@ -164,13 +170,9 @@ def main():
             update_countries(session, f.countries)
 
         update_films(session, films)
-
         d.films = list(get_db_films(session, films))
-        touch_director(session, d)
 
-        session.commit()
-        sys.stdout.flush()
-
+        loop_housekeeping(session, d)
         i += 1
 
     print("No more directors to update")
