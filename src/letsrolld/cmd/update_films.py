@@ -9,13 +9,28 @@ from letsrolld.db import models
 from letsrolld import director as dir_obj
 
 
-_THRESHOLD = datetime.timedelta(days=30)
+_THRESHOLD = datetime.timedelta(days=1)
+_BASE_THRESHOLD = datetime.datetime.now() - _THRESHOLD
+
+
+def get_refresh_threshold_multiplier(d):
+    multiplier = 1
+    if d is None:
+        return multiplier
+
+    films = sorted(d.films, key=lambda f: f.year, reverse=True)
+
+    current_year = datetime.datetime.now().year
+    for f in films[:2]:
+        multiplier *= max(1, current_year - f.year)
+        current_year = f.year
+
+    return multiplier
 
 
 def _get_director_to_update_query():
-    time_threshold = datetime.datetime.now() - _THRESHOLD
     return or_(
-        models.Director.last_updated < time_threshold,
+        models.Director.last_updated < _BASE_THRESHOLD,
         models.Director.last_updated == None,  # noqa
     )
 
@@ -111,18 +126,30 @@ def main():
     n_directors = get_number_of_directors_to_update(Session())
 
     i = 1
+
+    now = datetime.datetime.now()
     while True:
         session = Session()
         d = get_director_to_update(session)
         if d is None:
             break
 
+        if d.last_updated is not None:
+            multiplier = get_refresh_threshold_multiplier(d)
+            if now - d.last_updated < _THRESHOLD * multiplier:
+                print(
+                    f"{i}/{n_directors}: Skipping director: "
+                    f"{d.name} @ {d.lb_url}",
+                    flush=True,
+                )
+                touch_director(session, d)
+                session.commit()
+                continue
+
         print(
             f"{i}/{n_directors}: Updating director: {d.name} @ {d.lb_url}",
             flush=True,
         )
-
-        session.rollback()
 
         director_obj = dir_obj.Director(d.lb_url)
         films = list(director_obj.films())
