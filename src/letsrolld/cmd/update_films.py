@@ -152,7 +152,6 @@ def main():
         if skip_director(d):
             print(
                 f"{i}/{n_directors}: Skipping director: {d.name} @ {d.lb_url}",
-                flush=True,
             )
             loop_housekeeping(session, d)
             continue
