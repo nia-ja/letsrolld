@@ -14,21 +14,6 @@ _THRESHOLD = datetime.timedelta(days=1)
 _BASE_THRESHOLD = _NOW - _THRESHOLD
 
 
-def get_refresh_threshold_multiplier(d):
-    multiplier = 1
-    if d is None:
-        return multiplier
-
-    films = sorted(d.films, key=lambda f: f.year, reverse=True)
-
-    current_year = _NOW.year
-    for f in films[:2]:
-        multiplier *= max(1, current_year - f.year)
-        current_year = f.year
-
-    return multiplier
-
-
 def _get_director_to_update_query():
     return or_(
         models.Director.last_updated < _BASE_THRESHOLD,
@@ -122,6 +107,21 @@ def get_db_films(session, films):
 def touch_director(session, director):
     director.last_updated = _NOW
     session.add(director)
+
+
+def get_refresh_threshold_multiplier(d):
+    multiplier = 1
+    if d is None:
+        return multiplier
+
+    films = sorted(d.films, key=lambda f: f.year, reverse=True)
+
+    current_year = _NOW.year
+    for f in films[:2]:
+        multiplier *= max(1, current_year - f.year)
+        current_year = f.year
+
+    return multiplier
 
 
 def skip_director(director):
