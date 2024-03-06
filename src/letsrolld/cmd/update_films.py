@@ -114,6 +114,11 @@ def update_films(session, films):
         )
 
 
+def get_db_films(session, films):
+    for f in films:
+        yield session.query(models.Film).filter_by(lb_url=f.url).first()
+
+
 def touch_director(session, director):
     director.last_updated = datetime.datetime.now()
     session.add(director)
@@ -159,10 +164,11 @@ def main():
             update_countries(session, f.countries)
 
         update_films(session, films)
+
+        d.films = list(get_db_films(session, films))
         touch_director(session, d)
 
         session.commit()
-
         sys.stdout.flush()
 
         i += 1
