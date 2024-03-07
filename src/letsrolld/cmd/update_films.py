@@ -10,7 +10,7 @@ from letsrolld import director as dir_obj
 
 
 _NOW = datetime.datetime.now()
-_THRESHOLD = datetime.timedelta(days=1)
+_THRESHOLD = datetime.timedelta(days=7)
 _BASE_THRESHOLD = _NOW - _THRESHOLD
 
 
