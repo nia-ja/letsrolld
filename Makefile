@@ -62,3 +62,9 @@ lint: install
 	pre-commit run --all-files
 
 all: lint test
+
+db-upgrade:
+	$(DOCKER_RUN) pdm run alembic upgrade head
+
+db-downgrade:
+	$(DOCKER_RUN) pdm run alembic downgrade -1
