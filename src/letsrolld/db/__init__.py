@@ -10,4 +10,5 @@ def create_tables(engine):
 
 def create_engine():
     from sqlalchemy import create_engine
+
     return create_engine(DB_URL)

@@ -1,7 +1,7 @@
 """add checked_at to directors table
 
 Revision ID: beaf829c5421
-Revises: 
+Revises:
 Create Date: 2024-03-15 16:13:43.241363
 
 """
@@ -12,15 +12,17 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'beaf829c5421'
+revision: str = "beaf829c5421"
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade() -> None:
-    op.add_column('directors', sa.Column('checked_at', sa.DateTime, nullable=True))
+    op.add_column(
+        "directors", sa.Column("checked_at", sa.DateTime, nullable=True)
+    )
 
 
 def downgrade() -> None:
-    op.drop_column('directors', 'checked_at')
+    op.drop_column("directors", "checked_at")
