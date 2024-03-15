@@ -7,36 +7,35 @@ from sqlalchemy.orm import sessionmaker
 from letsrolld import db
 from letsrolld.db import models
 from letsrolld import director as dir_obj
+from letsrolld import film as film_obj
 
 
 _NOW = datetime.datetime.now()
-_THRESHOLD = datetime.timedelta(days=1)
-_BASE_THRESHOLD = _NOW - _THRESHOLD
 
 
-def _get_obj_to_update_query(model):
+def _get_obj_to_update_query(model, threshold):
     return or_(
-        model.last_checked < _BASE_THRESHOLD,
+        model.last_checked < _NOW - threshold,
         model.last_checked == None,  # noqa
     )
 
 
-def get_obj_to_update(session, model):
+def get_obj_to_update(session, model, threshold):
     return (
         session.execute(
-            select(model).filter(_get_obj_to_update_query(model)).limit(1)
+            select(model).filter(_get_obj_to_update_query(model, threshold)).limit(1)
         )
         .scalars()
         .first()
     )
 
 
-def get_number_of_objs_to_update(session, model):
+def get_number_of_objs_to_update(session, model, threshold):
     try:
         return session.scalar(
             select(func.count())
             .select_from(model)
-            .filter(_get_obj_to_update_query(model))
+            .filter(_get_obj_to_update_query(model, threshold))
         )
     finally:
         session.close()
@@ -110,7 +109,7 @@ def touch_obj(session, obj, updated=False):
     session.add(obj)
 
 
-def get_refresh_threshold_multiplier(d):
+def director_threshold(d):
     multiplier = 1
     if d is None:
         return multiplier
@@ -125,10 +124,18 @@ def get_refresh_threshold_multiplier(d):
     return multiplier
 
 
-def skip_obj(obj):
+def film_threshold(f):
+    multiplier = 1
+    if f is None:
+        return multiplier
+
+    multiplier = max(0, _NOW.year - f.year) + 1
+    return min(100, multiplier)
+
+
+def skip_obj(obj, threshold_func, threshold):
     if obj.last_updated is not None:
-        multiplier = get_refresh_threshold_multiplier(obj)
-        return _NOW - obj.last_updated < _THRESHOLD * multiplier
+        return _NOW - obj.last_updated < threshold * threshold_func(obj)
 
 
 def refresh_director(session, db_obj, api_obj):
@@ -144,16 +151,45 @@ def refresh_director(session, db_obj, api_obj):
     db_obj.films = list(get_db_films(session, films))
 
 
+def refresh_film(session, db_obj, api_obj):
+    # just in case genres or countries changed
+    update_genres(session, api_obj.genres)
+    update_countries(session, api_obj.countries)
+
+    db_obj.title = api_obj.name
+    db_obj.description = api_obj.description
+    db_obj.year = api_obj.year
+    db_obj.rating = api_obj.rating
+    db_obj.runtime = api_obj.runtime
+    db_obj.jw_url = api_obj.jw_url
+    db_obj.genres = get_genres(session, api_obj.genres)
+    db_obj.countries = get_countries(session, api_obj.countries)
+    db_obj.last_updated = _NOW
+
+
 _UPDATES = [
-    (models.Director, dir_obj.Director, refresh_director),
+    (
+        models.Director, dir_obj.Director,
+        refresh_director,
+        director_threshold,
+        1, # days
+    ),
+    (
+        models.Film, film_obj.Film,
+        refresh_film,
+        film_threshold,
+        4, # days
+    ),
 ]
 
 
 def run_update(session, update):
-    model, api_cls, refresh_func = update
+    model, api_cls, refresh_func, threshold_func, threshold = update
     model_name = model.__name__
 
-    n_objs = get_number_of_objs_to_update(session, model)
+    threshold = datetime.timedelta(days=threshold)
+
+    n_objs = get_number_of_objs_to_update(session, model, threshold)
 
     i = 1
 
@@ -165,15 +201,15 @@ def run_update(session, update):
         i += 1
 
     while True:
-        obj = get_obj_to_update(session, model)
+        obj = get_obj_to_update(session, model, threshold)
         if obj is None:
             break
 
-        if skip_obj(obj):
-            print(
-                f"{i}/{n_objs}: Skipping {model_name}: "
-                f"{obj.name} @ {obj.lb_url}",
-            )
+        if skip_obj(obj, threshold_func, threshold):
+            # print(
+            #     f"{i}/{n_objs}: Skipping {model_name}: "
+            #     f"{obj.name} @ {obj.lb_url}",
+            # )
             loop_housekeeping(session, obj, updated=False)
             continue
 

@@ -59,6 +59,7 @@ class Film(Base):
     lb_url = Column(String, nullable=False, unique=True)
 
     last_updated = Column(DateTime, nullable=True)
+    last_checked = Column(DateTime, nullable=True)
 
     genres: Mapped[list[Genre]] = relationship(
         secondary=film_genre_association_table
@@ -66,6 +67,10 @@ class Film(Base):
     countries: Mapped[list[Country]] = relationship(
         secondary=film_country_association_table
     )
+
+    @property
+    def name(self):
+        return self.title
 
 
 class Director(Base):
