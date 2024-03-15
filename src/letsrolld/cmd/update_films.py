@@ -77,11 +77,8 @@ def update_countries(session, countries):
     update_objs(session, models.Country, countries)
 
 
-def update_films(session, films):
+def add_films(session, films):
     for f in films:
-        db_obj = session.query(models.Film).filter_by(lb_url=f.url).first()
-        if db_obj is not None:
-            continue
         print(f"Adding film: {f.name} @ {f.url}")
         session.add(
             models.Film(
@@ -99,9 +96,13 @@ def update_films(session, films):
         )
 
 
+def get_db_film(session, url):
+    return session.query(models.Film).filter_by(lb_url=url).first()
+
+
 def get_db_films(session, films):
     for f in films:
-        yield session.query(models.Film).filter_by(lb_url=f.url).first()
+        yield get_db_film(session, f.url)
 
 
 def touch_director(session, director, updated=False):
@@ -168,11 +169,16 @@ def main():
         director_obj = dir_obj.Director(d.lb_url)
         films = list(director_obj.films())
 
-        for f in films:
+        # don't refresh existing films here
+        new_films = [
+            f for f in films
+            if not get_db_film(session, f.url)
+        ]
+        for f in new_films:
             update_genres(session, f.genres)
             update_countries(session, f.countries)
 
-        update_films(session, films)
+        add_films(session, new_films)
         d.films = list(get_db_films(session, films))
 
         loop_housekeeping(session, d, updated=True)
