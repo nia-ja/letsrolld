@@ -69,5 +69,5 @@ db-upgrade:
 db-downgrade:
 	$(DOCKER_RUN) pdm run alembic downgrade base
 
-update-films:
-	$(DOCKER_RUN) pdm run update-films
+update-directors:
+	$(DOCKER_RUN) pdm run update-directors
