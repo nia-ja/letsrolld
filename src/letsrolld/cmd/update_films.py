@@ -16,8 +16,8 @@ _BASE_THRESHOLD = _NOW - _THRESHOLD
 
 def _get_director_to_update_query():
     return or_(
-        models.Director.last_updated < _BASE_THRESHOLD,
-        models.Director.last_updated == None,  # noqa
+        models.Director.last_checked < _BASE_THRESHOLD,
+        models.Director.last_checked == None,  # noqa
     )
 
 
@@ -104,8 +104,10 @@ def get_db_films(session, films):
         yield session.query(models.Film).filter_by(lb_url=f.url).first()
 
 
-def touch_director(session, director):
-    director.last_updated = _NOW
+def touch_director(session, director, updated=False):
+    if updated:
+        director.last_updated = _NOW
+    director.last_checked = _NOW
     session.add(director)
 
 
@@ -138,10 +140,12 @@ def main():
 
     i = 1
 
-    def loop_housekeeping(session, director):
-        touch_director(session, director)
+    def loop_housekeeping(session, director, updated=False):
+        touch_director(session, director, updated=updated)
         session.commit()
         sys.stdout.flush()
+        nonlocal i
+        i += 1
 
     while True:
         session = Session()
@@ -153,7 +157,7 @@ def main():
             print(
                 f"{i}/{n_directors}: Skipping director: {d.name} @ {d.lb_url}",
             )
-            loop_housekeeping(session, d)
+            loop_housekeeping(session, d, updated=False)
             continue
 
         print(
@@ -171,8 +175,7 @@ def main():
         update_films(session, films)
         d.films = list(get_db_films(session, films))
 
-        loop_housekeeping(session, d)
-        i += 1
+        loop_housekeeping(session, d, updated=True)
 
     print("No more directors to update")
 
