@@ -67,4 +67,4 @@ db-upgrade:
 	$(DOCKER_RUN) pdm run alembic upgrade head
 
 db-downgrade:
-	$(DOCKER_RUN) pdm run alembic downgrade -1
+	$(DOCKER_RUN) pdm run alembic downgrade base

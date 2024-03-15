@@ -1,4 +1,4 @@
-"""add checked_at to directors table
+"""add last_checked to directors table
 
 Revision ID: beaf829c5421
 Revises:
@@ -20,9 +20,9 @@ depends_on: Union[str, Sequence[str], None] = None
 
 def upgrade() -> None:
     op.add_column(
-        "directors", sa.Column("checked_at", sa.DateTime, nullable=True)
+        "directors", sa.Column("last_checked", sa.DateTime, nullable=True)
     )
 
 
 def downgrade() -> None:
-    op.drop_column("directors", "checked_at")
+    op.drop_column("directors", "last_checked")

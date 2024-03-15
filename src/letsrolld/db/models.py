@@ -77,6 +77,7 @@ class Director(Base):
     lb_url = Column(String, nullable=False, unique=True)
 
     last_updated = Column(DateTime, nullable=True)
+    last_checked = Column(DateTime, nullable=True)
 
     films: Mapped[list[Film]] = relationship(
         secondary=director_film_association_table
