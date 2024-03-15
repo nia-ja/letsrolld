@@ -127,6 +127,13 @@ class Film(BaseObject):
                 return True
         return False
 
+    @property
+    def available_services(self):
+        services = [offer.technical_name for offer in self.offers]
+        if self.available_physical():
+            services.append(PHYSICAL)
+        return services
+
     @functools.cached_property
     def jw_url(self):
         for x in self.avail_soup.find_all("a", class_="jw-branding"):

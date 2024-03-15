@@ -44,6 +44,21 @@ class Country(Base):
     name = Column(String, unique=True)
 
 
+film_offer_association_table = Table(
+    "film_offer_association_table",
+    Base.metadata,
+    Column("film_id", ForeignKey("films.id")),
+    Column("offer_id", ForeignKey("offers.id")),
+)
+
+
+class Offer(Base):
+    __tablename__ = "offers"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String, unique=True)
+
+
 class Film(Base):
     __tablename__ = "films"
 
@@ -66,6 +81,9 @@ class Film(Base):
     )
     countries: Mapped[list[Country]] = relationship(
         secondary=film_country_association_table
+    )
+    offers: Mapped[list[Offer]] = relationship(
+        secondary=film_offer_association_table
     )
 
     @property

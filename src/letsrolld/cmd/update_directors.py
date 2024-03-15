@@ -57,6 +57,10 @@ def get_countries(session, countries):
     return get_objs(session, models.Country, countries)
 
 
+def get_offers(session, offers):
+    return get_objs(session, models.Offer, offers)
+
+
 def update_objs(session, model, names):
     for name in names:
         db_obj = session.query(model).filter_by(name=name).first()
@@ -72,6 +76,10 @@ def update_genres(session, genres):
 
 def update_countries(session, countries):
     update_objs(session, models.Country, countries)
+
+
+def update_offers(session, offers):
+    update_objs(session, models.Offer, offers)
 
 
 def add_films(session, films):
@@ -146,6 +154,7 @@ def refresh_director(session, db_obj, api_obj):
     for f in new_films:
         update_genres(session, f.genres)
         update_countries(session, f.countries)
+        update_offers(session, f.available_services)
 
     add_films(session, new_films)
     db_obj.films = list(get_db_films(session, films))
@@ -155,6 +164,7 @@ def refresh_film(session, db_obj, api_obj):
     # just in case genres or countries changed
     update_genres(session, api_obj.genres)
     update_countries(session, api_obj.countries)
+    update_offers(session, api_obj.available_services)
 
     db_obj.title = api_obj.name
     db_obj.description = api_obj.description
@@ -164,6 +174,7 @@ def refresh_film(session, db_obj, api_obj):
     db_obj.jw_url = api_obj.jw_url
     db_obj.genres = get_genres(session, api_obj.genres)
     db_obj.countries = get_countries(session, api_obj.countries)
+    db_obj.offers = get_offers(session, api_obj.available_services)
     db_obj.last_updated = _NOW
 
 
