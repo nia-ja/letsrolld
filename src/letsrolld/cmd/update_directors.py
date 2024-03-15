@@ -14,31 +14,29 @@ _THRESHOLD = datetime.timedelta(days=1)
 _BASE_THRESHOLD = _NOW - _THRESHOLD
 
 
-def _get_director_to_update_query():
+def _get_obj_to_update_query(model):
     return or_(
-        models.Director.last_checked < _BASE_THRESHOLD,
-        models.Director.last_checked == None,  # noqa
+        model.last_checked < _BASE_THRESHOLD,
+        model.last_checked == None,  # noqa
     )
 
 
-def get_director_to_update(session):
+def get_obj_to_update(session, model):
     return (
         session.execute(
-            select(models.Director)
-            .filter(_get_director_to_update_query())
-            .limit(1)
+            select(model).filter(_get_obj_to_update_query(model)).limit(1)
         )
         .scalars()
         .first()
     )
 
 
-def get_number_of_directors_to_update(session):
+def get_number_of_objs_to_update(session, model):
     try:
         return session.scalar(
             select(func.count())
-            .select_from(models.Director)
-            .filter(_get_director_to_update_query())
+            .select_from(model)
+            .filter(_get_obj_to_update_query(model))
         )
     finally:
         session.close()
@@ -105,11 +103,11 @@ def get_db_films(session, films):
         yield get_db_film(session, f.url)
 
 
-def touch_director(session, director, updated=False):
+def touch_obj(session, obj, updated=False):
     if updated:
-        director.last_updated = _NOW
-    director.last_checked = _NOW
-    session.add(director)
+        obj.last_updated = _NOW
+    obj.last_checked = _NOW
+    session.add(obj)
 
 
 def get_refresh_threshold_multiplier(d):
@@ -127,63 +125,76 @@ def get_refresh_threshold_multiplier(d):
     return multiplier
 
 
-def skip_director(director):
-    if director.last_updated is not None:
-        multiplier = get_refresh_threshold_multiplier(director)
-        return _NOW - director.last_updated < _THRESHOLD * multiplier
+def skip_obj(obj):
+    if obj.last_updated is not None:
+        multiplier = get_refresh_threshold_multiplier(obj)
+        return _NOW - obj.last_updated < _THRESHOLD * multiplier
 
 
-def main():
-    engine = db.create_engine()
-    Session = sessionmaker(bind=engine)
+def refresh_director(session, db_obj, api_obj):
+    films = list(api_obj.films())
 
-    n_directors = get_number_of_directors_to_update(Session())
+    # don't refresh existing films here
+    new_films = [f for f in films if not get_db_film(session, f.url)]
+    for f in new_films:
+        update_genres(session, f.genres)
+        update_countries(session, f.countries)
+
+    add_films(session, new_films)
+    db_obj.films = list(get_db_films(session, films))
+
+
+_UPDATES = [
+    (models.Director, dir_obj.Director, refresh_director),
+]
+
+
+def run_update(session, update):
+    model, api_cls, refresh_func = update
+    model_name = model.__name__
+
+    n_objs = get_number_of_objs_to_update(session, model)
 
     i = 1
 
-    def loop_housekeeping(session, director, updated=False):
-        touch_director(session, director, updated=updated)
+    def loop_housekeeping(session, obj, updated=False):
+        touch_obj(session, obj, updated=updated)
         session.commit()
         sys.stdout.flush()
         nonlocal i
         i += 1
 
     while True:
-        session = Session()
-        d = get_director_to_update(session)
-        if d is None:
+        obj = get_obj_to_update(session, model)
+        if obj is None:
             break
 
-        if skip_director(d):
+        if skip_obj(obj):
             print(
-                f"{i}/{n_directors}: Skipping director: {d.name} @ {d.lb_url}",
+                f"{i}/{n_objs}: Skipping {model_name}: "
+                f"{obj.name} @ {obj.lb_url}",
             )
-            loop_housekeeping(session, d, updated=False)
+            loop_housekeeping(session, obj, updated=False)
             continue
 
         print(
-            f"{i}/{n_directors}: Updating director: {d.name} @ {d.lb_url}",
+            f"{i}/{n_objs}: Updating {model_name}: {obj.name} @ {obj.lb_url}",
             flush=True,
         )
 
-        director_obj = dir_obj.Director(d.lb_url)
-        films = list(director_obj.films())
+        api_obj = api_cls(obj.lb_url)
+        refresh_func(session, obj, api_obj)
 
-        # don't refresh existing films here
-        new_films = [
-            f for f in films
-            if not get_db_film(session, f.url)
-        ]
-        for f in new_films:
-            update_genres(session, f.genres)
-            update_countries(session, f.countries)
+        loop_housekeeping(session, obj, updated=True)
 
-        add_films(session, new_films)
-        d.films = list(get_db_films(session, films))
+    # TODO: is there a better way to extract plural names?
+    print(f"No more {model_name}s to update")
 
-        loop_housekeeping(session, d, updated=True)
 
-    print("No more directors to update")
+def main():
+    engine = db.create_engine()
+    for update in _UPDATES:
+        run_update(sessionmaker(bind=engine)(), update)
 
 
 if __name__ == "__main__":
