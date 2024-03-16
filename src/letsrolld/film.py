@@ -1,5 +1,4 @@
 import functools
-import itertools
 import re
 import urllib.parse
 
@@ -106,14 +105,14 @@ class Film(BaseObject):
 
     @property
     def lb_description(self):
-        return (
-            " ".join(
-                itertools.chain(
-                    [t.text.strip() for t in self.soup.find_all("h4", class_="tagline")],
-                    [self.soup.find("meta", property="og:description").get("content")],
-                ),
-            )
-        )
+        snippets = []
+        description = self.soup.find("meta", property="og:description")
+        if description:
+            snippets.append(description.get("content"))
+        tagline = self.soup.find("h4", class_="tagline")
+        if tagline:
+            snippets.append(tagline.text.strip())
+        return " ".join(snippets)
 
     @functools.cached_property
     def avail_soup(self):
