@@ -24,7 +24,9 @@ def _get_obj_to_update_query(model, threshold):
 def get_obj_to_update(session, model, threshold):
     return (
         session.execute(
-            select(model).filter(_get_obj_to_update_query(model, threshold)).limit(1)
+            select(model)
+            .filter(_get_obj_to_update_query(model, threshold))
+            .limit(1)
         )
         .scalars()
         .first()
@@ -173,16 +175,18 @@ def refresh_film(session, db_obj, api_obj):
 
 _UPDATES = [
     (
-        models.Director, dir_obj.Director,
+        models.Director,
+        dir_obj.Director,
         refresh_director,
         director_threshold,
-        1, # days
+        1,  # days
     ),
     (
-        models.Film, film_obj.Film,
+        models.Film,
+        film_obj.Film,
         refresh_film,
         film_threshold,
-        4, # days
+        4,  # days
     ),
 ]
 

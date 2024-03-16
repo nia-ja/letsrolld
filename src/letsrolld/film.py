@@ -101,7 +101,11 @@ class Film(BaseObject):
 
     @functools.cached_property
     def description(self):
-        return self.lb_description if self.jw is None else self.jw.short_description
+        return (
+            self.lb_description
+            if self.jw is None
+            else self.jw.short_description
+        )
 
     @property
     def lb_description(self):
