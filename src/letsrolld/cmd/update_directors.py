@@ -95,9 +95,6 @@ def add_films(session, films):
                 runtime=f.runtime,
                 lb_url=f.url,
                 jw_url=f.jw_url,
-                genres=get_genres(session, f.genres),
-                countries=get_countries(session, f.countries),
-                last_updated=_NOW,
             )
         )
 
@@ -152,11 +149,6 @@ def refresh_director(session, db_obj, api_obj):
 
     # don't refresh existing films here
     new_films = [f for f in films if not get_db_film(session, f.url)]
-    for f in new_films:
-        update_genres(session, f.genres)
-        update_countries(session, f.countries)
-        update_offers(session, f.available_services)
-
     add_films(session, new_films)
     db_obj.films = list(get_db_films(session, films))
 
