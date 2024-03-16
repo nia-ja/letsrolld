@@ -132,7 +132,7 @@ class Film(BaseObject):
         services = [offer.technical_name for offer in self.offers]
         if self.available_physical():
             services.append(PHYSICAL)
-        return services
+        return set(services)
 
     @functools.cached_property
     def jw_url(self):
