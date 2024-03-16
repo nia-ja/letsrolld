@@ -6,19 +6,11 @@ from sqlalchemy.orm import Mapped, relationship
 Base = declarative_base()
 
 
-director_film_association_table = Table(
-    "director_film_association_table",
-    Base.metadata,
-    Column("film_id", ForeignKey("films.id")),
-    Column("director_id", ForeignKey("directors.id")),
-)
-
-
 film_genre_association_table = Table(
     "film_genre_association_table",
     Base.metadata,
-    Column("film_id", ForeignKey("films.id")),
-    Column("genre_id", ForeignKey("genres.id")),
+    Column("film_id", ForeignKey("films.id"), primary_key=True),
+    Column("genre_id", ForeignKey("genres.id"), primary_key=True),
 )
 
 
@@ -32,8 +24,8 @@ class Genre(Base):
 film_country_association_table = Table(
     "film_country_association_table",
     Base.metadata,
-    Column("film_id", ForeignKey("films.id")),
-    Column("country_id", ForeignKey("countries.id")),
+    Column("film_id", ForeignKey("films.id"), primary_key=True),
+    Column("country_id", ForeignKey("countries.id"), primary_key=True),
 )
 
 
@@ -47,8 +39,8 @@ class Country(Base):
 film_offer_association_table = Table(
     "film_offer_association_table",
     Base.metadata,
-    Column("film_id", ForeignKey("films.id")),
-    Column("offer_id", ForeignKey("offers.id")),
+    Column("film_id", ForeignKey("films.id"), primary_key=True),
+    Column("offer_id", ForeignKey("offers.id"), primary_key=True),
 )
 
 
@@ -89,6 +81,14 @@ class Film(Base):
     @property
     def name(self):
         return self.title
+
+
+director_film_association_table = Table(
+    "director_film_association_table",
+    Base.metadata,
+    Column("film_id", ForeignKey("films.id"), primary_key=True),
+    Column("director_id", ForeignKey("directors.id"), primary_key=True),
+)
 
 
 class Director(Base):
