@@ -1,5 +1,6 @@
 import datetime
 import sys
+import time
 
 from sqlalchemy import func, select, or_
 from sqlalchemy.orm import sessionmaker
@@ -241,7 +242,15 @@ def run_update(session, update):
 def main():
     engine = db.create_engine()
     for update in _UPDATES:
-        run_update(sessionmaker(bind=engine)(), update)
+        while True:
+            try:
+                run_update(sessionmaker(bind=engine)(), update)
+                break
+            except Exception as e:
+                print(f"Error: {e}")
+                print("Retrying in 5 seconds...")
+                time.sleep(5)
+                continue
 
 
 if __name__ == "__main__":
