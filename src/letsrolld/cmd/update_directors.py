@@ -186,7 +186,7 @@ _UPDATES = [
         film_obj.Film,
         refresh_film,
         film_threshold,
-        4,  # days
+        7,  # days
     ),
 ]
 
