@@ -216,7 +216,10 @@ def run_update(session, update, dry_run=False):
 
     def loop_housekeeping(session, obj, updated=False):
         touch_obj(session, obj, updated=updated)
-        seen.add(obj.id)
+        if dry_run:
+            # build the list of seen objects only when we cannot rely on
+            # last_checked fields in db
+            seen.add(obj.id)
         maybe_commit()
         sys.stdout.flush()
         nonlocal i
