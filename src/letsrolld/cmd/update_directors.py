@@ -2,6 +2,7 @@ import argparse
 import datetime
 import sys
 import time
+import traceback
 
 from sqlalchemy import func, select, or_
 from sqlalchemy.orm import sessionmaker
@@ -266,7 +267,7 @@ def main():
                 )
                 break
             except Exception as e:
-                print(f"Error: {e}")
+                traceback.print_exception(e)
                 print("Retrying in 5 seconds...")
                 time.sleep(5)
                 continue
