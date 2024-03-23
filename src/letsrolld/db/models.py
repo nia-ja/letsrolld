@@ -51,6 +51,14 @@ class Offer(Base):
     name = Column(String, unique=True)
 
 
+director_film_association_table = Table(
+    "director_film_association_table",
+    Base.metadata,
+    Column("film_id", ForeignKey("films.id"), primary_key=True),
+    Column("director_id", ForeignKey("directors.id"), primary_key=True),
+)
+
+
 class Film(Base):
     __tablename__ = "films"
 
@@ -78,17 +86,15 @@ class Film(Base):
         secondary=film_offer_association_table
     )
 
+    directors = relationship(
+        "Director",
+        secondary=director_film_association_table,
+        back_populates="films",
+    )
+
     @property
     def name(self):
         return self.title
-
-
-director_film_association_table = Table(
-    "director_film_association_table",
-    Base.metadata,
-    Column("film_id", ForeignKey("films.id"), primary_key=True),
-    Column("director_id", ForeignKey("directors.id"), primary_key=True),
-)
 
 
 class Director(Base):
@@ -102,6 +108,4 @@ class Director(Base):
     last_updated = Column(DateTime, nullable=True)
     last_checked = Column(DateTime, nullable=True)
 
-    films: Mapped[list[Film]] = relationship(
-        secondary=director_film_association_table
-    )
+    films = relationship("Film", secondary=director_film_association_table)
