@@ -9,7 +9,6 @@ dependencies = [
     "beautifulsoup4",
     "cli-color-py",
     "requests",
-    "requests-cache",
     "simple-justwatch-python-api",
     "SQLAlchemy>=2.0.27",
     "alembic>=1.13.1",
