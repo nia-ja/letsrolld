@@ -1,4 +1,4 @@
-IMAGE_NAME=letsrolld
+IMAGE_NAME?=letsrolld
 DB=$(PWD)/letsrolld.db
 NEW_DB=$(PWD)/movie.db
 HTTP_CACHE=$(PWD)/cache.sqlite
@@ -23,6 +23,7 @@ DOCKER_RUN=\
 		-v $(NEW_DB):/app/movie.db:z \
 		-v $(HTTP_CACHE):/app/cache.sqlite:z \
 		-v $(PWD)/data:/app/data:z \
+		-v $(PWD)/src:/app/src:z \
 		$(IMAGE_NAME)
 
 build:
@@ -71,3 +72,6 @@ db-downgrade:
 
 update-directors:
 	$(DOCKER_RUN) pdm run update-directors
+
+update-directors-dry-run:
+	$(DOCKER_RUN) pdm run update-directors --dry-run

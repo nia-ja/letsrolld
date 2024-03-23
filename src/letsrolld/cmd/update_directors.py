@@ -1,3 +1,4 @@
+import argparse
 import datetime
 import sys
 import time
@@ -21,11 +22,16 @@ def _get_obj_to_update_query(model, threshold):
     )
 
 
-def get_obj_to_update(session, model, threshold):
+def _seen_obj_query(model, seen):
+    return model.id.notin_(seen)
+
+
+def get_obj_to_update(session, model, threshold, seen):
     return (
         session.execute(
             select(model)
             .filter(_get_obj_to_update_query(model, threshold))
+            .filter(_seen_obj_query(model, seen))
             .limit(1)
         )
         .scalars()
@@ -191,7 +197,7 @@ _UPDATES = [
 ]
 
 
-def run_update(session, update):
+def run_update(session, update, dry_run=False):
     model, api_cls, refresh_func, threshold_func, threshold = update
     model_name = model.__name__
 
@@ -200,16 +206,24 @@ def run_update(session, update):
     n_objs = get_number_of_objs_to_update(session, model, threshold)
 
     i = 1
+    seen = set()
+
+    def maybe_commit():
+        if dry_run:
+            session.rollback()
+        else:
+            session.commit()
 
     def loop_housekeeping(session, obj, updated=False):
         touch_obj(session, obj, updated=updated)
-        session.commit()
+        seen.add(obj.id)
+        maybe_commit()
         sys.stdout.flush()
         nonlocal i
         i += 1
 
     while True:
-        obj = get_obj_to_update(session, model, threshold)
+        obj = get_obj_to_update(session, model, threshold, seen)
         if obj is None:
             break
 
@@ -236,11 +250,15 @@ def run_update(session, update):
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--dry-run", action="store_true")
+    args = parser.parse_args()
+
     engine = db.create_engine()
     for update in _UPDATES:
         while True:
             try:
-                run_update(sessionmaker(bind=engine)(), update)
+                run_update(sessionmaker(bind=engine)(), update, dry_run=args.dry_run)
                 break
             except Exception as e:
                 print(f"Error: {e}")
