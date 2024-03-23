@@ -258,7 +258,9 @@ def main():
     for update in _UPDATES:
         while True:
             try:
-                run_update(sessionmaker(bind=engine)(), update, dry_run=args.dry_run)
+                run_update(
+                    sessionmaker(bind=engine)(), update, dry_run=args.dry_run
+                )
                 break
             except Exception as e:
                 print(f"Error: {e}")

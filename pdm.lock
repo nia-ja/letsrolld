@@ -5,7 +5,7 @@
 groups = ["default", "lint", "dev"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:fe0c9fced648ccb07bab60906d42508623ced428d1593b373f4a09a8737b3c6d"
+content_hash = "sha256:3fc39921c6028c2a6c68fe3f213dbd012eb1dc704467502de71786644ee7f0f5"
 
 [[package]]
 name = "alembic"
@@ -512,15 +512,6 @@ files = [
     {file = "SQLAlchemy-2.0.27-cp311-cp311-win_amd64.whl", hash = "sha256:15e19a84b84528f52a68143439d0c7a3a69befcd4f50b8ef9b7b69d2628ae7c4"},
     {file = "SQLAlchemy-2.0.27-py3-none-any.whl", hash = "sha256:1ab4e0448018d01b142c916cc7119ca573803a4745cfe341b8f95657812700ac"},
     {file = "SQLAlchemy-2.0.27.tar.gz", hash = "sha256:86a6ed69a71fe6b88bf9331594fa390a2adda4a49b5c06f98e47bf0d392534f8"},
-]
-
-[[package]]
-name = "sqlitedict"
-version = "2.1.0"
-summary = "Persistent dict in Python, backed up by sqlite3 and pickle, multithread-safe."
-groups = ["default"]
-files = [
-    {file = "sqlitedict-2.1.0.tar.gz", hash = "sha256:03d9cfb96d602996f1d4c2db2856f1224b96a9c431bdd16e78032a72940f9e8c"},
 ]
 
 [[package]]

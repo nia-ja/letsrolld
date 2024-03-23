@@ -11,7 +11,6 @@ dependencies = [
     "requests",
     "requests-cache",
     "simple-justwatch-python-api",
-    "sqlitedict",
     "SQLAlchemy>=2.0.27",
     "alembic>=1.13.1",
 ]
