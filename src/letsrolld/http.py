@@ -33,7 +33,7 @@ def _install_cache():
 
 
 def get_url(url):
-    _install_cache()
+    # _install_cache()
 
     def _get_url(url, entity):
         return entity.get(url).text
@@ -48,7 +48,7 @@ def get_url(url):
 
 
 def get_json(url, json, validator=None):
-    _install_cache()
+    # _install_cache()
 
     def _get_json(url, json, entity, validator):
         res = entity.post(url, json=json).json()

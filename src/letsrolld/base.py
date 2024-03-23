@@ -4,9 +4,6 @@ import sqlitedict
 from letsrolld import http
 
 
-_DB = sqlitedict.SqliteDict("letsrolld.db", autocommit=True)
-
-
 class BaseObject:
 
     persistent_attributes = []
@@ -18,13 +15,10 @@ class BaseObject:
 
     @property
     def db(self):
-        if self._db is None:
-            self._db = _DB.get(self.url, {})
-        return self._db
+        return {}
 
     def _persist_in_db(self, key, value):
-        self.db[key] = value
-        _DB[self.url] = self.db
+        pass
 
     def __getattribute__(self, item):
         persisted = item in super().__getattribute__("persistent_attributes")
