@@ -1,5 +1,6 @@
 import argparse
 import datetime
+import math
 import sys
 import time
 import traceback
@@ -163,10 +164,24 @@ def refresh_director(session, db_obj, api_obj):
 
 
 def refresh_film(session, db_obj, api_obj):
-    # just in case genres or countries changed
+    # just in case genres or countries or offers changed
     update_genres(session, api_obj.genres)
     update_countries(session, api_obj.countries)
     update_offers(session, api_obj.available_services)
+
+    if not math.isclose(float(api_obj.rating), db_obj.rating):
+        print(
+            f"\t{db_obj.rating:.3f} -> {api_obj.rating}"
+        )
+
+    offers = get_offers(session, api_obj.available_services)
+    old = set(o.name for o in db_obj.offers) - set(api_obj.available_services)
+    new = set(api_obj.available_services) - set(o.name for o in db_obj.offers)
+    if new or old:
+        for o in new:
+            print(f"\t+ {o}")
+        for o in old:
+            print(f"\t- {o}")
 
     db_obj.title = api_obj.name
     db_obj.description = api_obj.description
@@ -176,7 +191,7 @@ def refresh_film(session, db_obj, api_obj):
     db_obj.jw_url = api_obj.jw_url
     db_obj.genres = get_genres(session, api_obj.genres)
     db_obj.countries = get_countries(session, api_obj.countries)
-    db_obj.offers = get_offers(session, api_obj.available_services)
+    db_obj.offers = offers
     db_obj.last_updated = _NOW
 
 
