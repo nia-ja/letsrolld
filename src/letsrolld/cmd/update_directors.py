@@ -256,12 +256,15 @@ def run_update(session, model, api_cls, refresh_func, threshold_func, threshold,
     print(f"No more {model_name}s to update")
 
 
-def main(model, api_cls, refresh_func, threshold_func):
+def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--force", action="store_true")
-    args = parser.parse_args()
+    return parser.parse_args()
 
+
+def main(model, api_cls, refresh_func, threshold_func):
+    args = parse_args()
     while True:
         try:
             threshold = 0 if args.force else _MODEL_TO_THRESHOLD[model]
