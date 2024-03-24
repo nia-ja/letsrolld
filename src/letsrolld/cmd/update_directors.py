@@ -218,10 +218,8 @@ _UPDATES = {
 }
 
 
-def run_update(session, update, dry_run=False):
-    model, api_cls, refresh_func, threshold_func, threshold = update
+def run_update(session, model, api_cls, refresh_func, threshold_func, threshold, dry_run=False):
     model_name = model.__name__
-
     threshold = datetime.timedelta(days=threshold)
 
     n_objs = get_number_of_objs_to_update(session, model, threshold)
@@ -252,10 +250,6 @@ def run_update(session, update, dry_run=False):
             break
 
         if skip_obj(obj, threshold_func, threshold):
-            # print(
-            #     f"{i}/{n_objs}: Skipping {model_name}: "
-            #     f"{obj.name} @ {obj.lb_url}",
-            # )
             loop_housekeeping(session, obj, updated=False)
             continue
 
@@ -279,16 +273,14 @@ def main(model):
     parser.add_argument("--force", action="store_true")
     args = parser.parse_args()
 
-    update = (model,) + _UPDATES[model]
+    api_cls, refresh_func, threshold_func = _UPDATES[model]
     while True:
         try:
-            if args.force:
-                update += (0,)
-            else:
-                update += (_MODEL_TO_THRESHOLD[model],)
+            threshold = 0 if args.force else _MODEL_TO_THRESHOLD[model]
             run_update(
                 sessionmaker(bind=db.create_engine())(),
-                update, dry_run=args.dry_run
+                model, api_cls, refresh_func, threshold_func, threshold,
+                dry_run=args.dry_run
             )
             break
         except Exception as e:
