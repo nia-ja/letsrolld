@@ -162,7 +162,9 @@ def film_threshold(f):
 
 def skip_obj(obj, threshold_func, threshold):
     if obj.last_updated:
-        return _NOW - min(_NOW, obj.last_updated) <= threshold * threshold_func(obj)
+        return _NOW - min(
+            _NOW, obj.last_updated
+        ) <= threshold * threshold_func(obj)
     return False
 
 
@@ -177,9 +179,7 @@ def refresh_director(session, db_obj, api_obj):
 
 def report_film_changes(session, db_obj, api_obj):
     if not math.isclose(float(api_obj.rating), db_obj.rating):
-        print(
-            f"\t{db_obj.rating:.3f} -> {api_obj.rating}"
-        )
+        print(f"\t{db_obj.rating:.3f} -> {api_obj.rating}")
     old = set(o.name for o in db_obj.offers) - set(api_obj.available_services)
     new = set(api_obj.available_services) - set(o.name for o in db_obj.offers)
     if new or old:
@@ -208,7 +208,15 @@ def refresh_film(session, db_obj, api_obj):
     db_obj.last_updated = _NOW
 
 
-def run_update(session, model, api_cls, refresh_func, threshold_func, threshold, dry_run=False):
+def run_update(
+    session,
+    model,
+    api_cls,
+    refresh_func,
+    threshold_func,
+    threshold,
+    dry_run=False,
+):
     model_name = model.__name__
     threshold = datetime.timedelta(days=threshold)
 
@@ -271,8 +279,12 @@ def main(model, api_cls, refresh_func, threshold_func):
             threshold = 0 if args.force else _MODEL_TO_THRESHOLD[model]
             run_update(
                 sessionmaker(bind=db.create_engine())(),
-                model, api_cls, refresh_func, threshold_func, threshold,
-                dry_run=args.dry_run
+                model,
+                api_cls,
+                refresh_func,
+                threshold_func,
+                threshold,
+                dry_run=args.dry_run,
             )
             break
         except Exception as e:
@@ -283,10 +295,10 @@ def main(model, api_cls, refresh_func, threshold_func):
 
 
 def directors_main():
-    main(models.Director, dir_obj.Director,
-         refresh_director, director_threshold)
+    main(
+        models.Director, dir_obj.Director, refresh_director, director_threshold
+    )
 
 
 def films_main():
-    main(models.Film, film_obj.Film,
-         refresh_film, film_threshold)
+    main(models.Film, film_obj.Film, refresh_film, film_threshold)
