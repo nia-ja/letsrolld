@@ -14,23 +14,28 @@ from letsrolld import director as dir_obj
 from letsrolld import film as film_obj
 
 
+_MAX_RATING = 5
 _SEC_WAIT_ON_FAIL = 5
+_LAST_CHECKED_FIELD = 'last_checked'
+_LAST_UPDATED_FIELD = 'last_updated'
 
 
 _NOW = datetime.datetime.now()
 
 
+# TODO: change type to datetime.timedelta
 _MODEL_TO_THRESHOLD = {
     models.Film: 7,
     models.Director: 1,
 }
 
 
-def _get_obj_to_update_query(model, threshold):
+def _get_obj_to_update_query(model, threshold, last_checked_field):
+    field = getattr(model, last_checked_field)
     return or_(
-        model.last_checked < _NOW - threshold,
-        model.last_checked > _NOW,
-        model.last_checked == None,  # noqa
+        field < _NOW - threshold,
+        field > _NOW,
+        field == None,  # noqa
     )
 
 
@@ -38,11 +43,11 @@ def _seen_obj_query(model, seen):
     return model.id.notin_(seen)
 
 
-def get_obj_to_update(session, model, threshold, seen):
+def get_obj_to_update(session, model, threshold, last_checked_field, seen):
     return (
         session.execute(
             select(model)
-            .filter(_get_obj_to_update_query(model, threshold))
+            .filter(_get_obj_to_update_query(model, threshold, last_checked_field))
             .filter(_seen_obj_query(model, seen))
             .limit(1)
         )
@@ -51,12 +56,12 @@ def get_obj_to_update(session, model, threshold, seen):
     )
 
 
-def get_number_of_objs_to_update(session, model, threshold):
+def get_number_of_objs_to_update(session, model, threshold, last_checked_field):
     try:
         return session.scalar(
             select(func.count())
             .select_from(model)
-            .filter(_get_obj_to_update_query(model, threshold))
+            .filter(_get_obj_to_update_query(model, threshold, last_checked_field))
         )
     finally:
         session.close()
@@ -128,11 +133,12 @@ def get_db_films(session, films):
         yield get_db_film(session, f.url)
 
 
-def touch_obj(session, obj, updated=False):
+def touch_obj(session, obj, last_checked_field, last_updated_field, updated=False):
     if updated:
-        obj.last_updated = _NOW
-    obj.last_updated = min(_NOW, obj.last_updated)
-    obj.last_checked = _NOW
+        setattr(obj, last_updated_field, _NOW)
+    # cap the last_updated field to the current time
+    setattr(obj, last_updated_field, min(_NOW, obj.last_updated))
+    setattr(obj, last_checked_field, _NOW)
     session.add(obj)
 
 
@@ -160,10 +166,21 @@ def film_threshold(f):
     return min(100, multiplier)
 
 
-def skip_obj(obj, threshold_func, threshold):
-    if obj.last_updated:
+def offer_threshold(f):
+    multiplier = 1
+    if f is None:
+        return multiplier
+    # refresh offers for newer films more often
+    multiplier = max(0, _NOW.year - f.year) + 1
+    # cap the multiplier at 14 (weeks)
+    return min(14, multiplier)
+
+
+def skip_obj(obj, last_updated_field, threshold_func, threshold):
+    last_updated = getattr(obj, last_updated_field)
+    if last_updated:
         return _NOW - min(
-            _NOW, obj.last_updated
+            _NOW, last_updated
         ) <= threshold * threshold_func(obj)
     return False
 
@@ -177,9 +194,7 @@ def refresh_director(session, db_obj, api_obj):
     db_obj.films = list(get_db_films(session, films))
 
 
-def report_film_changes(session, db_obj, api_obj):
-    if not math.isclose(float(api_obj.rating), db_obj.rating):
-        print(f"\t{db_obj.rating:.3f} -> {api_obj.rating}")
+def report_offer_changes(session, db_obj, api_obj):
     old = set(o.name for o in db_obj.offers) - set(api_obj.available_services)
     new = set(api_obj.available_services) - set(o.name for o in db_obj.offers)
     if new or old:
@@ -193,8 +208,9 @@ def refresh_film(session, db_obj, api_obj):
     # just in case genres or countries or offers changed
     update_genres(session, api_obj.genres)
     update_countries(session, api_obj.countries)
-    update_offers(session, api_obj.available_services)
-    report_film_changes(session, db_obj, api_obj)
+
+    if not math.isclose(float(api_obj.rating), db_obj.rating):
+        print(f"\t{db_obj.rating:.3f} -> {api_obj.rating}")
 
     db_obj.title = api_obj.name
     db_obj.description = api_obj.description
@@ -204,8 +220,15 @@ def refresh_film(session, db_obj, api_obj):
     db_obj.jw_url = api_obj.jw_url
     db_obj.genres = get_genres(session, api_obj.genres)
     db_obj.countries = get_countries(session, api_obj.countries)
-    db_obj.offers = get_offers(session, api_obj.available_services)
     db_obj.last_updated = _NOW
+
+
+def refresh_offers(session, db_obj, api_obj):
+    # just in case genres or countries or offers changed
+    update_offers(session, api_obj.available_services)
+    report_offer_changes(session, db_obj, api_obj)
+    db_obj.offers = get_offers(session, api_obj.available_services)
+    db_obj.last_offers_updated = _NOW
 
 
 def run_update(
@@ -215,12 +238,14 @@ def run_update(
     refresh_func,
     threshold_func,
     threshold,
+    last_checked_field,
+    last_updated_field,
     dry_run=False,
 ):
     model_name = model.__name__
     threshold = datetime.timedelta(days=threshold)
 
-    n_objs = get_number_of_objs_to_update(session, model, threshold)
+    n_objs = get_number_of_objs_to_update(session, model, threshold, last_checked_field)
 
     i = 1
     seen = set()
@@ -232,7 +257,7 @@ def run_update(
             session.commit()
 
     def loop_housekeeping(session, obj, updated=False):
-        touch_obj(session, obj, updated=updated)
+        touch_obj(session, obj, last_checked_field, last_updated_field, updated=updated)
         if dry_run:
             # build the list of seen objects only when we cannot rely on
             # last_checked fields in db
@@ -243,11 +268,11 @@ def run_update(
         i += 1
 
     while True:
-        obj = get_obj_to_update(session, model, threshold, seen)
+        obj = get_obj_to_update(session, model, threshold, last_checked_field, seen)
         if obj is None:
             break
 
-        if skip_obj(obj, threshold_func, threshold):
+        if skip_obj(obj, last_updated_field, threshold_func, threshold):
             loop_housekeeping(session, obj, updated=False)
             continue
 
@@ -272,7 +297,7 @@ def parse_args():
     return parser.parse_args()
 
 
-def main(model, api_cls, refresh_func, threshold_func):
+def main(model, api_cls, refresh_func, threshold_func, last_checked_field=_LAST_CHECKED_FIELD, last_updated_field=_LAST_UPDATED_FIELD):
     args = parse_args()
     while True:
         try:
@@ -284,6 +309,8 @@ def main(model, api_cls, refresh_func, threshold_func):
                 refresh_func,
                 threshold_func,
                 threshold,
+                last_checked_field,
+                last_updated_field,
                 dry_run=args.dry_run,
             )
             break
@@ -302,3 +329,8 @@ def directors_main():
 
 def films_main():
     main(models.Film, film_obj.Film, refresh_film, film_threshold)
+
+
+def offers_main():
+    main(models.Film, film_obj.Film, refresh_offers, offer_threshold,
+         'last_offers_checked', 'last_offers_updated')

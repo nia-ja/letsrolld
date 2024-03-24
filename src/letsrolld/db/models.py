@@ -75,6 +75,8 @@ class Film(Base):
 
     last_updated = Column(DateTime, nullable=True)
     last_checked = Column(DateTime, nullable=True)
+    last_offers_checked = Column(DateTime, nullable=True)
+    last_offers_updated = Column(DateTime, nullable=True)
 
     genres: Mapped[list[Genre]] = relationship(
         secondary=film_genre_association_table

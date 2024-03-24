@@ -23,10 +23,13 @@ run-update-directors: init_db
 run-update-films: init_db
 	pdm run update-films $(ARGS)
 
+run-update-offers: init_db
+	pdm run update-offers $(ARGS)
+
 run-cleanup: init_db
 	pdm run cleanup $(ARGS)
 
-run-all: run-update-directors run-update-films run-cleanup
+run-all: run-update-directors run-update-films run-update-offers run-cleanup
 
 run-db-upgrade:
 	pdm run alembic upgrade head
