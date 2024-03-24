@@ -20,10 +20,13 @@ init_db:
 run-update-directors: init_db
 	pdm run update-directors $(ARGS)
 
+run-update-films: init_db
+	pdm run update-films $(ARGS)
+
 run-cleanup: init_db
 	pdm run cleanup $(ARGS)
 
-run-all: run-update-directors run-cleanup
+run-all: run-update-directors run-update-films run-cleanup
 
 run-db-upgrade:
 	pdm run alembic upgrade head

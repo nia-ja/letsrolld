@@ -204,20 +204,18 @@ def refresh_film(session, db_obj, api_obj):
     db_obj.last_updated = _NOW
 
 
-_UPDATES = [
-    (
-        models.Director,
+_UPDATES = {
+    models.Director: (
         dir_obj.Director,
         refresh_director,
         director_threshold,
     ),
-    (
-        models.Film,
+    models.Film: (
         film_obj.Film,
         refresh_film,
         film_threshold,
     ),
-]
+}
 
 
 def run_update(session, update, dry_run=False):
@@ -275,31 +273,34 @@ def run_update(session, update, dry_run=False):
     print(f"No more {model_name}s to update")
 
 
-def main():
+def main(model):
     parser = argparse.ArgumentParser()
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--force", action="store_true")
     args = parser.parse_args()
 
-    engine = db.create_engine()
-    for update in _UPDATES:
-        while True:
-            try:
-                if args.force:
-                    update += (0,)
-                else:
-                    model = update[0]
-                    update += (_MODEL_TO_THRESHOLD[model],)
-                run_update(
-                    sessionmaker(bind=engine)(), update, dry_run=args.dry_run
-                )
-                break
-            except Exception as e:
-                traceback.print_exception(e)
-                print("Retrying in 5 seconds...")
-                time.sleep(5)
-                continue
+    update = (model,) + _UPDATES[model]
+    while True:
+        try:
+            if args.force:
+                update += (0,)
+            else:
+                update += (_MODEL_TO_THRESHOLD[model],)
+            run_update(
+                sessionmaker(bind=db.create_engine())(),
+                update, dry_run=args.dry_run
+            )
+            break
+        except Exception as e:
+            traceback.print_exception(e)
+            print("Retrying in 5 seconds...")
+            time.sleep(5)
+            continue
 
 
-if __name__ == "__main__":
-    main()
+def directors_main():
+    main(models.Director)
+
+
+def films_main():
+    main(models.Film)
