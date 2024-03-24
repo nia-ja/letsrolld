@@ -152,8 +152,9 @@ def film_threshold(f):
 
 
 def skip_obj(obj, threshold_func, threshold):
-    if obj.last_updated is not None:
-        return _NOW - min(_NOW, obj.last_updated) < threshold * threshold_func(obj)
+    if obj.last_updated:
+        return _NOW - min(_NOW, obj.last_updated) <= threshold * threshold_func(obj)
+    return False
 
 
 def refresh_director(session, db_obj, api_obj):
