@@ -204,20 +204,6 @@ def refresh_film(session, db_obj, api_obj):
     db_obj.last_updated = _NOW
 
 
-_UPDATES = {
-    models.Director: (
-        dir_obj.Director,
-        refresh_director,
-        director_threshold,
-    ),
-    models.Film: (
-        film_obj.Film,
-        refresh_film,
-        film_threshold,
-    ),
-}
-
-
 def run_update(session, model, api_cls, refresh_func, threshold_func, threshold, dry_run=False):
     model_name = model.__name__
     threshold = datetime.timedelta(days=threshold)
@@ -267,13 +253,12 @@ def run_update(session, model, api_cls, refresh_func, threshold_func, threshold,
     print(f"No more {model_name}s to update")
 
 
-def main(model):
+def main(model, api_cls, refresh_func, threshold_func):
     parser = argparse.ArgumentParser()
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--force", action="store_true")
     args = parser.parse_args()
 
-    api_cls, refresh_func, threshold_func = _UPDATES[model]
     while True:
         try:
             threshold = 0 if args.force else _MODEL_TO_THRESHOLD[model]
@@ -291,8 +276,10 @@ def main(model):
 
 
 def directors_main():
-    main(models.Director)
+    main(models.Director, dir_obj.Director,
+         refresh_director, director_threshold)
 
 
 def films_main():
-    main(models.Film)
+    main(models.Film, film_obj.Film,
+         refresh_film, film_threshold)
