@@ -14,6 +14,9 @@ from letsrolld import director as dir_obj
 from letsrolld import film as film_obj
 
 
+_SEC_WAIT_ON_FAIL = 5
+
+
 _NOW = datetime.datetime.now()
 
 
@@ -270,8 +273,8 @@ def main(model, api_cls, refresh_func, threshold_func):
             break
         except Exception as e:
             traceback.print_exception(e)
-            print("Retrying in 5 seconds...")
-            time.sleep(5)
+            print(f"Retrying in {_SEC_WAIT_ON_FAIL} seconds...")
+            time.sleep(_SEC_WAIT_ON_FAIL)
             continue
 
 
