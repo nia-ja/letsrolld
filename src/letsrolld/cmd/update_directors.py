@@ -220,27 +220,6 @@ _UPDATES = [
 ]
 
 
-def get_orphaned_films(session, model, dry_run=False):
-    try:
-        for film in session.query(model).all():
-            if not film.directors:
-                print(f"Deleting orphaned film: {film.name} @ {film.lb_url}")
-                session.delete(film)
-    finally:
-        if not dry_run:
-            session.commit()
-        else:
-            session.rollback()
-
-
-_CLEANUP = [
-    (
-        models.Film,
-        get_orphaned_films,
-    )
-]
-
-
 def run_update(session, update, dry_run=False):
     model, api_cls, refresh_func, threshold_func, threshold = update
     model_name = model.__name__
@@ -320,11 +299,6 @@ def main():
                 print("Retrying in 5 seconds...")
                 time.sleep(5)
                 continue
-
-    # TODO: move to a separate script
-    for cleanup in _CLEANUP:
-        model, cleanup_func = cleanup
-        cleanup_func(sessionmaker(bind=engine)(), model, dry_run=args.dry_run)
 
 
 if __name__ == "__main__":
