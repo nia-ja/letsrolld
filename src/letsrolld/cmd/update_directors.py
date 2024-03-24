@@ -17,6 +17,12 @@ from letsrolld import film as film_obj
 _NOW = datetime.datetime.now()
 
 
+_MODEL_TO_THRESHOLD = {
+    models.Film: 7,
+    models.Director: 1,
+}
+
+
 def _get_obj_to_update_query(model, threshold):
     return or_(
         model.last_checked < _NOW - threshold,
@@ -204,14 +210,12 @@ _UPDATES = [
         dir_obj.Director,
         refresh_director,
         director_threshold,
-        1,  # days
     ),
     (
         models.Film,
         film_obj.Film,
         refresh_film,
         film_threshold,
-        7,  # days
     ),
 ]
 
@@ -295,12 +299,18 @@ def run_update(session, update, dry_run=False):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--force", action="store_true")
     args = parser.parse_args()
 
     engine = db.create_engine()
     for update in _UPDATES:
         while True:
             try:
+                if args.force:
+                    update += (0,)
+                else:
+                    model = update[0]
+                    update += (_MODEL_TO_THRESHOLD[model],)
                 run_update(
                     sessionmaker(bind=engine)(), update, dry_run=args.dry_run
                 )

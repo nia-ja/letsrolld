@@ -75,3 +75,6 @@ update-directors:
 
 update-directors-dry-run:
 	$(DOCKER_RUN) pdm run update-directors --dry-run
+
+update-directors-force:
+	$(DOCKER_RUN) pdm run update-directors --force
