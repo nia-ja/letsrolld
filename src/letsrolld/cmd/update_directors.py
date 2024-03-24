@@ -122,6 +122,7 @@ def get_db_films(session, films):
 def touch_obj(session, obj, updated=False):
     if updated:
         obj.last_updated = _NOW
+    obj.last_updated = min(_NOW, obj.last_updated)
     obj.last_checked = _NOW
     session.add(obj)
 
