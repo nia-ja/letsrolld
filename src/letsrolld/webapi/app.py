@@ -42,4 +42,4 @@ def main():
     api.add_resource(DirectorResource, '/directors')
     api.add_resource(FilmResource, '/films')
 
-    app.run(debug=True)
+    app.run(port=8000, debug=True)
