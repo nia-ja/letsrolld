@@ -42,10 +42,9 @@ directors = "letsrolld.cmd.directors:main"
 
 db-init = "letsrolld.cmd.db_init:main"
 populate-directors = "letsrolld.cmd.populate_directors:main"
-# TODO: rename to just `update`
-update-directors = "letsrolld.cmd.update_directors:directors_main"
-update-films = "letsrolld.cmd.update_directors:films_main"
-update-offers = "letsrolld.cmd.update_directors:offers_main"
+update-directors = "letsrolld.cmd.update:directors_main"
+update-films = "letsrolld.cmd.update:films_main"
+update-offers = "letsrolld.cmd.update:offers_main"
 cleanup = "letsrolld.cmd.cleanup:main"
 
 # webapi
