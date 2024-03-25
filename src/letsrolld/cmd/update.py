@@ -23,10 +23,9 @@ _LAST_UPDATED_FIELD = 'last_updated'
 _NOW = datetime.datetime.now()
 
 
-# TODO: change type to datetime.timedelta
 _MODEL_TO_THRESHOLD = {
-    models.Film: 7,
-    models.Director: 1,
+    models.Film: datetime.timedelta(days=7),
+    models.Director: datetime.timedelta(days=1),
 }
 
 
@@ -243,7 +242,6 @@ def run_update(
     dry_run=False,
 ):
     model_name = model.__name__
-    threshold = datetime.timedelta(days=threshold)
 
     n_objs = get_number_of_objs_to_update(session, model, threshold, last_checked_field)
 
@@ -301,7 +299,7 @@ def main(model, api_cls, refresh_func, threshold_func, last_checked_field=_LAST_
     args = parse_args()
     while True:
         try:
-            threshold = 0 if args.force else _MODEL_TO_THRESHOLD[model]
+            threshold = datetime.timedelta(0) if args.force else _MODEL_TO_THRESHOLD[model]
             run_update(
                 sessionmaker(bind=db.create_engine())(),
                 model,
