@@ -21,7 +21,7 @@ class DirectorResource(Resource):
     def get(self):
         return {
             "directors": [
-                d.name for d in db_.session.query(models.Director).all()
+                d.name for d in db_.session.query(models.Director).limit(10)
             ],
         }
 
@@ -30,7 +30,7 @@ class FilmResource(Resource):
     def get(self):
         return {
             "films": [
-                d.name for d in db_.session.query(models.Film).all()
+                d.name for d in db_.session.query(models.Film).limit(10)
             ],
         }
 
