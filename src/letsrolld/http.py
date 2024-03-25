@@ -23,11 +23,5 @@ def get_url(url):
     return requests.get(url).text
 
 
-def get_json(url, json, validator=None):
-    def _get_json(url, json, entity, validator):
-        res = entity.post(url, json=json).json()
-        if validator is not None and not validator(res):
-            raise ValueError("Invalid response")
-        return res
-
-    return _get_json(url, json, requests, validator=validator)
+def get_json(url, json):
+    return requests.post(url, json=json).json()

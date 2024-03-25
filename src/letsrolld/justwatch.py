@@ -124,7 +124,5 @@ def get_title(url):
     if url is None:
         return None
     json = prepare_get_title_request(url)
-    response = http.get_json(
-        jw._GRAPHQL_API_URL, json, validator=is_valid_title_response
-    )
+    response = http.get_json(jw._GRAPHQL_API_URL, json)
     return parse_get_title_response(response)
