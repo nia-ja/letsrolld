@@ -14,9 +14,8 @@ lint: install
 test: lint
 	pdm run pytest
 
-# TODO: run db-init after initializing the new db file
 init_db:
-	test -f $(DB) || (touch $(DB) && sqlite3 $(DB) "VACUUM;")
+	test -f $(DB) || (touch $(DB) && sqlite3 $(DB) "VACUUM;" && pdm run db-init)
 
 run-update-directors: init_db
 	pdm run update-directors $(ARGS)
