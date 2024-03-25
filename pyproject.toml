@@ -7,8 +7,10 @@ authors = [
 ]
 dependencies = [
     "beautifulsoup4",
+    # TODO: remove this dependency
     "cli-color-py",
     "requests",
+    # TODO: vendorize this dependency, or otherwise replace it
     "simple-justwatch-python-api",
     "SQLAlchemy>=2.0.27",
     "alembic>=1.13.1",
@@ -34,8 +36,10 @@ dev = [
 ]
 
 [project.scripts]
+# TODO: remove these obsolete scripts
 recommend = "letsrolld.cmd.recommend:main"
 directors = "letsrolld.cmd.directors:main"
+
 db-init = "letsrolld.cmd.db_init:main"
 populate-directors = "letsrolld.cmd.populate_directors:main"
 # TODO: rename to just `update`
@@ -43,3 +47,6 @@ update-directors = "letsrolld.cmd.update_directors:directors_main"
 update-films = "letsrolld.cmd.update_directors:films_main"
 update-offers = "letsrolld.cmd.update_directors:offers_main"
 cleanup = "letsrolld.cmd.cleanup:main"
+
+# webapi
+webapp = "letsrolld.webapi.app:main"

@@ -18,6 +18,9 @@ requests.pkg-path = "python311Packages.requests"
 alembic.pkg-path = "python311Packages.alembic"
 sqlite.pkg-path = "sqlite"
 gnumake.pkg-path = "gnumake"
+flask.pkg-path = "python311Packages.flask"
+flask-restful.pkg-path = "python311Packages.flask-restful"
+flask-sqlalchemy.pkg-path = "python311Packages.flask-sqlalchemy"
 # hello.pkg-path = "hello"
 # nodejs = { version = "^18.4.2", pkg-path = "nodejs_18" }
 

@@ -1,6 +1,10 @@
+import os.path
+
 from letsrolld.db import models  # noqa
 
-DB_URL = "sqlite:///movie.db"
+
+def get_db_uri():
+    return "sqlite:///" + os.path.join(os.getcwd(), "movie.db")
 
 
 def create_tables(metadata, engine):
@@ -10,4 +14,4 @@ def create_tables(metadata, engine):
 def create_engine():
     from sqlalchemy import create_engine
 
-    return create_engine(DB_URL)
+    return create_engine(get_db_uri())

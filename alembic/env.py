@@ -41,7 +41,7 @@ def run_migrations_offline() -> None:
 
     """
     context.configure(
-        url=db.DB_URL,
+        url=db.get_db_uri(),
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
@@ -62,7 +62,7 @@ def run_migrations_online() -> None:
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
-        url=db.DB_URL,
+        url=db.get_db_uri(),
     )
 
     with connectable.connect() as connection:
