@@ -136,7 +136,7 @@ def touch_obj(session, obj, last_checked_field, last_updated_field, updated=Fals
     if updated:
         setattr(obj, last_updated_field, _NOW)
     # cap the last_updated field to the current time
-    setattr(obj, last_updated_field, min(_NOW, obj.last_updated))
+    setattr(obj, last_updated_field, min(_NOW, obj.last_updated or _NOW))
     setattr(obj, last_checked_field, _NOW)
     session.add(obj)
 
