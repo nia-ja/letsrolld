@@ -33,7 +33,7 @@ class BaseObject:
     @property
     def url(self):
         if self._url.startswith("/"):
-            self._url = "https://www.letterboxd.com" + self._url
+            self._url = "https://letterboxd.com" + self._url
         return self._url
 
     @property
