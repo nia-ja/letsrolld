@@ -6,7 +6,7 @@ from letsrolld import db
 from letsrolld.db import models
 
 
-def get_orphaned_films(session, model, dry_run=False):
+def delete_orphaned_films(session, model, dry_run=False):
     try:
         for film in session.query(model).all():
             if not film.directors:
@@ -22,7 +22,7 @@ def get_orphaned_films(session, model, dry_run=False):
 _CLEANUP = [
     (
         models.Film,
-        get_orphaned_films,
+        delete_orphaned_films,
     )
 ]
 
