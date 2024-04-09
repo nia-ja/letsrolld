@@ -12,6 +12,7 @@ from letsrolld import db
 from letsrolld.db import models
 from letsrolld import director as dir_obj
 from letsrolld import film as film_obj
+from letsrolld import http
 
 
 _MAX_RATING = 5
@@ -290,6 +291,7 @@ def run_update(
 
 def parse_args():
     parser = argparse.ArgumentParser()
+    parser.add_argument("--debug", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--force", action="store_true")
     return parser.parse_args()
@@ -297,6 +299,10 @@ def parse_args():
 
 def main(model, api_cls, refresh_func, threshold_func, last_checked_field=_LAST_CHECKED_FIELD, last_updated_field=_LAST_UPDATED_FIELD):
     args = parse_args()
+
+    if args.debug:
+        http.enable_debug()
+
     while True:
         try:
             threshold = datetime.timedelta(0) if args.force else _MODEL_TO_THRESHOLD[model]
