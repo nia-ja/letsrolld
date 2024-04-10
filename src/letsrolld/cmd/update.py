@@ -23,6 +23,8 @@ _LAST_UPDATED_FIELD = 'last_updated'
 
 _NOW = datetime.datetime.now()
 
+_MIN_REFRESH_FREQUENCY = datetime.timedelta(days=180)
+
 
 _MODEL_TO_THRESHOLD = {
     models.Film: datetime.timedelta(days=7),
@@ -181,7 +183,7 @@ def skip_obj(obj, last_updated_field, threshold_func, threshold):
     if last_updated:
         return _NOW - min(
             _NOW, last_updated
-        ) <= threshold * threshold_func(obj)
+        ) <= min(_MIN_REFRESH_FREQUENCY, threshold * threshold_func(obj))
     return False
 
 
