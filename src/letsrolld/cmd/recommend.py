@@ -123,9 +123,6 @@ def get_directors(movies, directors):
 
 def get_config():
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "-D", "--debug", help="enable debug logging", action="store_true"
-    )
     parser.add_argument("--config", help="config file to use")
 
     group = parser.add_mutually_exclusive_group()
@@ -226,7 +223,7 @@ def get_config():
         ]
 
     directors = args.directors or _DIRECTORS_FILE
-    return args.debug, args.movies, directors, cfgs
+    return args.movies, directors, cfgs
 
 
 def report_movie(i, movie):
@@ -268,9 +265,7 @@ def main():
 
         cProfile.run("main()", sort="cumulative")
 
-    debug, movies, directors, cfgs = get_config()
-    if debug:
-        http.enable_debug()
+    movies, directors, cfgs = get_config()
 
     # one would think that this could be done with a set,
     # but it seems that performance is better with a dict.
