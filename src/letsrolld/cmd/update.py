@@ -17,8 +17,8 @@ from letsrolld import http
 
 _MAX_RATING = 5
 _SEC_WAIT_ON_FAIL = 5
-_LAST_CHECKED_FIELD = 'last_checked'
-_LAST_UPDATED_FIELD = 'last_updated'
+_LAST_CHECKED_FIELD = "last_checked"
+_LAST_UPDATED_FIELD = "last_updated"
 
 
 _NOW = datetime.datetime.now()
@@ -49,7 +49,9 @@ def get_obj_to_update(session, model, threshold, last_checked_field, seen):
     return (
         session.execute(
             select(model)
-            .filter(_get_obj_to_update_query(model, threshold, last_checked_field))
+            .filter(
+                _get_obj_to_update_query(model, threshold, last_checked_field)
+            )
             .filter(_seen_obj_query(model, seen))
             .limit(1)
         )
@@ -58,12 +60,16 @@ def get_obj_to_update(session, model, threshold, last_checked_field, seen):
     )
 
 
-def get_number_of_objs_to_update(session, model, threshold, last_checked_field):
+def get_number_of_objs_to_update(
+    session, model, threshold, last_checked_field
+):
     try:
         return session.scalar(
             select(func.count())
             .select_from(model)
-            .filter(_get_obj_to_update_query(model, threshold, last_checked_field))
+            .filter(
+                _get_obj_to_update_query(model, threshold, last_checked_field)
+            )
         )
     finally:
         session.close()
@@ -135,7 +141,9 @@ def get_db_films(session, films):
         yield get_db_film(session, f.url)
 
 
-def touch_obj(session, obj, last_checked_field, last_updated_field, updated=False):
+def touch_obj(
+    session, obj, last_checked_field, last_updated_field, updated=False
+):
     if updated:
         setattr(obj, last_updated_field, _NOW)
     # cap the last_updated field to the current time
@@ -181,9 +189,9 @@ def offer_threshold(f):
 def skip_obj(obj, last_updated_field, threshold_func, threshold):
     last_updated = getattr(obj, last_updated_field)
     if last_updated:
-        return _NOW - min(
-            _NOW, last_updated
-        ) <= min(_MIN_REFRESH_FREQUENCY, threshold * threshold_func(obj))
+        return _NOW - min(_NOW, last_updated) <= min(
+            _MIN_REFRESH_FREQUENCY, threshold * threshold_func(obj)
+        )
     return False
 
 
@@ -246,7 +254,9 @@ def run_update(
 ):
     model_name = model.__name__
 
-    n_objs = get_number_of_objs_to_update(session, model, threshold, last_checked_field)
+    n_objs = get_number_of_objs_to_update(
+        session, model, threshold, last_checked_field
+    )
 
     i = 1
     seen = set()
@@ -258,7 +268,13 @@ def run_update(
             session.commit()
 
     def loop_housekeeping(session, obj, updated=False):
-        touch_obj(session, obj, last_checked_field, last_updated_field, updated=updated)
+        touch_obj(
+            session,
+            obj,
+            last_checked_field,
+            last_updated_field,
+            updated=updated,
+        )
         if dry_run:
             # build the list of seen objects only when we cannot rely on
             # last_checked fields in db
@@ -269,7 +285,9 @@ def run_update(
         i += 1
 
     while True:
-        obj = get_obj_to_update(session, model, threshold, last_checked_field, seen)
+        obj = get_obj_to_update(
+            session, model, threshold, last_checked_field, seen
+        )
         if obj is None:
             break
 
@@ -299,7 +317,14 @@ def parse_args():
     return parser.parse_args()
 
 
-def main(model, api_cls, refresh_func, threshold_func, last_checked_field=_LAST_CHECKED_FIELD, last_updated_field=_LAST_UPDATED_FIELD):
+def main(
+    model,
+    api_cls,
+    refresh_func,
+    threshold_func,
+    last_checked_field=_LAST_CHECKED_FIELD,
+    last_updated_field=_LAST_UPDATED_FIELD,
+):
     args = parse_args()
 
     if args.debug:
@@ -307,7 +332,11 @@ def main(model, api_cls, refresh_func, threshold_func, last_checked_field=_LAST_
 
     while True:
         try:
-            threshold = datetime.timedelta(0) if args.force else _MODEL_TO_THRESHOLD[model]
+            threshold = (
+                datetime.timedelta(0)
+                if args.force
+                else _MODEL_TO_THRESHOLD[model]
+            )
             run_update(
                 sessionmaker(bind=db.create_engine())(),
                 model,
@@ -338,5 +367,11 @@ def films_main():
 
 
 def offers_main():
-    main(models.Film, film_obj.Film, refresh_offers, offer_threshold,
-         'last_offers_checked', 'last_offers_updated')
+    main(
+        models.Film,
+        film_obj.Film,
+        refresh_offers,
+        offer_threshold,
+        "last_offers_checked",
+        "last_offers_updated",
+    )

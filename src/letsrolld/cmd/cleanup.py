@@ -21,8 +21,11 @@ def normalize_lb_url(lb_url):
 
 def shorten_lb_urls(session, model, dry_run=False):
     try:
-        for obj in session.query(model).filter(
-                model.lb_url.startswith(_REDIRECT_LB_PREFIX)).all():
+        for obj in (
+            session.query(model)
+            .filter(model.lb_url.startswith(_REDIRECT_LB_PREFIX))
+            .all()
+        ):
             new_url = normalize_lb_url(obj.lb_url)
             if lb_obj_exists(session, model, new_url):
                 print(f"Deleting duplicate {obj.lb_url}")
@@ -63,7 +66,7 @@ _CLEANUP = [
     (
         models.Film,
         delete_orphaned_films,
-    )
+    ),
 ]
 
 
