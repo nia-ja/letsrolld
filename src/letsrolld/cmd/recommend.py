@@ -4,8 +4,6 @@ import random
 from decimal import Decimal
 import textwrap
 
-from letsrolld.colors import red, green, blue, bold
-
 from letsrolld import config
 from letsrolld import http
 from letsrolld import director
@@ -108,15 +106,6 @@ def get_movies(directors, cfg, exclude_movies):
             movies.append(movie_candidates.pop())
 
     return movies
-
-
-def get_colored_service(service):
-    color = blue
-    if service == film.PHYSICAL:
-        color = red
-    elif service in film.SERVICE_ALIASES["FREE"]:
-        color = green
-    return color(service)
 
 
 def get_directors(movies, directors):
@@ -241,10 +230,7 @@ def get_config():
 
 
 def report_movie(i, movie):
-    print(
-        f"{i}: {bold(movie.name)} | 📅:{movie.year} | "
-        f"📽:{movie.director_names}"
-    )
+    print(f"{i}: {movie.name} | 📅:{movie.year} | 📽:{movie.director_names}")
     print(
         f"- ⌛:{movie.runtime_string} - ⭐:{movie.rating} - "
         f"📎:{movie.genre_names}"
@@ -259,16 +245,14 @@ def report_movie(i, movie):
         print(f"  Trailer: {movie.trailer_url}")
     if movie.description:
         for line in textwrap.wrap(movie.description):
-            print(bold(f"  | {line}"))
-    available = ", ".join(
-        get_colored_service(s) for s in film.SERVICES if movie.available(s)
-    )
+            print(f"  | {line}")
+    available = ", ".join(s for s in film.SERVICES if movie.available(s))
     print(f"  Available: {available}")
     print()
 
 
 def report(directors, cfg, exclude_movies):
-    print(bold(green(cfg.name)))
+    print(cfg.name)
 
     movies = get_movies(directors, cfg, exclude_movies)
     for i, movie in enumerate(
