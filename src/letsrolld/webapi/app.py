@@ -1,11 +1,14 @@
 from flask import Flask
-from flask_restful import Api, Resource
+from flask_restful_swagger_3 import Api, Resource
 from flask_sqlalchemy import SQLAlchemy
 
 from letsrolld import db
 from letsrolld.db import models
 
 import logging
+
+# TODO: actually define api as per:
+# https://pypi.org/project/flask-restful-swagger-3/
 
 logging.basicConfig()
 logging.getLogger("sqlalchemy.engine").setLevel(logging.DEBUG)
