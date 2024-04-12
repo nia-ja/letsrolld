@@ -5,7 +5,6 @@ from decimal import Decimal
 import textwrap
 
 from letsrolld import config
-from letsrolld import http
 from letsrolld import director
 from letsrolld import directorlist
 from letsrolld import film
