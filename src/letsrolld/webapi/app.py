@@ -55,15 +55,17 @@ class DirectorResource(Resource):
         description="Returns directors",
         summary="Get Directors",
     )
-    @swagger.parameters([
-        {
-            "name": "limit",
-            "in": "query",
-            "description": "Number of directors to return",
-            "required": False,
-            "schema": {"type": "integer", "default": 10},
-        },
-    ])
+    @swagger.parameters(
+        [
+            {
+                "name": "limit",
+                "in": "query",
+                "description": "Number of directors to return",
+                "required": False,
+                "schema": {"type": "integer", "default": 10},
+            },
+        ]
+    )
     def get(self, _parser):
         args = _parser.parse_args()
         return [
@@ -100,23 +102,57 @@ class FilmResource(Resource):
         description="Returns films",
         summary="Get Films",
     )
-    @swagger.parameters([
-        {
-            "name": "limit",
-            "in": "query",
-            "description": "Number of films to return",
-            "required": False,
-            "schema": {"type": "integer", "default": 10},
-        },
-    ])
+    @swagger.parameters(
+        [
+            {
+                "name": "limit",
+                "in": "query",
+                "description": "Number of films to return",
+                "required": False,
+                "schema": {"type": "integer", "default": 10},
+            },
+            {
+                "name": "genre",
+                "in": "query",
+                "description": "Genre to filter by",
+                "required": False,
+                "schema": {"type": "string"},
+            },
+            {
+                "name": "country",
+                "in": "query",
+                "description": "Country to filter by",
+                "required": False,
+                "schema": {"type": "string"},
+            },
+            {
+                "name": "offer",
+                "in": "query",
+                "description": "Offer to filter by",
+                "required": False,
+                "schema": {"type": "string"},
+            },
+        ]
+    )
     def get(self, _parser):
         args = _parser.parse_args()
-        return [
-            _get_film(d)
-            for d in db_.session.query(models.Film)
-            .order_by(func.random())
-            .limit(args["limit"])
-        ], 200
+
+        query = db_.session.query(models.Film)
+        if args["genre"]:
+            query = query.join(models.Film.genres).filter(
+                models.Genre.name == args["genre"]
+            )
+        if args["country"]:
+            query = query.join(models.Film.countries).filter(
+                models.Country.name == args["country"]
+            )
+        if args["offer"]:
+            query = query.join(models.Film.offers).filter(
+                models.Offer.name == args["offer"]
+            )
+
+        query = query.order_by(func.random()).limit(args["limit"])
+        return [_get_film(d) for d in query], 200
 
 
 class FilmItemResource(Resource):
