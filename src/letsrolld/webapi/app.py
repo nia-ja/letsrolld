@@ -34,6 +34,7 @@ def _get_film(f):
         genres=[g.name for g in f.genres],
         countries=[c.name for c in f.countries],
         offers=[o.name for o in f.offers],
+        directors=[d.id for d in f.directors],
     )
 
 

@@ -1,6 +1,11 @@
 from flask_restful_swagger_3 import Schema
 
 
+class DirectorId(Schema):
+    type = 'integer'
+    format = 'int64'
+
+
 class NullableURL(Schema):
     type = 'string'
     format = 'url'
@@ -52,7 +57,7 @@ class Film(Schema):
         'genres': Genre.array(),
         'countries': Country.array(),
         'offers': Offer.array(),
-        # 'directors': Director.array(),
+        'directors': DirectorId.array(),
     }
     required = ['title']
 
