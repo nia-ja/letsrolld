@@ -55,12 +55,22 @@ class DirectorResource(Resource):
         description="Returns directors",
         summary="Get Directors",
     )
-    def get(self):
+    @swagger.parameters([
+        {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of directors to return",
+            "required": False,
+            "schema": {"type": "integer", "default": 10},
+        },
+    ])
+    def get(self, _parser):
+        args = _parser.parse_args()
         return [
             _get_director(d)
             for d in db_.session.query(models.Director)
             .order_by(func.random())
-            .limit(10)
+            .limit(args["limit"])
         ], 200
 
 
@@ -90,12 +100,22 @@ class FilmResource(Resource):
         description="Returns films",
         summary="Get Films",
     )
-    def get(self):
+    @swagger.parameters([
+        {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of films to return",
+            "required": False,
+            "schema": {"type": "integer", "default": 10},
+        },
+    ])
+    def get(self, _parser):
+        args = _parser.parse_args()
         return [
             _get_film(d)
             for d in db_.session.query(models.Film)
             .order_by(func.random())
-            .limit(10)
+            .limit(args["limit"])
         ], 200
 
 

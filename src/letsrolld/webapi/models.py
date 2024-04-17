@@ -2,76 +2,70 @@ from flask_restful_swagger_3 import Schema
 
 
 class DirectorId(Schema):
-    type = 'integer'
-    format = 'int64'
+    type = "integer"
+    format = "int64"
 
 
 class NullableURL(Schema):
-    type = 'string'
-    format = 'url'
+    type = "string"
+    format = "url"
     nullable = True
 
 
 class URL(Schema):
-    type = 'string'
-    format = 'url'
+    type = "string"
+    format = "url"
 
 
 class Genre(Schema):
-    type = 'string'
+    type = "string"
 
 
 class Country(Schema):
-    type = 'string'
+    type = "string"
 
 
 class Offer(Schema):
-    type = 'string'
+    type = "string"
 
 
 class Film(Schema):
     properties = {
-        'id': {
-            'type': 'integer',
-            'format': 'int64',
+        "id": {
+            "type": "integer",
+            "format": "int64",
         },
-        'title': {
-            'type': 'string'
+        "title": {"type": "string"},
+        "description": {"type": "string"},
+        "year": {
+            "type": "integer",
+            "format": "int64",
         },
-        'description': {
-            'type': 'string'
+        "rating": {
+            "type": "string",
         },
-        'year': {
-            'type': 'integer',
-            'format': 'int64',
+        "runtime": {
+            "type": "integer",
+            "format": "int64",
         },
-        'rating': {
-            'type': 'string',
-        },
-        'runtime': {
-            'type': 'integer',
-            'format': 'int64',
-        },
-        'lb_url': URL,
-        'jw_url': NullableURL,
-        'genres': Genre.array(),
-        'countries': Country.array(),
-        'offers': Offer.array(),
-        'directors': DirectorId.array(),
+        "lb_url": URL,
+        "jw_url": NullableURL,
+        "genres": Genre.array(),
+        "countries": Country.array(),
+        "offers": Offer.array(),
+        "directors": DirectorId.array(),
     }
-    required = ['title']
+    required = ["title"]
 
 
 class Director(Schema):
     properties = {
-        'id': {
-            'type': 'integer',
-            'format': 'int64',
+        "id": {
+            "type": "integer",
+            "format": "int64",
         },
-        'name': {
-            'type': 'string'
-        },
-        'lb_url': URL,
-        'films': Film.array(),
+        "name": {"type": "string"},
+        "lb_url": URL,
+        "films": Film.array(),
     }
-    required = ['name']
+    required = ["name"]
