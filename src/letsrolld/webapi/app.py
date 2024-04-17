@@ -30,7 +30,7 @@ def _get_film(f):
         rating=f"{f.rating:.2f}",
         runtime=f.runtime,
         lb_url=f.lb_url,
-        jw_url=f.jw_url if f.jw_url else "",
+        jw_url=f.jw_url,
         genres=[g.name for g in f.genres],
         countries=[c.name for c in f.countries],
         offers=[o.name for o in f.offers],
