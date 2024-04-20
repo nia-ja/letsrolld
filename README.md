@@ -2,33 +2,33 @@
 
 ## Development
 
-#. [Install flox.](https://flox.dev/docs/install-flox/)
+1. [Install flox.](https://flox.dev/docs/install-flox/)
 
-#. Activate flox environment.
+2. Activate flox environment.
 
 ```bash
 flox activate
 ```
 
-#. Install `python` dependencies not packaged for `nixos`, yet.
+3. Install `python` dependencies not packaged for `nixos`, yet.
 
 ```bash
 pdm install
 ```
 
-#. Run the tests.
+4. Run the tests.
 
 ```bash
 make test
 ```
 
-#. Initialize an empty database.
+5. Initialize an empty database.
 
 ```bash
 make init_db
 ```
 
-#. Run the web app.
+6. Run the web app.
 
 ```bash
 make webapp
