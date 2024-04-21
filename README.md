@@ -40,3 +40,6 @@ make populate
 ```bash
 make webapp
 ```
+
+At this point, the web app should be running at `http://localhost:8000`. You
+can access the API schema at `http://localhost:8000/api/doc/swagger.json`.
