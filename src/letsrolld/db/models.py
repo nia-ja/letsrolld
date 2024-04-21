@@ -78,15 +78,11 @@ class Film(Base):
     last_offers_checked = Column(DateTime, nullable=True)
     last_offers_updated = Column(DateTime, nullable=True)
 
-    genres: Mapped[list[Genre]] = relationship(
-        secondary=film_genre_association_table
-    )
+    genres: Mapped[list[Genre]] = relationship(secondary=film_genre_association_table)
     countries: Mapped[list[Country]] = relationship(
         secondary=film_country_association_table
     )
-    offers: Mapped[list[Offer]] = relationship(
-        secondary=film_offer_association_table
-    )
+    offers: Mapped[list[Offer]] = relationship(secondary=film_offer_association_table)
 
     directors = relationship(
         "Director",

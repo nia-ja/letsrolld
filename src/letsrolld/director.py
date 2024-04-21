@@ -10,7 +10,6 @@ _DEFAULT_SORT = "by/rating/"
 
 
 class Director(BaseObject):
-
     persistent_attributes = ["name", "film_urls"]
 
     @functools.cached_property

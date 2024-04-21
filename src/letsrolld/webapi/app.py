@@ -84,11 +84,7 @@ class DirectorItemResource(Resource):
         summary="Get Director",
     )
     def get(self, id):
-        d = (
-            db_.session.query(models.Director)
-            .filter(models.Director.id == id)
-            .one()
-        )
+        d = db_.session.query(models.Director).filter(models.Director.id == id).one()
         if d is None:
             return {}, 404
         return _get_director(d), 200

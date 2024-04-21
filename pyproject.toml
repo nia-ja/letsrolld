@@ -26,9 +26,6 @@ build-backend = "pdm.backend"
 [tool.pdm]
 distribution = true
 
-[tool.black]
-line-length = 79
-
 [tool.pdm.dev-dependencies]
 dev = [
     "pre-commit>=3.6.2",

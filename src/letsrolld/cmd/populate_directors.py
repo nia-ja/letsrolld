@@ -25,12 +25,8 @@ def create_directors(engine, directors):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "-d", "--directors", help="input directors file", required=True
-    )
-    parser.add_argument(
-        "-n", "--num", help="max number of directors to add", type=int
-    )
+    parser.add_argument("-d", "--directors", help="input directors file", required=True)
+    parser.add_argument("-n", "--num", help="max number of directors to add", type=int)
     args = parser.parse_args()
 
     if not os.path.exists(args.directors):

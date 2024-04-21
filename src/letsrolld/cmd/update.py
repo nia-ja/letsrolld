@@ -49,9 +49,7 @@ def get_obj_to_update(session, model, threshold, last_checked_field, seen):
     return (
         session.execute(
             select(model)
-            .filter(
-                _get_obj_to_update_query(model, threshold, last_checked_field)
-            )
+            .filter(_get_obj_to_update_query(model, threshold, last_checked_field))
             .filter(_seen_obj_query(model, seen))
             .limit(1)
         )
@@ -60,16 +58,12 @@ def get_obj_to_update(session, model, threshold, last_checked_field, seen):
     )
 
 
-def get_number_of_objs_to_update(
-    session, model, threshold, last_checked_field
-):
+def get_number_of_objs_to_update(session, model, threshold, last_checked_field):
     try:
         return session.scalar(
             select(func.count())
             .select_from(model)
-            .filter(
-                _get_obj_to_update_query(model, threshold, last_checked_field)
-            )
+            .filter(_get_obj_to_update_query(model, threshold, last_checked_field))
         )
     finally:
         session.close()
@@ -141,9 +135,7 @@ def get_db_films(session, films):
         yield get_db_film(session, f.url)
 
 
-def touch_obj(
-    session, obj, last_checked_field, last_updated_field, updated=False
-):
+def touch_obj(session, obj, last_checked_field, last_updated_field, updated=False):
     if updated:
         setattr(obj, last_updated_field, _NOW)
     # cap the last_updated field to the current time
@@ -254,9 +246,7 @@ def run_update(
 ):
     model_name = model.__name__
 
-    n_objs = get_number_of_objs_to_update(
-        session, model, threshold, last_checked_field
-    )
+    n_objs = get_number_of_objs_to_update(session, model, threshold, last_checked_field)
 
     i = 1
     seen = set()
@@ -285,9 +275,7 @@ def run_update(
         i += 1
 
     while True:
-        obj = get_obj_to_update(
-            session, model, threshold, last_checked_field, seen
-        )
+        obj = get_obj_to_update(session, model, threshold, last_checked_field, seen)
         if obj is None:
             break
 
@@ -333,9 +321,7 @@ def main(
     while True:
         try:
             threshold = (
-                datetime.timedelta(0)
-                if args.force
-                else _MODEL_TO_THRESHOLD[model]
+                datetime.timedelta(0) if args.force else _MODEL_TO_THRESHOLD[model]
             )
             run_update(
                 sessionmaker(bind=db.create_engine())(),
@@ -357,9 +343,7 @@ def main(
 
 
 def directors_main():
-    main(
-        models.Director, dir_obj.Director, refresh_director, director_threshold
-    )
+    main(models.Director, dir_obj.Director, refresh_director, director_threshold)
 
 
 def films_main():

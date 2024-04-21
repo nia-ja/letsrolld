@@ -4,7 +4,6 @@ from letsrolld import http
 
 
 class BaseObject:
-
     persistent_attributes = []
 
     def __init__(self, url):

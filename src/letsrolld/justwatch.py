@@ -73,19 +73,13 @@ def _parse_entry(json):
     external_ids = content.get("externalIds")
     imdb_id = external_ids.get("imdbId") if external_ids else None
     poster_url_field = content.get("posterUrl")
-    poster = (
-        jw_query._IMAGES_URL + poster_url_field if poster_url_field else None
-    )
+    poster = jw_query._IMAGES_URL + poster_url_field if poster_url_field else None
     backdrops = [
         jw_query._IMAGES_URL + bd.get("backdropUrl")
         for bd in content.get("backdrops", [])
         if bd
     ]
-    offers = [
-        jw_query._parse_offer(offer)
-        for offer in json.get("offers", [])
-        if offer
-    ]
+    offers = [jw_query._parse_offer(offer) for offer in json.get("offers", []) if offer]
     return jw.MediaEntry(
         entry_id,
         object_id,

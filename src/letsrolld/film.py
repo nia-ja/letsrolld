@@ -55,7 +55,6 @@ def get_services(services):
 
 
 class Film(BaseObject):
-
     persistent_attributes = [
         "name",
         "genres",
@@ -101,11 +100,7 @@ class Film(BaseObject):
 
     @functools.cached_property
     def description(self):
-        return (
-            self.lb_description
-            if self.jw is None
-            else self.jw.short_description
-        )
+        return self.lb_description if self.jw is None else self.jw.short_description
 
     @property
     def lb_description(self):
@@ -206,9 +201,7 @@ class Film(BaseObject):
 
     @property
     def trailer_url(self):
-        for a in self.soup.find_all(
-            "a", class_="play track-event js-video-zoom"
-        ):
+        for a in self.soup.find_all("a", class_="play track-event js-video-zoom"):
             href = a.get("href")
             if href:
                 yt_id = href.split("/")[4].split("?")[0]
@@ -229,8 +222,7 @@ class Film(BaseObject):
     @functools.cached_property
     def directors(self):
         return [
-            director.Director(url=a.get("href"))
-            for a in self._get_director_slugs()
+            director.Director(url=a.get("href")) for a in self._get_director_slugs()
         ]
 
     @functools.cached_property
