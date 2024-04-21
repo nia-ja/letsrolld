@@ -1,5 +1,7 @@
 IMAGE_NAME?=letsrolld
 DB=$(PWD)/movie.db
+DIRECTORS_NUMBER?=10
+DIRECTORS_FILE?=directors.csv
 
 ifndef VERBOSE
 .SILENT:
@@ -16,6 +18,9 @@ test: lint
 
 init_db:
 	test -f $(DB) || (touch $(DB) && sqlite3 $(DB) "VACUUM;" && pdm run db-init)
+
+populate:
+	pdm run populate-directors -d ${DIRECTORS_FILE} -n ${DIRECTORS_NUMBER}
 
 run-update-directors: init_db
 	pdm run update-directors $(ARGS)

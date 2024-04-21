@@ -1,4 +1,5 @@
 import argparse
+import itertools as it
 import os.path
 import sys
 
@@ -27,13 +28,19 @@ def main():
     parser.add_argument(
         "-d", "--directors", help="input directors file", required=True
     )
+    parser.add_argument(
+        "-n", "--num", help="max number of directors to add", type=int
+    )
     args = parser.parse_args()
 
     if not os.path.exists(args.directors):
         print(f"File {args.directors} does not exist")
         sys.exit(1)
 
-    create_directors(db.create_engine(), read_director_list(args.directors))
+    directors = read_director_list(args.directors)
+    if args.num:
+        directors = it.islice(directors, args.num)
+    create_directors(db.create_engine(), directors)
 
 
 if __name__ == "__main__":

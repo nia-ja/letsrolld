@@ -28,7 +28,14 @@ make test
 make init_db
 ```
 
-6. Run the web app.
+6. Populate the database with test data. This will initialize the database with
+   10 directors and their films, by default.
+
+```bash
+make populate
+```
+
+7. Run the web app.
 
 ```bash
 make webapp
