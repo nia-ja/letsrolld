@@ -20,6 +20,10 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False  # do I need this?
 
 db_ = SQLAlchemy(app)
 
+_LICENSE = {
+    "name": "GPL-3.0",
+    "url": "https://www.gnu.org/licenses/gpl-3.0.html",
+}
 
 def _get_film(f):
     return webapi_models.Film(
@@ -164,7 +168,7 @@ class FilmItemResource(Resource):
 
 
 def main():
-    api = Api(app, title="letsrolld API", version="0.1")
+    api = Api(app, title="letsrolld API", license=_LICENSE, version="0.1")
 
     # TODO: generalize endpoint definitions
     api.add_resource(DirectorResource, "/directors")
