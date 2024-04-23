@@ -13,7 +13,7 @@ dependencies = [
     "simple-justwatch-python-api",
     "SQLAlchemy>=2.0.27",
     "alembic>=1.13.1",
-    "flask-restful-swagger-3>=0.5.1",
+    "flask-restful-swagger-3 @ git+https://github.com/booxter/flask-restful-swagger-3@master",
 ]
 requires-python = ">=3.11,<3.12"
 readme = "README.md"

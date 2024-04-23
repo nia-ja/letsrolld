@@ -25,6 +25,7 @@ _LICENSE = {
     "url": "https://www.gnu.org/licenses/gpl-3.0.html",
 }
 
+
 def _get_film(f):
     return webapi_models.Film(
         id=f.id,
@@ -54,8 +55,7 @@ def _get_director(d):
 class DirectorResource(Resource):
     @swagger.tags(["director"])
     @swagger.reorder_with(
-        webapi_models.Director,
-        as_list=True,
+        webapi_models.ArrayOfDirectors,
         description="Returns directors",
         summary="Get Directors",
     )
@@ -97,8 +97,7 @@ class DirectorItemResource(Resource):
 class FilmResource(Resource):
     @swagger.tags(["film"])
     @swagger.reorder_with(
-        webapi_models.Film,
-        as_list=True,
+        webapi_models.ArrayOfFilms,
         description="Returns films",
         summary="Get Films",
     )

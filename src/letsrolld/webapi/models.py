@@ -69,3 +69,15 @@ class Director(Schema):
         "films": Film.array(),
     }
     required = ["name"]
+
+
+class ArrayOfDirectors(Schema):
+    type = "array"
+    properties = Director.properties
+    items = Director
+
+
+class ArrayOfFilms(Schema):
+    type = "array"
+    properties = Film.properties
+    items = Film

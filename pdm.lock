@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:fe3f4784992f764686231cad6035fccbfc9c6e6379089188585493701aec0632"
+content_hash = "sha256:533dc80c578eec90ef09fd5a9c16d4018e0a5d661c722ad4c64a365cf385487c"
 
 [[package]]
 name = "alembic"
@@ -203,13 +203,13 @@ files = [
 name = "flask-restful-swagger-3"
 version = "0.5.1"
 requires_python = ">=3.6"
+git = "https://github.com/booxter/flask-restful-swagger-3"
+ref = "master"
+revision = "dfb627445ced07ab7fdffdedc03a57520ecd0233"
 summary = "Extract swagger specs from your flask-restful project. Project based on flask-restful-swagger-2 by Soeren Wegener."
 dependencies = [
     "Flask-Cors",
     "Flask-RESTful>=0.3.7",
-]
-files = [
-    {file = "flask-restful-swagger-3-0.5.1.tar.gz", hash = "sha256:68261e6a720b80b8eecfce4da7e31759eb08ceb882e8e342d30a3ce46373ac8a"},
 ]
 
 [[package]]
