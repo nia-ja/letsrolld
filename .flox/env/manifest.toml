@@ -50,4 +50,4 @@ flask-sqlalchemy.pkg-path = "python311Packages.flask-sqlalchemy"
 # In order to use the environment on a system you must explicitly
 # add it to this list.
 [options]
-systems = ["x86_64-darwin"]
+systems = ["x86_64-darwin", "aarch64-darwin"]
