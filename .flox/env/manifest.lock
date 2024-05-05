@@ -829,11 +829,11 @@
     "inputs": {
       "nixpkgs": {
         "from": {
-          "lastModified": 1711062067,
-          "narHash": "sha256-uOPSXl0DzHTo22Gk62HnIiuoXtmHPIr1Z9yK/c3jgWg=",
+          "lastModified": 1714932323,
+          "narHash": "sha256-/adplVPlMAjQKi0l7LQmQV2cpYBVGx+w9hCQfHjUi7Q=",
           "owner": "NixOS",
           "repo": "nixpkgs",
-          "rev": "ac794a632da4741770ef67497991ec6c042e159d",
+          "rev": "ac3da936f34adaa03416f2e14bf670d0ec8012b9",
           "type": "github"
         },
         "subtrees": [
