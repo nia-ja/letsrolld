@@ -205,7 +205,7 @@ version = "0.5.1"
 requires_python = ">=3.6"
 git = "https://github.com/booxter/flask-restful-swagger-3"
 ref = "master"
-revision = "dfb627445ced07ab7fdffdedc03a57520ecd0233"
+revision = "6c977541188cad98ad17d4eb53a089c794be2b36"
 summary = "Extract swagger specs from your flask-restful project. Project based on flask-restful-swagger-2 by Soeren Wegener."
 dependencies = [
     "Flask-Cors",
