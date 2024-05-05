@@ -41,3 +41,9 @@ run-db-upgrade:
 
 webapp: init_db
 	pdm run webapp
+
+get-dirs:
+	pdm run lcli directors get
+
+get-films:
+	pdm run lcli films get
