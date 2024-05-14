@@ -74,7 +74,7 @@ export default class Movie {
         const runtime = this.createMovieElemText("h4", "movie-runtime",`${this.runtime} min`);
         const description = this.createMovieElemText("p", "movie-description", this.description);
         const genres = this.createListWithTitle("genres", this.genres);
-        const counries = this.createListWithTitle("counries", this.countries);
+        const counries = this.createListWithTitle("countries", this.countries);
         const links = this.getLinks();
         
         
