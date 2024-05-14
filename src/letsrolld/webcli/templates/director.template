@@ -1,0 +1,4 @@
+{{ director.name }}:
+{%- for film in director.films|sort(attribute='rating', reverse=True) %}
+- {{ film.title }} {{ film.year }} ({{ film.rating }})
+{%- endfor -%}

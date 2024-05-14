@@ -14,6 +14,9 @@ dependencies = [
     "SQLAlchemy>=2.0.27",
     "alembic>=1.13.1",
     "flask-restful-swagger-3 @ git+https://github.com/booxter/flask-restful-swagger-3@master",
+    "letsrolld-api-client @ git+https://github.com/booxter/letsrolld-client.git",
+    "click>=8.1.7",
+    "Jinja2>=3.1.3",
 ]
 requires-python = ">=3.11,<3.12"
 readme = "README.md"
@@ -46,3 +49,4 @@ cleanup = "letsrolld.cmd.cleanup:main"
 
 # webapi
 webapp = "letsrolld.webapi.app:main"
+lcli = "letsrolld.webcli.cli:cli"

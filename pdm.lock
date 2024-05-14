@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:533dc80c578eec90ef09fd5a9c16d4018e0a5d661c722ad4c64a365cf385487c"
+content_hash = "sha256:5d9eb21fe99a185cb6323404f87ccff10aa6723a8553fb70b01dad300f6aa6aa"
 
 [[package]]
 name = "alembic"
@@ -43,6 +43,16 @@ dependencies = [
 files = [
     {file = "anyio-4.3.0-py3-none-any.whl", hash = "sha256:048e05d0f6caeed70d731f3db756d35dcc1f35747c8c403364a8332c630441b8"},
     {file = "anyio-4.3.0.tar.gz", hash = "sha256:f75253795a87df48568485fd18cdd2a3fa5c4f7c5be8e5e36637733fce06fed6"},
+]
+
+[[package]]
+name = "attrs"
+version = "23.2.0"
+requires_python = ">=3.7"
+summary = "Classes Without Boilerplate"
+files = [
+    {file = "attrs-23.2.0-py3-none-any.whl", hash = "sha256:99b87a485a5820b23b879f04c2305b44b951b502fd64be915879d77a7e8fc6f1"},
+    {file = "attrs-23.2.0.tar.gz", hash = "sha256:935dc3b529c262f6cf76e50877d35a4bd3c1de194fd41f47a2b7ae8f19971f30"},
 ]
 
 [[package]]
@@ -205,7 +215,7 @@ version = "0.5.1"
 requires_python = ">=3.6"
 git = "https://github.com/booxter/flask-restful-swagger-3"
 ref = "master"
-revision = "dfb627445ced07ab7fdffdedc03a57520ecd0233"
+revision = "157e50d317b6f59e53d743d75fe3519fc576f3c6"
 summary = "Extract swagger specs from your flask-restful project. Project based on flask-restful-swagger-2 by Soeren Wegener."
 dependencies = [
     "Flask-Cors",
@@ -325,6 +335,19 @@ files = [
 ]
 
 [[package]]
+name = "letsrolld-api-client"
+version = "0.1"
+requires_python = ">=3.8,<4.0"
+git = "https://github.com/booxter/letsrolld-client.git"
+revision = "1822119c7add754bd5a42166fbb786908eb3b556"
+summary = "A client library for accessing letsrolld API"
+dependencies = [
+    "attrs>=21.3.0",
+    "httpx<0.28.0,>=0.20.0",
+    "python-dateutil<3.0.0,>=2.8.0",
+]
+
+[[package]]
 name = "mako"
 version = "1.3.2"
 requires_python = ">=3.8"
@@ -430,6 +453,19 @@ dependencies = [
 files = [
     {file = "pytest-8.0.1-py3-none-any.whl", hash = "sha256:3e4f16fe1c0a9dc9d9389161c127c3edc5d810c38d6793042fb81d9f48a59fca"},
     {file = "pytest-8.0.1.tar.gz", hash = "sha256:267f6563751877d772019b13aacbe4e860d73fe8f651f28112e9ac37de7513ae"},
+]
+
+[[package]]
+name = "python-dateutil"
+version = "2.9.0.post0"
+requires_python = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
+summary = "Extensions to the standard Python datetime module"
+dependencies = [
+    "six>=1.5",
+]
+files = [
+    {file = "python-dateutil-2.9.0.post0.tar.gz", hash = "sha256:37dd54208da7e1cd875388217d5e00ebd4179249f90fb72437e91a35459a0ad3"},
+    {file = "python_dateutil-2.9.0.post0-py2.py3-none-any.whl", hash = "sha256:a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427"},
 ]
 
 [[package]]

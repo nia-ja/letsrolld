@@ -53,7 +53,6 @@ def _get_director(d):
 
 
 class DirectorResource(Resource):
-    @swagger.tags(["director"])
     @swagger.reorder_with(
         webapi_models.ArrayOfDirectors,
         description="Returns directors",
@@ -81,7 +80,6 @@ class DirectorResource(Resource):
 
 
 class DirectorItemResource(Resource):
-    @swagger.tags(["director"])
     @swagger.reorder_with(
         webapi_models.Director,
         description="Returns a director",
@@ -95,7 +93,6 @@ class DirectorItemResource(Resource):
 
 
 class FilmResource(Resource):
-    @swagger.tags(["film"])
     @swagger.reorder_with(
         webapi_models.ArrayOfFilms,
         description="Returns films",
@@ -155,7 +152,6 @@ class FilmResource(Resource):
 
 
 class FilmItemResource(Resource):
-    @swagger.tags(["film"])
     @swagger.reorder_with(
         webapi_models.Film, description="Returns a film", summary="Get Film"
     )
