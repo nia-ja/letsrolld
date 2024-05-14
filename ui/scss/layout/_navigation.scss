@@ -1,0 +1,56 @@
+.navbar {
+    width: 100vw;
+    // height: 115px;
+    position: fixed;
+    padding: 25px 40px;
+    background-color: $color-primary;
+    color: $color-grey-light-1;
+    // display: flex;
+    // flex-direction: row;
+    // justify-content: flex-end;
+    border-bottom: 2px solid white;
+
+    form {
+        label {
+            font-size: 40px;
+            margin-right: 1%;
+        }
+
+        width: 70%;
+        display: flex;
+        // justify-content: flex-end;
+        // flex-wrap: wrap;
+        // border: 1px solid red;
+        align-items: center;
+
+        input#f_number {
+            width: 10%;
+            margin-right: 1%;
+            padding: 5px 20px;
+            font-size: 30px;
+            font-style: italic;
+            background-color: rgba($color-grey-light-2, 0.3);
+            color: $color-light;
+            border: none;
+            border-radius: 5px;
+            text-align: right;
+
+            &:focus {
+                background-color: rgba($color-grey-light-2, 1);
+                color: $color-primary;
+                // border: 1px solid $color-primary;
+                outline-color: $color-primary;
+            }
+        }
+        // .btn#movies-number {
+        //     height: 34px;
+        //     padding: 7px 20px;
+        //     border: none;
+        //     border-radius: 5px;
+        //     font-size: 20px;
+        //     font-weight: bold;
+        //     text-transform: uppercase;
+        // }
+    }
+
+}

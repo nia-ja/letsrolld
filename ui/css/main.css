@@ -1,0 +1,174 @@
+body {
+  margin: 0;
+  background-color: #eee;
+}
+
+.btn {
+  border: none;
+  font-size: 20px;
+  line-height: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: all 0.3s ease-in-out;
+}
+.btn--primary {
+  height: 34px;
+  padding: 7px 20px;
+  border-radius: 5px;
+  background-color: rgb(255, 252, 252);
+  color: rgb(30, 3, 59);
+}
+.btn--primary:hover {
+  background-color: rgba(255, 252, 252, 0.7);
+  color: rgb(30, 3, 59);
+}
+.btn--round {
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+}
+.btn--round--150 {
+  width: 150px;
+  height: 150px;
+  font-size: 40px;
+}
+.btn--round--150#get {
+  margin: 20px auto 60px auto;
+  background-color: rgba(255, 252, 252, 0.2);
+  color: rgb(255, 255, 255);
+}
+.btn--round--150#get .refresh-button {
+  z-index: 100;
+  width: 70%;
+  height: 70%;
+}
+.btn--round--150#get:hover .refresh-button {
+  color: rgb(30, 3, 59);
+}
+.btn--round:hover {
+  background-color: rgba(255, 252, 252, 0.7);
+  color: rgb(30, 3, 59);
+  transform: scale(1.2) rotate(360deg);
+}
+.btn--link {
+  margin-bottom: 10px;
+  margin-right: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: rgb(30, 3, 59);
+  color: rgb(255, 255, 255);
+}
+.btn--link:last-child {
+  margin-bottom: 0;
+  margin-right: 0;
+}
+.btn--link:hover {
+  background-color: rgba(255, 252, 252, 0.7);
+  color: rgb(30, 3, 59);
+}
+
+.movie-card {
+  max-width: 28%;
+  background-color: rgb(185, 206, 212);
+  padding: 2%;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.movie-left {
+  width: 40%;
+}
+.movie-image {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+}
+.movie-image-cover {
+  width: 100%;
+  border-radius: 2%;
+}
+.movie-right {
+  width: 55%;
+}
+.movie-info {
+  width: 100%;
+}
+.movie-info h1 {
+  text-transform: uppercase;
+}
+.movie-info h2 {
+  font-style: italic;
+}
+.movie-info .links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: baseline;
+}
+.movie-info .links a.movie-link {
+  text-decoration: none;
+  font-size: inherit;
+  color: inherit;
+}
+
+.navbar {
+  width: 100vw;
+  position: fixed;
+  padding: 25px 40px;
+  background-color: #1e033b;
+  color: #f7f7f7;
+  border-bottom: 2px solid white;
+}
+.navbar form {
+  width: 70%;
+  display: flex;
+  align-items: center;
+}
+.navbar form label {
+  font-size: 40px;
+  margin-right: 1%;
+}
+.navbar form input#f_number {
+  width: 10%;
+  margin-right: 1%;
+  padding: 5px 20px;
+  font-size: 30px;
+  font-style: italic;
+  background-color: rgba(238, 238, 238, 0.3);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  text-align: right;
+}
+.navbar form input#f_number:focus {
+  background-color: #eeeeee;
+  color: #1e033b;
+  outline-color: #1e033b;
+}
+
+.container {
+  background-color: rgb(30, 3, 59);
+  width: 100vw;
+  max-width: 2000px;
+  margin: 0 auto;
+  padding-top: 115px;
+  min-height: calc(100vh - 115px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.container #response {
+  background-color: transparent;
+  width: 95%;
+  margin: 0 auto 20px auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  row-gap: 20px;
+  column-gap: 20px;
+}
+
+/*# sourceMappingURL=main.css.map */
