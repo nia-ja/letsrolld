@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "sass": "sass --watch scss:css"
+  },
+  "devDependencies": {
+    "sass": "^1.76.0"
+  },
+  "dependencies": {
+    "lucide": "^0.377.0"
+  }
+}
