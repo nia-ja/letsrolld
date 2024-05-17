@@ -1,3 +1,5 @@
+import Modal from "/scripts/modal.js";
+
 export default class Movie {
     constructor(title, description, year, rating, runtime, lb_url, jw_url, genres, countries, offers, directors) {
         this.title = title;
@@ -32,9 +34,16 @@ export default class Movie {
         const movieLeft = document.createElement("div");
         movieLeft.classList.add("movie-left");
 
-        // change for the dinamic image cover later
-        const cover = this.createMovieElemHTML('div', 'movie-image', `<img class="movie-image-cover" src=${this.cover_url} alt="Watch this space, cover is comming soon" />`);
-        cover.addEventListener("click", this.openModal.bind(this));
+        // @todo: change for the dynamic image cover later
+        const imageElem = `<img class="movie-image-cover" src=${this.cover_url} alt="Watch this space, cover is comming soon" />`;
+
+        const cover = this.createMovieElemHTML('figure', 'movie-image', imageElem);
+        const imgCaption = this.createMovieElemText("figcaption", "movie-image-caption", "See the trailer");
+        cover.appendChild(imgCaption);
+
+        // @todo: will need to pass url to the trailer later
+        cover.addEventListener("click", () => new Modal(this.title).fillInModal());
+
 
         const offers = this.createListWithTitle("offers", this.offers);
 
@@ -42,12 +51,6 @@ export default class Movie {
         movieLeft.appendChild(offers);
 
         return movieLeft;
-    }
-
-    openModal(event) {
-        console.log(this.title);
-        // @todo: Implement modal functionality
-        // will have a link to the trailer later -> imbedded video in the modal window
     }
 
     createRightSide() {
@@ -61,13 +64,10 @@ export default class Movie {
         return movieRight;
     }
 
-    
-    createTrailer () {}
-    
     createFullMovieInfo() {
         const movieInfoConteiner = document.createElement('div');
         movieInfoConteiner.classList.add("movie-info");
-        
+
         const title = this.createMovieElemText("h1", "movie-title", this.title);
         const year = this.createMovieElemText("h2", "movie-year", this.year);
         const rating = this.createMovieElemText("h3", "movie-rating", this.rating);
@@ -76,8 +76,7 @@ export default class Movie {
         const genres = this.createListWithTitle("genres", this.genres);
         const counries = this.createListWithTitle("countries", this.countries);
         const links = this.getLinks();
-        
-        
+
         movieInfoConteiner.appendChild(title);
         movieInfoConteiner.appendChild(year);
         movieInfoConteiner.appendChild(rating);
@@ -86,7 +85,7 @@ export default class Movie {
         movieInfoConteiner.appendChild(genres);
         movieInfoConteiner.appendChild(counries);
         movieInfoConteiner.appendChild(links);
-        
+
         return movieInfoConteiner;
     }
 
@@ -107,11 +106,11 @@ export default class Movie {
 
     getListHTML(arr, name) {
         let result = "";
-        
+
         if (arr.length !== 0) {
             const list = document.createElement("ul");
             list.classList.add(name);
-        
+
             for(let i=0; i<arr.length; i++) {
                 result += `<li>${arr[i]}</li>`;
             }
@@ -155,7 +154,7 @@ export default class Movie {
 
         return button;
     }
-    
+
     createLinkElem(link, name, linkText) {
         const linkElem = document.createElement('a');
         linkElem.setAttribute("href", link);
@@ -179,5 +178,4 @@ export default class Movie {
         elem.innerHTML = htmlString;
         return elem;
     }
-
 }

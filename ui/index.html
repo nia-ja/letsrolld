@@ -24,6 +24,21 @@
         </nav>
         <div class="container">
             <div id="response"></div>
+            <div class="modals-container">
+                <!-- dynamically fill in data-name attribute -->
+                <div id="modal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span class="closeBtn">&times;</span>
+                            <!-- here goes movie title -->
+                            <h3 class="modal-title"></h3>
+                        </div>
+                        <div class="modal-body">
+                            <!-- here goes iframe with trailer -->
+                        </div>
+                    </div>
+                </div>
+            </div>
             <button id="get" class="btn btn--round btn--round--150"><i data-lucide="refresh-ccw" class="refresh-button"></i></button>
         </div>
     </main>
@@ -35,6 +50,7 @@
     </script>
     <!-- my scripts -->
     <script type="module" src="scripts/button.js"></script>
+    <script type="module" src="scripts/modal.js"></script>
     <script type="module" src="scripts/movie.js"></script>
     <script type="module" src="index.js"></script>
 </body>
