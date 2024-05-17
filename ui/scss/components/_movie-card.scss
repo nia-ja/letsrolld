@@ -21,10 +21,10 @@
         width: 90%;
         margin: 0;
         height: max-content;
-        // border: 1px solid red;
         background-color: rgba($color-primary, 0.8);
         border-radius: 5px;
         position: relative;
+        cursor: pointer;
 
         &:hover &-caption {
             bottom: 50%;

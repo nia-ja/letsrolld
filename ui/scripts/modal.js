@@ -6,6 +6,7 @@ export default class Modal {
     }
 
     fillInModal() {
+        console.log("hej!")
         const title = document.querySelector(".modal-title");
         title.textContent = this.title;
 

@@ -1,0 +1,62 @@
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+// styling for the modal "card"
+.modal-content {
+    width: 50%;
+    height: 60vh;
+    margin: 20vh auto;
+    border: 1px solid #1e033b;
+    background-color: rgba(30, 3, 59, 0.5);
+    box-shadow: 0 5px 8px 0 rgba(30, 3, 59, 0.2), 0 7px 20px 0 rgba(30, 3, 59, 0.2);
+    animation: modalopen 2s;
+    
+    .modal-header {
+        text-transform: uppercase;
+        color: #1e033b;
+        font-size: 25px;
+
+        .closeBtn {
+            color: #999;
+            float: right;
+            font-size: 40px;
+            padding-top: 10px;
+            padding-right: 20px;
+
+            &:hover, &:focus {
+                color: #1e033b;
+                text-decoration: none;
+                cursor: pointer;
+            }
+        }
+
+        h3 {
+            padding: 20px 30px;
+            background-color: #eee;
+        }
+    }
+    .modal-body {
+        height: 100%;
+    }
+}
+
+// Animation for modal content card
+@keyframes modalopen {
+    from {
+        opacity: 0.5;
+        scale: 0;
+    }
+    to {
+        opacity: 1;
+        scale: 1;
+    }
+}
