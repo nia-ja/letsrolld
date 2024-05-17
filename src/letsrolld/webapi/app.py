@@ -1,6 +1,8 @@
+import json
+
 from flask import Flask
 from flask_cors import CORS
-from flask_restful_swagger_3 import Api, Resource, swagger
+from flask_restful_swagger_3 import Api, Resource, swagger, create_open_api_resource
 from flask_sqlalchemy import SQLAlchemy
 
 from sqlalchemy.sql.expression import func
@@ -164,7 +166,7 @@ class FilmItemResource(Resource):
         return _get_film(f), 200
 
 
-def main():
+def _api():
     api = Api(app, title="letsrolld API", license=_LICENSE, version="0.1")
 
     # TODO: generalize endpoint definitions
@@ -174,4 +176,16 @@ def main():
     api.add_resource(FilmResource, "/films")
     api.add_resource(FilmItemResource, "/films/<int:id>")
 
+    return api
+
+
+def main():
+    _ = _api()
     app.run(port=8000, debug=True)
+
+
+def swagger():
+    api = _api()
+    with app.test_request_context():
+        swagger_doc = create_open_api_resource(api.open_api_object)().get()
+    print(json.dumps(swagger_doc, indent=4, sort_keys=False))
