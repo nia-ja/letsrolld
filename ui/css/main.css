@@ -9,8 +9,7 @@ body {
   line-height: 20px;
   font-weight: bold;
   text-transform: uppercase;
-  transition: all 0.5s;
-  cursor: pointer;
+  transition: all 0.3s ease-in-out;
 }
 .btn--primary {
   height: 34px;
@@ -147,7 +146,6 @@ body {
   background-color: #1e033b;
   color: #f7f7f7;
   border-bottom: 2px solid white;
-  z-index: 1111111;
 }
 .navbar form {
   width: 70%;
@@ -199,57 +197,6 @@ body {
   justify-content: space-between;
   row-gap: 20px;
   column-gap: 20px;
-}
-.container .modal {
-  display: none;
-  border: 1px solid red;
-  position: fixed;
-  z-index: 10000;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.8);
-}
-.container .modal-content {
-  width: 50%;
-  height: 60vh;
-  margin: 20vh auto;
-  border: 1px solid #1e033b;
-  background-color: rgba(30, 3, 59, 0.5);
-  box-shadow: 0 5px 8px 0 rgba(30, 3, 59, 0.2), 0 7px 20px 0 rgba(30, 3, 59, 0.2);
-}
-.container .modal-content .modal-header {
-  text-transform: uppercase;
-  color: #1e033b;
-  font-size: 25px;
-}
-.container .modal-content .modal-header .closeBtn {
-  color: #999;
-  float: right;
-  font-size: 40px;
-  padding-top: 10px;
-  padding-right: 20px;
-}
-.container .modal-content .modal-header .closeBtn:hover, .container .modal-content .modal-header .closeBtn:focus {
-  color: #1e033b;
-  text-decoration: none;
-  cursor: pointer;
-}
-.container .modal-content .modal-header h3 {
-  padding: 20px 30px;
-  background-color: #eee;
-}
-.container .modal-content .modal-body {
-  height: 100%;
-}
-.container .modal-content .modal-body h4 {
-  padding: 20px 30px;
-}
-.container .modal-content .modal-body p {
-  padding: 20px 30px;
-  color: lightgray;
 }
 
 /*# sourceMappingURL=main.css.map */
