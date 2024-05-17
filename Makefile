@@ -45,6 +45,7 @@ webapp: init_db
 swagger:
 	#curl http://localhost:8000/api/doc/swagger.json -o swagger.json
 	pdm run swagger > swagger.json
+	openapi-generator-cli validate -i swagger.json
 
 ui:
 	cd ui && http-server --port 8081 -c-1 -o
