@@ -3,6 +3,7 @@ DB=$(PWD)/movie.db
 DIRECTORS_NUMBER?=10
 DIRECTORS_FILE?=directors.csv
 RUN_LOG?=run.log
+RUN_LOG_CMD?=ts | tee -a $(RUN_LOG)
 
 .PHONY: install lint test init_db populate run-update-directors run-update-films run-update-offers run-cleanup run-all run-db-upgrade webapp ui swagger get-dirs get-films
 
@@ -22,16 +23,16 @@ populate:
 	pdm run populate-directors -d ${DIRECTORS_FILE} -n ${DIRECTORS_NUMBER}
 
 run-update-directors: init_db
-	pdm run update-directors $(ARGS) | tee -a $(RUN_LOG)
+	pdm run update-directors $(ARGS) | $(RUN_LOG_CMD)
 
 run-update-films: init_db
-	pdm run update-films $(ARGS) | tee -a $(RUN_LOG)
+	pdm run update-films $(ARGS) | $(RUN_LOG_CMD)
 
 run-update-offers: init_db
-	pdm run update-offers $(ARGS) | tee -a $(RUN_LOG)
+	pdm run update-offers $(ARGS) | $(RUN_LOG_CMD)
 
 run-cleanup: init_db
-	pdm run cleanup $(ARGS) | tee -a $(RUN_LOG)
+	pdm run cleanup $(ARGS) | $(RUN_LOG_CMD)
 
 run-all: run-update-directors run-update-films run-update-offers run-cleanup
 
