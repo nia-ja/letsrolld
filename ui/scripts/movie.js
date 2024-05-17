@@ -32,7 +32,7 @@ export default class Movie {
         const movieLeft = document.createElement("div");
         movieLeft.classList.add("movie-left");
 
-        // change for the dinamic image cover later
+        // change for the dynamic image cover later
         const cover = this.createMovieElemHTML('div', 'movie-image', `<img class="movie-image-cover" src=${this.cover_url} alt="Watch this space, cover is comming soon" />`);
         cover.addEventListener("click", this.openModal.bind(this));
 
@@ -47,7 +47,7 @@ export default class Movie {
     openModal(event) {
         console.log(this.title);
         // @todo: Implement modal functionality
-        // will have a link to the trailer later -> imbedded video in the modal window
+        // will have a link to the trailer later -> embedded video in the modal window
     }
 
     createRightSide() {
