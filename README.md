@@ -36,11 +36,20 @@ make populate
 make run-all
 ```
 
-7. Run the web app.
+7. Run the web backend.
 
 ```bash
 make webapp
 ```
 
-At this point, the web app should be running at `http://localhost:8000`. You
+At this point, the backend should be running at `http://localhost:8000`. You
 can access the API schema at `http://localhost:8000/api/doc/swagger.json`.
+
+
+8. Open Web UI.
+
+```bash
+make ui
+```
+
+This should open your browser with the frontend.
