@@ -3,9 +3,7 @@ DB=$(PWD)/movie.db
 DIRECTORS_NUMBER?=10
 DIRECTORS_FILE?=directors.csv
 
-ifndef VERBOSE
-.SILENT:
-endif
+.PHONY: install lint test init_db populate run-update-directors run-update-films run-update-offers run-cleanup run-all run-db-upgrade webapp ui
 
 install:
 	pdm install -v
@@ -41,6 +39,9 @@ run-db-upgrade:
 
 webapp: init_db
 	pdm run webapp
+
+ui:
+	cd ui && http-server --port 8081 -c-1 -o
 
 get-dirs:
 	pdm run lcli directors get
