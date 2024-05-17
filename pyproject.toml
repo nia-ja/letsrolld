@@ -50,3 +50,4 @@ cleanup = "letsrolld.cmd.cleanup:main"
 # webapi
 webapp = "letsrolld.webapi.app:main"
 lcli = "letsrolld.webcli.cli:cli"
+swagger = "letsrolld.webapi.app:swagger"

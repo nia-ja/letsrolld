@@ -17,12 +17,12 @@ async function getMovies() {
     }
 
     let querryValue = Number(window.localStorage.getItem("querry_value")) || 12;
-    
+
     // default value shown in the form's input
     const moviesInput = document.getElementById("f_number");
     moviesInput.setAttribute("value", querryValue);
 
-    
+
     const res = await fetch(`http://localhost:8000/films?limit=${querryValue}`, config)
 
     const data = await res.json()

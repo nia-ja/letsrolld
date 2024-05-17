@@ -3,6 +3,7 @@ from jinja2 import Environment, PackageLoader
 
 from letsrolld_api_client import Client
 from letsrolld_api_client.api.default import get_directors
+
 # from letsrolld_api_client.api.default import get_directors_id
 from letsrolld_api_client.api.default import get_films
 # from letsrolld_api_client.api.default import get_films_id
@@ -64,5 +65,5 @@ def films_get():
     print("\n".join(film_reports))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     cli()

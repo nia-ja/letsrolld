@@ -12,6 +12,9 @@
       "flask": {
         "pkg-path": "python311Packages.flask"
       },
+      "flask-cors": {
+        "pkg-path": "python311Packages.flask-cors"
+      },
       "flask-restful": {
         "pkg-path": "python311Packages.flask-restful"
       },
@@ -20,6 +23,15 @@
       },
       "gnumake": {
         "pkg-path": "gnumake"
+      },
+      "http-server": {
+        "pkg-path": "nodePackages.http-server"
+      },
+      "moreutils": {
+        "pkg-path": "moreutils"
+      },
+      "openapi-generator-cli": {
+        "pkg-path": "openapi-generator-cli"
       },
       "pdm": {
         "pkg-path": "pdm"
@@ -91,15 +103,15 @@
         },
         "input": {
           "attrs": {
-            "lastModified": 1711062067,
-            "narHash": "sha256-uOPSXl0DzHTo22Gk62HnIiuoXtmHPIr1Z9yK/c3jgWg=",
+            "lastModified": 1714932323,
+            "narHash": "sha256-/adplVPlMAjQKi0l7LQmQV2cpYBVGx+w9hCQfHjUi7Q=",
             "owner": "NixOS",
             "repo": "nixpkgs",
-            "rev": "ac794a632da4741770ef67497991ec6c042e159d",
+            "rev": "ac3da936f34adaa03416f2e14bf670d0ec8012b9",
             "type": "github"
           },
-          "fingerprint": "8f0f365400263f54d1c45e6e8bfd1353c32b4a3d40ac4d8aec95f89828e5ed54",
-          "url": "github:NixOS/nixpkgs/ac794a632da4741770ef67497991ec6c042e159d"
+          "fingerprint": "654bcf613d9cdf23e088ee2ebd22147b3bbba0d988603be18030b644b886d29f",
+          "url": "github:NixOS/nixpkgs/ac3da936f34adaa03416f2e14bf670d0ec8012b9"
         },
         "priority": 5
       },
@@ -120,15 +132,15 @@
         },
         "input": {
           "attrs": {
-            "lastModified": 1711062067,
-            "narHash": "sha256-uOPSXl0DzHTo22Gk62HnIiuoXtmHPIr1Z9yK/c3jgWg=",
+            "lastModified": 1714932323,
+            "narHash": "sha256-/adplVPlMAjQKi0l7LQmQV2cpYBVGx+w9hCQfHjUi7Q=",
             "owner": "NixOS",
             "repo": "nixpkgs",
-            "rev": "ac794a632da4741770ef67497991ec6c042e159d",
+            "rev": "ac3da936f34adaa03416f2e14bf670d0ec8012b9",
             "type": "github"
           },
-          "fingerprint": "8f0f365400263f54d1c45e6e8bfd1353c32b4a3d40ac4d8aec95f89828e5ed54",
-          "url": "github:NixOS/nixpkgs/ac794a632da4741770ef67497991ec6c042e159d"
+          "fingerprint": "654bcf613d9cdf23e088ee2ebd22147b3bbba0d988603be18030b644b886d29f",
+          "url": "github:NixOS/nixpkgs/ac3da936f34adaa03416f2e14bf670d0ec8012b9"
         },
         "priority": 5
       },
@@ -149,15 +161,44 @@
         },
         "input": {
           "attrs": {
-            "lastModified": 1711062067,
-            "narHash": "sha256-uOPSXl0DzHTo22Gk62HnIiuoXtmHPIr1Z9yK/c3jgWg=",
+            "lastModified": 1714932323,
+            "narHash": "sha256-/adplVPlMAjQKi0l7LQmQV2cpYBVGx+w9hCQfHjUi7Q=",
             "owner": "NixOS",
             "repo": "nixpkgs",
-            "rev": "ac794a632da4741770ef67497991ec6c042e159d",
+            "rev": "ac3da936f34adaa03416f2e14bf670d0ec8012b9",
             "type": "github"
           },
-          "fingerprint": "8f0f365400263f54d1c45e6e8bfd1353c32b4a3d40ac4d8aec95f89828e5ed54",
-          "url": "github:NixOS/nixpkgs/ac794a632da4741770ef67497991ec6c042e159d"
+          "fingerprint": "654bcf613d9cdf23e088ee2ebd22147b3bbba0d988603be18030b644b886d29f",
+          "url": "github:NixOS/nixpkgs/ac3da936f34adaa03416f2e14bf670d0ec8012b9"
+        },
+        "priority": 5
+      },
+      "flask-cors": {
+        "attr-path": [
+          "legacyPackages",
+          "aarch64-darwin",
+          "python311Packages",
+          "flask-cors"
+        ],
+        "info": {
+          "broken": false,
+          "description": "A Flask extension adding a decorator for CORS support",
+          "license": null,
+          "pname": "flask-cors",
+          "unfree": false,
+          "version": "4.0.0"
+        },
+        "input": {
+          "attrs": {
+            "lastModified": 1714932323,
+            "narHash": "sha256-/adplVPlMAjQKi0l7LQmQV2cpYBVGx+w9hCQfHjUi7Q=",
+            "owner": "NixOS",
+            "repo": "nixpkgs",
+            "rev": "ac3da936f34adaa03416f2e14bf670d0ec8012b9",
+            "type": "github"
+          },
+          "fingerprint": "654bcf613d9cdf23e088ee2ebd22147b3bbba0d988603be18030b644b886d29f",
+          "url": "github:NixOS/nixpkgs/ac3da936f34adaa03416f2e14bf670d0ec8012b9"
         },
         "priority": 5
       },
@@ -178,15 +219,15 @@
         },
         "input": {
           "attrs": {
-            "lastModified": 1711062067,
-            "narHash": "sha256-uOPSXl0DzHTo22Gk62HnIiuoXtmHPIr1Z9yK/c3jgWg=",
+            "lastModified": 1714932323,
+            "narHash": "sha256-/adplVPlMAjQKi0l7LQmQV2cpYBVGx+w9hCQfHjUi7Q=",
             "owner": "NixOS",
             "repo": "nixpkgs",
-            "rev": "ac794a632da4741770ef67497991ec6c042e159d",
+            "rev": "ac3da936f34adaa03416f2e14bf670d0ec8012b9",
             "type": "github"
           },
-          "fingerprint": "8f0f365400263f54d1c45e6e8bfd1353c32b4a3d40ac4d8aec95f89828e5ed54",
-          "url": "github:NixOS/nixpkgs/ac794a632da4741770ef67497991ec6c042e159d"
+          "fingerprint": "654bcf613d9cdf23e088ee2ebd22147b3bbba0d988603be18030b644b886d29f",
+          "url": "github:NixOS/nixpkgs/ac3da936f34adaa03416f2e14bf670d0ec8012b9"
         },
         "priority": 5
       },
@@ -207,15 +248,15 @@
         },
         "input": {
           "attrs": {
-            "lastModified": 1711062067,
-            "narHash": "sha256-uOPSXl0DzHTo22Gk62HnIiuoXtmHPIr1Z9yK/c3jgWg=",
+            "lastModified": 1714932323,
+            "narHash": "sha256-/adplVPlMAjQKi0l7LQmQV2cpYBVGx+w9hCQfHjUi7Q=",
             "owner": "NixOS",
             "repo": "nixpkgs",
-            "rev": "ac794a632da4741770ef67497991ec6c042e159d",
+            "rev": "ac3da936f34adaa03416f2e14bf670d0ec8012b9",
             "type": "github"
           },
-          "fingerprint": "8f0f365400263f54d1c45e6e8bfd1353c32b4a3d40ac4d8aec95f89828e5ed54",
-          "url": "github:NixOS/nixpkgs/ac794a632da4741770ef67497991ec6c042e159d"
+          "fingerprint": "654bcf613d9cdf23e088ee2ebd22147b3bbba0d988603be18030b644b886d29f",
+          "url": "github:NixOS/nixpkgs/ac3da936f34adaa03416f2e14bf670d0ec8012b9"
         },
         "priority": 5
       },
@@ -235,15 +276,100 @@
         },
         "input": {
           "attrs": {
-            "lastModified": 1711062067,
-            "narHash": "sha256-uOPSXl0DzHTo22Gk62HnIiuoXtmHPIr1Z9yK/c3jgWg=",
+            "lastModified": 1714932323,
+            "narHash": "sha256-/adplVPlMAjQKi0l7LQmQV2cpYBVGx+w9hCQfHjUi7Q=",
             "owner": "NixOS",
             "repo": "nixpkgs",
-            "rev": "ac794a632da4741770ef67497991ec6c042e159d",
+            "rev": "ac3da936f34adaa03416f2e14bf670d0ec8012b9",
             "type": "github"
           },
-          "fingerprint": "8f0f365400263f54d1c45e6e8bfd1353c32b4a3d40ac4d8aec95f89828e5ed54",
-          "url": "github:NixOS/nixpkgs/ac794a632da4741770ef67497991ec6c042e159d"
+          "fingerprint": "654bcf613d9cdf23e088ee2ebd22147b3bbba0d988603be18030b644b886d29f",
+          "url": "github:NixOS/nixpkgs/ac3da936f34adaa03416f2e14bf670d0ec8012b9"
+        },
+        "priority": 5
+      },
+      "http-server": {
+        "attr-path": [
+          "legacyPackages",
+          "aarch64-darwin",
+          "nodePackages",
+          "http-server"
+        ],
+        "info": {
+          "broken": false,
+          "description": "A simple zero-configuration command-line http server",
+          "license": null,
+          "pname": "http-server",
+          "unfree": false,
+          "version": "14.1.1"
+        },
+        "input": {
+          "attrs": {
+            "lastModified": 1714932323,
+            "narHash": "sha256-/adplVPlMAjQKi0l7LQmQV2cpYBVGx+w9hCQfHjUi7Q=",
+            "owner": "NixOS",
+            "repo": "nixpkgs",
+            "rev": "ac3da936f34adaa03416f2e14bf670d0ec8012b9",
+            "type": "github"
+          },
+          "fingerprint": "654bcf613d9cdf23e088ee2ebd22147b3bbba0d988603be18030b644b886d29f",
+          "url": "github:NixOS/nixpkgs/ac3da936f34adaa03416f2e14bf670d0ec8012b9"
+        },
+        "priority": 5
+      },
+      "moreutils": {
+        "attr-path": [
+          "legacyPackages",
+          "aarch64-darwin",
+          "moreutils"
+        ],
+        "info": {
+          "broken": false,
+          "description": "Growing collection of the unix tools that nobody thought to write long ago when unix was young",
+          "license": "GPL-2.0-or-later",
+          "pname": "moreutils",
+          "unfree": false,
+          "version": "0.67"
+        },
+        "input": {
+          "attrs": {
+            "lastModified": 1714932323,
+            "narHash": "sha256-/adplVPlMAjQKi0l7LQmQV2cpYBVGx+w9hCQfHjUi7Q=",
+            "owner": "NixOS",
+            "repo": "nixpkgs",
+            "rev": "ac3da936f34adaa03416f2e14bf670d0ec8012b9",
+            "type": "github"
+          },
+          "fingerprint": "654bcf613d9cdf23e088ee2ebd22147b3bbba0d988603be18030b644b886d29f",
+          "url": "github:NixOS/nixpkgs/ac3da936f34adaa03416f2e14bf670d0ec8012b9"
+        },
+        "priority": 5
+      },
+      "openapi-generator-cli": {
+        "attr-path": [
+          "legacyPackages",
+          "aarch64-darwin",
+          "openapi-generator-cli"
+        ],
+        "info": {
+          "broken": false,
+          "description": "Allows generation of API client libraries (SDK generation), server stubs and documentation automatically given an OpenAPI Spec",
+          "license": "Apache-2.0",
+          "pname": "openapi-generator-cli",
+          "unfree": false,
+          "version": "7.0.1"
+        },
+        "input": {
+          "attrs": {
+            "lastModified": 1714932323,
+            "narHash": "sha256-/adplVPlMAjQKi0l7LQmQV2cpYBVGx+w9hCQfHjUi7Q=",
+            "owner": "NixOS",
+            "repo": "nixpkgs",
+            "rev": "ac3da936f34adaa03416f2e14bf670d0ec8012b9",
+            "type": "github"
+          },
+          "fingerprint": "654bcf613d9cdf23e088ee2ebd22147b3bbba0d988603be18030b644b886d29f",
+          "url": "github:NixOS/nixpkgs/ac3da936f34adaa03416f2e14bf670d0ec8012b9"
         },
         "priority": 5
       },
@@ -263,15 +389,15 @@
         },
         "input": {
           "attrs": {
-            "lastModified": 1711062067,
-            "narHash": "sha256-uOPSXl0DzHTo22Gk62HnIiuoXtmHPIr1Z9yK/c3jgWg=",
+            "lastModified": 1714932323,
+            "narHash": "sha256-/adplVPlMAjQKi0l7LQmQV2cpYBVGx+w9hCQfHjUi7Q=",
             "owner": "NixOS",
             "repo": "nixpkgs",
-            "rev": "ac794a632da4741770ef67497991ec6c042e159d",
+            "rev": "ac3da936f34adaa03416f2e14bf670d0ec8012b9",
             "type": "github"
           },
-          "fingerprint": "8f0f365400263f54d1c45e6e8bfd1353c32b4a3d40ac4d8aec95f89828e5ed54",
-          "url": "github:NixOS/nixpkgs/ac794a632da4741770ef67497991ec6c042e159d"
+          "fingerprint": "654bcf613d9cdf23e088ee2ebd22147b3bbba0d988603be18030b644b886d29f",
+          "url": "github:NixOS/nixpkgs/ac3da936f34adaa03416f2e14bf670d0ec8012b9"
         },
         "priority": 5
       },
@@ -291,15 +417,15 @@
         },
         "input": {
           "attrs": {
-            "lastModified": 1711062067,
-            "narHash": "sha256-uOPSXl0DzHTo22Gk62HnIiuoXtmHPIr1Z9yK/c3jgWg=",
+            "lastModified": 1714932323,
+            "narHash": "sha256-/adplVPlMAjQKi0l7LQmQV2cpYBVGx+w9hCQfHjUi7Q=",
             "owner": "NixOS",
             "repo": "nixpkgs",
-            "rev": "ac794a632da4741770ef67497991ec6c042e159d",
+            "rev": "ac3da936f34adaa03416f2e14bf670d0ec8012b9",
             "type": "github"
           },
-          "fingerprint": "8f0f365400263f54d1c45e6e8bfd1353c32b4a3d40ac4d8aec95f89828e5ed54",
-          "url": "github:NixOS/nixpkgs/ac794a632da4741770ef67497991ec6c042e159d"
+          "fingerprint": "654bcf613d9cdf23e088ee2ebd22147b3bbba0d988603be18030b644b886d29f",
+          "url": "github:NixOS/nixpkgs/ac3da936f34adaa03416f2e14bf670d0ec8012b9"
         },
         "priority": 5
       },
@@ -320,15 +446,15 @@
         },
         "input": {
           "attrs": {
-            "lastModified": 1711062067,
-            "narHash": "sha256-uOPSXl0DzHTo22Gk62HnIiuoXtmHPIr1Z9yK/c3jgWg=",
+            "lastModified": 1714932323,
+            "narHash": "sha256-/adplVPlMAjQKi0l7LQmQV2cpYBVGx+w9hCQfHjUi7Q=",
             "owner": "NixOS",
             "repo": "nixpkgs",
-            "rev": "ac794a632da4741770ef67497991ec6c042e159d",
+            "rev": "ac3da936f34adaa03416f2e14bf670d0ec8012b9",
             "type": "github"
           },
-          "fingerprint": "8f0f365400263f54d1c45e6e8bfd1353c32b4a3d40ac4d8aec95f89828e5ed54",
-          "url": "github:NixOS/nixpkgs/ac794a632da4741770ef67497991ec6c042e159d"
+          "fingerprint": "654bcf613d9cdf23e088ee2ebd22147b3bbba0d988603be18030b644b886d29f",
+          "url": "github:NixOS/nixpkgs/ac3da936f34adaa03416f2e14bf670d0ec8012b9"
         },
         "priority": 5
       },
@@ -348,15 +474,15 @@
         },
         "input": {
           "attrs": {
-            "lastModified": 1711062067,
-            "narHash": "sha256-uOPSXl0DzHTo22Gk62HnIiuoXtmHPIr1Z9yK/c3jgWg=",
+            "lastModified": 1714932323,
+            "narHash": "sha256-/adplVPlMAjQKi0l7LQmQV2cpYBVGx+w9hCQfHjUi7Q=",
             "owner": "NixOS",
             "repo": "nixpkgs",
-            "rev": "ac794a632da4741770ef67497991ec6c042e159d",
+            "rev": "ac3da936f34adaa03416f2e14bf670d0ec8012b9",
             "type": "github"
           },
-          "fingerprint": "8f0f365400263f54d1c45e6e8bfd1353c32b4a3d40ac4d8aec95f89828e5ed54",
-          "url": "github:NixOS/nixpkgs/ac794a632da4741770ef67497991ec6c042e159d"
+          "fingerprint": "654bcf613d9cdf23e088ee2ebd22147b3bbba0d988603be18030b644b886d29f",
+          "url": "github:NixOS/nixpkgs/ac3da936f34adaa03416f2e14bf670d0ec8012b9"
         },
         "priority": 5
       },
@@ -377,15 +503,15 @@
         },
         "input": {
           "attrs": {
-            "lastModified": 1711062067,
-            "narHash": "sha256-uOPSXl0DzHTo22Gk62HnIiuoXtmHPIr1Z9yK/c3jgWg=",
+            "lastModified": 1714932323,
+            "narHash": "sha256-/adplVPlMAjQKi0l7LQmQV2cpYBVGx+w9hCQfHjUi7Q=",
             "owner": "NixOS",
             "repo": "nixpkgs",
-            "rev": "ac794a632da4741770ef67497991ec6c042e159d",
+            "rev": "ac3da936f34adaa03416f2e14bf670d0ec8012b9",
             "type": "github"
           },
-          "fingerprint": "8f0f365400263f54d1c45e6e8bfd1353c32b4a3d40ac4d8aec95f89828e5ed54",
-          "url": "github:NixOS/nixpkgs/ac794a632da4741770ef67497991ec6c042e159d"
+          "fingerprint": "654bcf613d9cdf23e088ee2ebd22147b3bbba0d988603be18030b644b886d29f",
+          "url": "github:NixOS/nixpkgs/ac3da936f34adaa03416f2e14bf670d0ec8012b9"
         },
         "priority": 5
       },
@@ -406,15 +532,15 @@
         },
         "input": {
           "attrs": {
-            "lastModified": 1711062067,
-            "narHash": "sha256-uOPSXl0DzHTo22Gk62HnIiuoXtmHPIr1Z9yK/c3jgWg=",
+            "lastModified": 1714932323,
+            "narHash": "sha256-/adplVPlMAjQKi0l7LQmQV2cpYBVGx+w9hCQfHjUi7Q=",
             "owner": "NixOS",
             "repo": "nixpkgs",
-            "rev": "ac794a632da4741770ef67497991ec6c042e159d",
+            "rev": "ac3da936f34adaa03416f2e14bf670d0ec8012b9",
             "type": "github"
           },
-          "fingerprint": "8f0f365400263f54d1c45e6e8bfd1353c32b4a3d40ac4d8aec95f89828e5ed54",
-          "url": "github:NixOS/nixpkgs/ac794a632da4741770ef67497991ec6c042e159d"
+          "fingerprint": "654bcf613d9cdf23e088ee2ebd22147b3bbba0d988603be18030b644b886d29f",
+          "url": "github:NixOS/nixpkgs/ac3da936f34adaa03416f2e14bf670d0ec8012b9"
         },
         "priority": 5
       },
@@ -434,15 +560,15 @@
         },
         "input": {
           "attrs": {
-            "lastModified": 1711062067,
-            "narHash": "sha256-uOPSXl0DzHTo22Gk62HnIiuoXtmHPIr1Z9yK/c3jgWg=",
+            "lastModified": 1714932323,
+            "narHash": "sha256-/adplVPlMAjQKi0l7LQmQV2cpYBVGx+w9hCQfHjUi7Q=",
             "owner": "NixOS",
             "repo": "nixpkgs",
-            "rev": "ac794a632da4741770ef67497991ec6c042e159d",
+            "rev": "ac3da936f34adaa03416f2e14bf670d0ec8012b9",
             "type": "github"
           },
-          "fingerprint": "8f0f365400263f54d1c45e6e8bfd1353c32b4a3d40ac4d8aec95f89828e5ed54",
-          "url": "github:NixOS/nixpkgs/ac794a632da4741770ef67497991ec6c042e159d"
+          "fingerprint": "654bcf613d9cdf23e088ee2ebd22147b3bbba0d988603be18030b644b886d29f",
+          "url": "github:NixOS/nixpkgs/ac3da936f34adaa03416f2e14bf670d0ec8012b9"
         },
         "priority": 5
       }
@@ -535,6 +661,35 @@
         },
         "priority": 5
       },
+      "flask-cors": {
+        "attr-path": [
+          "legacyPackages",
+          "x86_64-darwin",
+          "python311Packages",
+          "flask-cors"
+        ],
+        "info": {
+          "broken": false,
+          "description": "A Flask extension adding a decorator for CORS support",
+          "license": null,
+          "pname": "flask-cors",
+          "unfree": false,
+          "version": "4.0.0"
+        },
+        "input": {
+          "attrs": {
+            "lastModified": 1711062067,
+            "narHash": "sha256-uOPSXl0DzHTo22Gk62HnIiuoXtmHPIr1Z9yK/c3jgWg=",
+            "owner": "NixOS",
+            "repo": "nixpkgs",
+            "rev": "ac794a632da4741770ef67497991ec6c042e159d",
+            "type": "github"
+          },
+          "fingerprint": "8f0f365400263f54d1c45e6e8bfd1353c32b4a3d40ac4d8aec95f89828e5ed54",
+          "url": "github:NixOS/nixpkgs/ac794a632da4741770ef67497991ec6c042e159d"
+        },
+        "priority": 5
+      },
       "flask-restful": {
         "attr-path": [
           "legacyPackages",
@@ -606,6 +761,91 @@
           "pname": "gnumake",
           "unfree": false,
           "version": "4.4.1"
+        },
+        "input": {
+          "attrs": {
+            "lastModified": 1711062067,
+            "narHash": "sha256-uOPSXl0DzHTo22Gk62HnIiuoXtmHPIr1Z9yK/c3jgWg=",
+            "owner": "NixOS",
+            "repo": "nixpkgs",
+            "rev": "ac794a632da4741770ef67497991ec6c042e159d",
+            "type": "github"
+          },
+          "fingerprint": "8f0f365400263f54d1c45e6e8bfd1353c32b4a3d40ac4d8aec95f89828e5ed54",
+          "url": "github:NixOS/nixpkgs/ac794a632da4741770ef67497991ec6c042e159d"
+        },
+        "priority": 5
+      },
+      "http-server": {
+        "attr-path": [
+          "legacyPackages",
+          "x86_64-darwin",
+          "nodePackages",
+          "http-server"
+        ],
+        "info": {
+          "broken": false,
+          "description": "A simple zero-configuration command-line http server",
+          "license": null,
+          "pname": "http-server",
+          "unfree": false,
+          "version": "14.1.1"
+        },
+        "input": {
+          "attrs": {
+            "lastModified": 1711062067,
+            "narHash": "sha256-uOPSXl0DzHTo22Gk62HnIiuoXtmHPIr1Z9yK/c3jgWg=",
+            "owner": "NixOS",
+            "repo": "nixpkgs",
+            "rev": "ac794a632da4741770ef67497991ec6c042e159d",
+            "type": "github"
+          },
+          "fingerprint": "8f0f365400263f54d1c45e6e8bfd1353c32b4a3d40ac4d8aec95f89828e5ed54",
+          "url": "github:NixOS/nixpkgs/ac794a632da4741770ef67497991ec6c042e159d"
+        },
+        "priority": 5
+      },
+      "moreutils": {
+        "attr-path": [
+          "legacyPackages",
+          "x86_64-darwin",
+          "moreutils"
+        ],
+        "info": {
+          "broken": false,
+          "description": "Growing collection of the unix tools that nobody thought to write long ago when unix was young",
+          "license": "GPL-2.0-or-later",
+          "pname": "moreutils",
+          "unfree": false,
+          "version": "0.67"
+        },
+        "input": {
+          "attrs": {
+            "lastModified": 1711062067,
+            "narHash": "sha256-uOPSXl0DzHTo22Gk62HnIiuoXtmHPIr1Z9yK/c3jgWg=",
+            "owner": "NixOS",
+            "repo": "nixpkgs",
+            "rev": "ac794a632da4741770ef67497991ec6c042e159d",
+            "type": "github"
+          },
+          "fingerprint": "8f0f365400263f54d1c45e6e8bfd1353c32b4a3d40ac4d8aec95f89828e5ed54",
+          "url": "github:NixOS/nixpkgs/ac794a632da4741770ef67497991ec6c042e159d"
+        },
+        "priority": 5
+      },
+      "openapi-generator-cli": {
+        "attr-path": [
+          "legacyPackages",
+          "x86_64-darwin",
+          "openapi-generator-cli"
+        ],
+        "info": {
+          "broken": false,
+          "description": "Allows generation of API client libraries (SDK generation), server stubs and documentation automatically given an OpenAPI Spec",
+          "license": "Apache-2.0",
+          "pname": "openapi-generator-cli",
+          "unfree": false,
+          "version": "7.0.1"
         },
         "input": {
           "attrs": {

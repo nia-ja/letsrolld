@@ -34,16 +34,9 @@ export default class Movie {
         const movieLeft = document.createElement("div");
         movieLeft.classList.add("movie-left");
 
-        // @todo: change for the dynamic image cover later
-        const imageElem = `<img class="movie-image-cover" src=${this.cover_url} alt="Watch this space, cover is comming soon" />`;
-
-        const cover = this.createMovieElemHTML('figure', 'movie-image', imageElem);
-        const imgCaption = this.createMovieElemText("figcaption", "movie-image-caption", "See the trailer");
-        cover.appendChild(imgCaption);
-
-        // @todo: will need to pass url to the trailer later
-        cover.addEventListener("click", () => new Modal(this.title).fillInModal());
-
+        // change for the dynamic image cover later
+        const cover = this.createMovieElemHTML('div', 'movie-image', `<img class="movie-image-cover" src=${this.cover_url} alt="Watch this space, cover is comming soon" />`);
+        cover.addEventListener("click", this.openModal.bind(this));
 
         const offers = this.createListWithTitle("offers", this.offers);
 
@@ -51,6 +44,12 @@ export default class Movie {
         movieLeft.appendChild(offers);
 
         return movieLeft;
+    }
+
+    openModal(event) {
+        console.log(this.title);
+        // @todo: Implement modal functionality
+        // will have a link to the trailer later -> embedded video in the modal window
     }
 
     createRightSide() {
@@ -63,6 +62,9 @@ export default class Movie {
 
         return movieRight;
     }
+
+
+    createTrailer () {}
 
     createFullMovieInfo() {
         const movieInfoConteiner = document.createElement('div');
