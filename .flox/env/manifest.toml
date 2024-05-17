@@ -22,6 +22,7 @@ flask.pkg-path = "python311Packages.flask"
 flask-restful.pkg-path = "python311Packages.flask-restful"
 flask-sqlalchemy.pkg-path = "python311Packages.flask-sqlalchemy"
 flask-cors.pkg-path = "python311Packages.flask-cors"
+http-server.pkg-path = "nodePackages.http-server"
 # hello.pkg-path = "hello"
 # nodejs = { version = "^18.4.2", pkg-path = "nodejs_18" }
 
