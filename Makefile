@@ -8,7 +8,7 @@ DIRECTORS_FILE?=directors.csv
 install:
 	pdm install -v
 
-lint: install
+lint: install swagger
 	pre-commit run --all-files
 
 test: lint
