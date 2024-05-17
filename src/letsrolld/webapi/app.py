@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_restful_swagger_3 import Api, Resource, swagger
 from flask_sqlalchemy import SQLAlchemy
 
@@ -17,6 +18,7 @@ logging.getLogger("sqlalchemy").setLevel(logging.DEBUG)
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = db.get_db_uri()
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False  # do I need this?
+CORS(app)
 
 db_ = SQLAlchemy(app)
 
