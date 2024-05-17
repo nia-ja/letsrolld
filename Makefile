@@ -2,6 +2,7 @@ IMAGE_NAME?=letsrolld
 DB=$(PWD)/movie.db
 DIRECTORS_NUMBER?=10
 DIRECTORS_FILE?=directors.csv
+RUN_LOG?=run.log
 
 .PHONY: install lint test init_db populate run-update-directors run-update-films run-update-offers run-cleanup run-all run-db-upgrade webapp ui swagger get-dirs get-films
 
@@ -21,16 +22,16 @@ populate:
 	pdm run populate-directors -d ${DIRECTORS_FILE} -n ${DIRECTORS_NUMBER}
 
 run-update-directors: init_db
-	pdm run update-directors $(ARGS)
+	pdm run update-directors $(ARGS) | tee -a $(RUN_LOG)
 
 run-update-films: init_db
-	pdm run update-films $(ARGS)
+	pdm run update-films $(ARGS) | tee -a $(RUN_LOG)
 
 run-update-offers: init_db
-	pdm run update-offers $(ARGS)
+	pdm run update-offers $(ARGS) | tee -a $(RUN_LOG)
 
 run-cleanup: init_db
-	pdm run cleanup $(ARGS)
+	pdm run cleanup $(ARGS) | tee -a $(RUN_LOG)
 
 run-all: run-update-directors run-update-films run-update-offers run-cleanup
 
