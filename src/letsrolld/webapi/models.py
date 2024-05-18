@@ -64,6 +64,7 @@ class Film(Schema):
         "runtime": {
             "type": "integer",
             "format": "int64",
+            "nullable": True,
         },
         "lb_url": URL,
         "jw_url": NullableURL,

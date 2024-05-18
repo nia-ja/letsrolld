@@ -60,7 +60,8 @@
                                 },
                                 "runtime": {
                                     "type": "integer",
-                                    "format": "int64"
+                                    "format": "int64",
+                                    "nullable": true
                                 },
                                 "lb_url": {
                                     "type": "string",
@@ -178,7 +179,8 @@
                                     },
                                     "runtime": {
                                         "type": "integer",
-                                        "format": "int64"
+                                        "format": "int64",
+                                        "nullable": true
                                     },
                                     "lb_url": {
                                         "type": "string",
@@ -302,7 +304,8 @@
                                 },
                                 "runtime": {
                                     "type": "integer",
-                                    "format": "int64"
+                                    "format": "int64",
+                                    "nullable": true
                                 },
                                 "lb_url": {
                                     "type": "string",
@@ -402,7 +405,8 @@
                     },
                     "runtime": {
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "nullable": true
                     },
                     "lb_url": {
                         "type": "string",
@@ -489,7 +493,8 @@
                         },
                         "runtime": {
                             "type": "integer",
-                            "format": "int64"
+                            "format": "int64",
+                            "nullable": true
                         },
                         "lb_url": {
                             "type": "string",
@@ -582,7 +587,8 @@
                     },
                     "runtime": {
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "nullable": true
                     },
                     "lb_url": {
                         "type": "string",
