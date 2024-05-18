@@ -4,8 +4,6 @@ from letsrolld import http
 
 
 class BaseObject:
-    persistent_attributes = []
-
     def __init__(self, url):
         self._url = url
         self._soup = None
@@ -14,20 +12,6 @@ class BaseObject:
     @property
     def db(self):
         return {}
-
-    def _persist_in_db(self, key, value):
-        pass
-
-    def __getattribute__(self, item):
-        persisted = item in super().__getattribute__("persistent_attributes")
-        if persisted:
-            val = self.db.get(item, None)
-            if val is not None:
-                return val
-        val = super().__getattribute__(item)
-        if persisted:
-            self._persist_in_db(item, val)
-        return val
 
     @property
     def url(self):

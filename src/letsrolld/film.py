@@ -55,17 +55,6 @@ def get_services(services):
 
 
 class Film(BaseObject):
-    persistent_attributes = [
-        "name",
-        "genres",
-        "rating",
-        "year",
-        "runtime",
-        "director_names",
-        "jw_url",
-        "countries",
-    ]
-
     def __init__(self, url):
         super().__init__(url)
         self._jw = None
@@ -157,12 +146,6 @@ class Film(BaseObject):
         if self.jw is None:
             return None
         return self.jw.runtime_minutes
-
-    @functools.cached_property
-    def runtime_string(self):
-        if self.jw is None:
-            return "unknown"
-        return f"{self.jw.runtime_minutes}m"
 
     @functools.cached_property
     def _full_title(self):
