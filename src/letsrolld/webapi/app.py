@@ -5,6 +5,7 @@ from flask_cors import CORS
 from flask_restful_swagger_3 import Api, Resource, swagger, create_open_api_resource
 from flask_sqlalchemy import SQLAlchemy
 
+import pycountry
 from sqlalchemy.sql.expression import func
 
 from letsrolld import db
@@ -30,7 +31,31 @@ _LICENSE = {
 }
 
 
+def _get_flag(country):
+    getters = [
+        pycountry.countries.lookup,
+        lambda c: pycountry.countries.get(alpha_2=c),
+        lambda c: pycountry.countries.get(alpha_3=c),
+        lambda c: pycountry.historic_countries.get(alpha_2=c),
+        lambda c: pycountry.historic_countries.get(alpha_3=c),
+    ]
+
+    countries = {
+        "UK": "GB",
+    }
+    for getter in getters:
+        try:
+            c = getter(countries.get(country, country))
+            if c:
+                return c.flag
+        except LookupError:
+            pass
+
+
 def _get_film(f):
+    countries = [
+        webapi_models.Country(name=c.name, flag=_get_flag(c.name)) for c in f.countries
+    ]
     return webapi_models.Film(
         id=f.id,
         title=f.title,
@@ -41,7 +66,7 @@ def _get_film(f):
         lb_url=f.lb_url,
         jw_url=f.jw_url,
         genres=[g.name for g in f.genres],
-        countries=[c.name for c in f.countries],
+        countries=countries,
         offers=[o.name for o in f.offers],
         directors=[_get_director_info(d) for d in f.directors],
     )

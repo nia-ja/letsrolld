@@ -10,7 +10,7 @@ export default class Movie {
         this.lb_url = lb_url;
         this.jw_url = jw_url;
         this.genres = this.getListHTML(genres, "movie-genres-list");
-        this.countries = this.getListHTML(countries, "movie-countries-list");
+        this.countries = this.getListHTML(countries.map(c => c.flag + " " + c.name), "movie-countries-list");
         this.offers = this.getListHTML(offers, "movie-offers-list");
         this.directors = directors;
         this.cover_url = "img/movie_temp.jpg"

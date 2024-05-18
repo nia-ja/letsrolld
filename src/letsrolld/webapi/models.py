@@ -16,8 +16,17 @@ class Genre(Schema):
     type = "string"
 
 
-class Country(Schema):
+class Flag(Schema):
     type = "string"
+    nullable = True
+
+
+class Country(Schema):
+    properties = {
+        "name": {"type": "string"},
+        "flag": Flag,
+    }
+    required = ["name"]
 
 
 class Offer(Schema):

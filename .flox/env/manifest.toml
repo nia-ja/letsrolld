@@ -25,6 +25,7 @@ flask-cors.pkg-path = "python311Packages.flask-cors"
 http-server.pkg-path = "nodePackages.http-server"
 moreutils.pkg-path = "moreutils"
 openapi-generator-cli.pkg-path = "openapi-generator-cli"
+pycountry.pkg-path = "python311Packages.pycountry"
 # hello.pkg-path = "hello"
 # nodejs = { version = "^18.4.2", pkg-path = "nodejs_18" }
 

@@ -80,7 +80,19 @@
                                 "countries": {
                                     "type": "array",
                                     "items": {
-                                        "type": "string"
+                                        "properties": {
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "flag": {
+                                                "type": "string",
+                                                "nullable": true
+                                            }
+                                        },
+                                        "required": [
+                                            "name"
+                                        ],
+                                        "type": "object"
                                     }
                                 },
                                 "offers": {
@@ -186,7 +198,19 @@
                                     "countries": {
                                         "type": "array",
                                         "items": {
-                                            "type": "string"
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "flag": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "required": [
+                                                "name"
+                                            ],
+                                            "type": "object"
                                         }
                                     },
                                     "offers": {
@@ -298,7 +322,19 @@
                                 "countries": {
                                     "type": "array",
                                     "items": {
-                                        "type": "string"
+                                        "properties": {
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "flag": {
+                                                "type": "string",
+                                                "nullable": true
+                                            }
+                                        },
+                                        "required": [
+                                            "name"
+                                        ],
+                                        "type": "object"
                                     }
                                 },
                                 "offers": {
@@ -386,7 +422,19 @@
                     "countries": {
                         "type": "array",
                         "items": {
-                            "type": "string"
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "flag": {
+                                    "type": "string",
+                                    "nullable": true
+                                }
+                            },
+                            "required": [
+                                "name"
+                            ],
+                            "type": "object"
                         }
                     },
                     "offers": {
@@ -461,7 +509,19 @@
                         "countries": {
                             "type": "array",
                             "items": {
-                                "type": "string"
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "flag": {
+                                        "type": "string",
+                                        "nullable": true
+                                    }
+                                },
+                                "required": [
+                                    "name"
+                                ],
+                                "type": "object"
                             }
                         },
                         "offers": {
@@ -542,7 +602,19 @@
                     "countries": {
                         "type": "array",
                         "items": {
-                            "type": "string"
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "flag": {
+                                    "type": "string",
+                                    "nullable": true
+                                }
+                            },
+                            "required": [
+                                "name"
+                            ],
+                            "type": "object"
                         }
                     },
                     "offers": {
@@ -626,7 +698,10 @@
                                                     "string"
                                                 ],
                                                 "countries": [
-                                                    "string"
+                                                    {
+                                                        "name": "string",
+                                                        "flag": "string"
+                                                    }
                                                 ],
                                                 "offers": [
                                                     "string"
@@ -691,7 +766,10 @@
                                                 "string"
                                             ],
                                             "countries": [
-                                                "string"
+                                                {
+                                                    "name": "string",
+                                                    "flag": "string"
+                                                }
                                             ],
                                             "offers": [
                                                 "string"
@@ -777,7 +855,10 @@
                                             "string"
                                         ],
                                         "countries": [
-                                            "string"
+                                            {
+                                                "name": "string",
+                                                "flag": "string"
+                                            }
                                         ],
                                         "offers": [
                                             "string"
@@ -833,7 +914,10 @@
                                         "string"
                                     ],
                                     "countries": [
-                                        "string"
+                                        {
+                                            "name": "string",
+                                            "flag": "string"
+                                        }
                                     ],
                                     "offers": [
                                         "string"
