@@ -144,17 +144,21 @@ def touch_obj(session, obj, last_checked_field, last_updated_field, updated=Fals
     session.add(obj)
 
 
+def year(f):
+    return f.year or 0
+
+
 def director_threshold(d):
     multiplier = 1
     if d is None:
         return multiplier
 
-    films = sorted(d.films, key=lambda f: f.year, reverse=True)
+    films = sorted(d.films, key=lambda f: year(f), reverse=True)
 
     current_year = _NOW.year
     for f in films[:2]:
-        multiplier *= max(1, current_year - f.year)
-        current_year = f.year
+        multiplier *= max(1, current_year - year(f))
+        current_year = year(f)
 
     return multiplier
 
@@ -164,7 +168,7 @@ def film_threshold(f):
     if f is None:
         return multiplier
 
-    multiplier = max(0, _NOW.year - f.year) + 1
+    multiplier = max(0, _NOW.year - year(f)) + 1
     return min(100, multiplier)
 
 
@@ -173,7 +177,7 @@ def offer_threshold(f):
     if f is None:
         return multiplier
     # refresh offers for newer films more often
-    multiplier = max(0, _NOW.year - f.year) + 1
+    multiplier = max(0, _NOW.year - year(f)) + 1
     # cap the multiplier at 14 (weeks)
     return min(14, multiplier)
 

@@ -47,6 +47,7 @@ class Film(Schema):
         "year": {
             "type": "integer",
             "format": "int64",
+            "nullable": True,
         },
         "rating": {
             "type": "string",

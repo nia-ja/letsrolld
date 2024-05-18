@@ -54,6 +54,19 @@ def delete_orphaned_films(session, model, dry_run=False):
             session.rollback()
 
 
+# TODO: abstract dry_run handling away
+def nullify_zero_years(session, model, dry_run=False):
+    try:
+        for film in session.query(model).filter(model.year == 0).all():
+            print(f"Setting film year to null: {film.name} @ {film.lb_url}")
+            film.year = None
+    finally:
+        if not dry_run:
+            session.commit()
+        else:
+            session.rollback()
+
+
 _CLEANUP = [
     (
         models.Director,
@@ -66,6 +79,10 @@ _CLEANUP = [
     (
         models.Film,
         delete_orphaned_films,
+    ),
+    (
+        models.Film,
+        nullify_zero_years,
     ),
 ]
 
