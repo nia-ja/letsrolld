@@ -117,14 +117,6 @@ class Film(BaseObject):
             return True
         return False
 
-    def available(self, service):
-        if service == PHYSICAL:
-            return self.available_physical()
-        for offer in self.offers:
-            if offer.technical_name == service:
-                return True
-        return False
-
     @property
     def available_services(self):
         services = [offer.technical_name for offer in self.offers]
