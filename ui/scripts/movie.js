@@ -10,6 +10,7 @@ export default class Movie {
         this.lb_url = lb_url;
         this.jw_url = jw_url;
         this.genres = this.getListHTML(genres, "movie-genres-list");
+        // TODO: handle null flag
         this.countries = this.getListHTML(countries.map(c => c.flag + " " + c.name), "movie-countries-list");
         this.offers = this.getListHTML(offers, "movie-offers-list");
         this.directors = directors;
