@@ -16,16 +16,25 @@
             "ArrayOfDirectors": {
                 "type": "array",
                 "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "lb_url": {
-                        "type": "string",
-                        "format": "url"
+                    "info": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "lb_url": {
+                                "type": "string",
+                                "format": "url"
+                            }
+                        },
+                        "required": [
+                            "id",
+                            "name"
+                        ],
+                        "type": "object"
                     },
                     "films": {
                         "type": "array",
@@ -82,8 +91,24 @@
                                 "directors": {
                                     "type": "array",
                                     "items": {
-                                        "type": "integer",
-                                        "format": "int64"
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "format": "int64"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "lb_url": {
+                                                "type": "string",
+                                                "format": "url"
+                                            }
+                                        },
+                                        "required": [
+                                            "id",
+                                            "name"
+                                        ],
+                                        "type": "object"
                                     }
                                 }
                             },
@@ -96,16 +121,25 @@
                 },
                 "items": {
                     "properties": {
-                        "id": {
-                            "type": "integer",
-                            "format": "int64"
-                        },
-                        "name": {
-                            "type": "string"
-                        },
-                        "lb_url": {
-                            "type": "string",
-                            "format": "url"
+                        "info": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "format": "int64"
+                                },
+                                "name": {
+                                    "type": "string"
+                                },
+                                "lb_url": {
+                                    "type": "string",
+                                    "format": "url"
+                                }
+                            },
+                            "required": [
+                                "id",
+                                "name"
+                            ],
+                            "type": "object"
                         },
                         "films": {
                             "type": "array",
@@ -162,8 +196,24 @@
                                     "directors": {
                                         "type": "array",
                                         "items": {
-                                            "type": "integer",
-                                            "format": "int64"
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "format": "int64"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "lb_url": {
+                                                    "type": "string",
+                                                    "format": "url"
+                                                }
+                                            },
+                                            "required": [
+                                                "id",
+                                                "name"
+                                            ],
+                                            "type": "object"
                                         }
                                     }
                                 },
@@ -175,23 +225,32 @@
                         }
                     },
                     "required": [
-                        "name"
+                        "info"
                     ],
                     "type": "object"
                 }
             },
             "Director": {
                 "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "lb_url": {
-                        "type": "string",
-                        "format": "url"
+                    "info": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "lb_url": {
+                                "type": "string",
+                                "format": "url"
+                            }
+                        },
+                        "required": [
+                            "id",
+                            "name"
+                        ],
+                        "type": "object"
                     },
                     "films": {
                         "type": "array",
@@ -248,8 +307,24 @@
                                 "directors": {
                                     "type": "array",
                                     "items": {
-                                        "type": "integer",
-                                        "format": "int64"
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "format": "int64"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "lb_url": {
+                                                "type": "string",
+                                                "format": "url"
+                                            }
+                                        },
+                                        "required": [
+                                            "id",
+                                            "name"
+                                        ],
+                                        "type": "object"
                                     }
                                 }
                             },
@@ -261,7 +336,7 @@
                     }
                 },
                 "required": [
-                    "name"
+                    "info"
                 ],
                 "type": "object"
             },
@@ -319,8 +394,24 @@
                     "directors": {
                         "type": "array",
                         "items": {
-                            "type": "integer",
-                            "format": "int64"
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "format": "int64"
+                                },
+                                "name": {
+                                    "type": "string"
+                                },
+                                "lb_url": {
+                                    "type": "string",
+                                    "format": "url"
+                                }
+                            },
+                            "required": [
+                                "id",
+                                "name"
+                            ],
+                            "type": "object"
                         }
                     }
                 },
@@ -377,8 +468,24 @@
                         "directors": {
                             "type": "array",
                             "items": {
-                                "type": "integer",
-                                "format": "int64"
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "lb_url": {
+                                        "type": "string",
+                                        "format": "url"
+                                    }
+                                },
+                                "required": [
+                                    "id",
+                                    "name"
+                                ],
+                                "type": "object"
                             }
                         }
                     },
@@ -441,8 +548,24 @@
                     "directors": {
                         "type": "array",
                         "items": {
-                            "type": "integer",
-                            "format": "int64"
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "format": "int64"
+                                },
+                                "name": {
+                                    "type": "string"
+                                },
+                                "lb_url": {
+                                    "type": "string",
+                                    "format": "url"
+                                }
+                            },
+                            "required": [
+                                "id",
+                                "name"
+                            ],
+                            "type": "object"
                         }
                     }
                 },
@@ -478,9 +601,11 @@
                                 },
                                 "example": [
                                     {
-                                        "id": "integer",
-                                        "name": "string",
-                                        "lb_url": "string",
+                                        "info": {
+                                            "id": "integer",
+                                            "name": "string",
+                                            "lb_url": "string"
+                                        },
                                         "films": [
                                             {
                                                 "id": "integer",
@@ -501,7 +626,11 @@
                                                     "string"
                                                 ],
                                                 "directors": [
-                                                    "integer"
+                                                    {
+                                                        "id": "integer",
+                                                        "name": "string",
+                                                        "lb_url": "string"
+                                                    }
                                                 ]
                                             }
                                         ]
@@ -537,9 +666,11 @@
                                     "$ref": "#/components/schemas/Director"
                                 },
                                 "example": {
-                                    "id": "integer",
-                                    "name": "string",
-                                    "lb_url": "string",
+                                    "info": {
+                                        "id": "integer",
+                                        "name": "string",
+                                        "lb_url": "string"
+                                    },
                                     "films": [
                                         {
                                             "id": "integer",
@@ -560,7 +691,11 @@
                                                 "string"
                                             ],
                                             "directors": [
-                                                "integer"
+                                                {
+                                                    "id": "integer",
+                                                    "name": "string",
+                                                    "lb_url": "string"
+                                                }
                                             ]
                                         }
                                     ]
@@ -642,7 +777,11 @@
                                             "string"
                                         ],
                                         "directors": [
-                                            "integer"
+                                            {
+                                                "id": "integer",
+                                                "name": "string",
+                                                "lb_url": "string"
+                                            }
                                         ]
                                     }
                                 ]
@@ -694,7 +833,11 @@
                                         "string"
                                     ],
                                     "directors": [
-                                        "integer"
+                                        {
+                                            "id": "integer",
+                                            "name": "string",
+                                            "lb_url": "string"
+                                        }
                                     ]
                                 }
                             }

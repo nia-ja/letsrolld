@@ -43,16 +43,22 @@ def _get_film(f):
         genres=[g.name for g in f.genres],
         countries=[c.name for c in f.countries],
         offers=[o.name for o in f.offers],
-        directors=[d.id for d in f.directors],
+        directors=[_get_director_info(d) for d in f.directors],
     )
 
 
 def _get_director(d):
     return webapi_models.Director(
+        info=_get_director_info(d),
+        films=[_get_film(f) for f in d.films],
+    )
+
+
+def _get_director_info(d):
+    return webapi_models.DirectorInfo(
         id=d.id,
         name=d.name,
         lb_url=d.lb_url,
-        films=[_get_film(f) for f in d.films],
     )
 
 

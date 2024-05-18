@@ -1,11 +1,6 @@
 from flask_restful_swagger_3 import Schema
 
 
-class DirectorId(Schema):
-    type = "integer"
-    format = "int64"
-
-
 class NullableURL(Schema):
     type = "string"
     format = "url"
@@ -27,6 +22,18 @@ class Country(Schema):
 
 class Offer(Schema):
     type = "string"
+
+
+class DirectorInfo(Schema):
+    properties = {
+        "id": {
+            "type": "integer",
+            "format": "int64",
+        },
+        "name": {"type": "string"},
+        "lb_url": URL,
+    }
+    required = ["id", "name"]
 
 
 class Film(Schema):
@@ -53,22 +60,17 @@ class Film(Schema):
         "genres": Genre.array(),
         "countries": Country.array(),
         "offers": Offer.array(),
-        "directors": DirectorId.array(),
+        "directors": DirectorInfo.array(),
     }
     required = ["title"]
 
 
 class Director(Schema):
     properties = {
-        "id": {
-            "type": "integer",
-            "format": "int64",
-        },
-        "name": {"type": "string"},
-        "lb_url": URL,
+        "info": DirectorInfo,
         "films": Film.array(),
     }
-    required = ["name"]
+    required = ["info"]
 
 
 class ArrayOfDirectors(Schema):
