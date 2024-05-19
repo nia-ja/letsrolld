@@ -1,7 +1,7 @@
 from sqlalchemy import Integer, String, Numeric, DateTime
 from sqlalchemy import Column, Table, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import Mapped, relationship
+from sqlalchemy.orm import Mapped, relationship, mapped_column
 
 Base = declarative_base()
 
@@ -36,12 +36,13 @@ class Country(Base):
     name = Column(String, unique=True)
 
 
-film_offer_association_table = Table(
-    "film_offer_association_table",
-    Base.metadata,
-    Column("film_id", ForeignKey("films.id"), primary_key=True),
-    Column("offer_id", ForeignKey("offers.id"), primary_key=True),
-)
+class FilmOffer(Base):
+    __tablename__ = "film_offer_association_table"
+
+    film_id = mapped_column(ForeignKey("films.id"), primary_key=True)
+    offer_id = mapped_column(ForeignKey("offers.id"), primary_key=True)
+    # TODO: make it nullable=False once all records are filled with data
+    url = Column(String, nullable=True)
 
 
 class Offer(Base):
@@ -83,7 +84,6 @@ class Film(Base):
     countries: Mapped[list[Country]] = relationship(
         secondary=film_country_association_table
     )
-    offers: Mapped[list[Offer]] = relationship(secondary=film_offer_association_table)
 
     directors = relationship(
         "Director",

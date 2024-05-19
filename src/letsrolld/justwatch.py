@@ -20,6 +20,7 @@ query GetUrlTitleDetails($fullPath: String!, $country: Country!,
             technicalName
             icon(profile: S100, format: PNG)
           }
+          standardWebURL
         }
         content(country: $country, language: $language) {
           backdrops {

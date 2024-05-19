@@ -52,9 +52,22 @@ def _get_flag(country):
             pass
 
 
-def _get_film(f):
+# TODO: this is ugly; reimplement it as association proxy if possible
+def _get_offers(session, f):
+    return list(
+        session.query(models.Offer.name, models.FilmOffer.url)
+        .join(models.FilmOffer)
+        .filter(models.FilmOffer.film_id == f.id)
+        .all()
+    )
+
+
+def _get_film(session, f):
     countries = [
         webapi_models.Country(name=c.name, flag=_get_flag(c.name)) for c in f.countries
+    ]
+    offers = [
+        webapi_models.Offer(name=name, url=url) for name, url in _get_offers(session, f)
     ]
     return webapi_models.Film(
         id=f.id,
@@ -68,15 +81,15 @@ def _get_film(f):
         trailer_url=f.trailer_url,
         genres=[g.name for g in f.genres],
         countries=countries,
-        offers=[o.name for o in f.offers],
+        offers=offers,
         directors=[_get_director_info(d) for d in f.directors],
     )
 
 
-def _get_director(d):
+def _get_director(session, d):
     return webapi_models.Director(
         info=_get_director_info(d),
-        films=[_get_film(f) for f in d.films],
+        films=[_get_film(session, f) for f in d.films],
     )
 
 
@@ -108,7 +121,7 @@ class DirectorResource(Resource):
     def get(self, _parser):
         args = _parser.parse_args()
         return [
-            _get_director(d)
+            _get_director(db_.session, d)
             for d in db_.session.query(models.Director)
             .order_by(func.random())
             .limit(args["limit"])
@@ -125,7 +138,7 @@ class DirectorItemResource(Resource):
         d = db_.session.query(models.Director).filter(models.Director.id == id).one()
         if d is None:
             return {}, 404
-        return _get_director(d), 200
+        return _get_director(db_.session, d), 200
 
 
 class FilmResource(Resource):
@@ -184,7 +197,7 @@ class FilmResource(Resource):
             )
 
         query = query.order_by(func.random()).limit(args["limit"])
-        return [_get_film(d) for d in query], 200
+        return [_get_film(db_.session, d) for d in query], 200
 
 
 class FilmItemResource(Resource):
@@ -195,7 +208,7 @@ class FilmItemResource(Resource):
         f = db_.session.query(models.Film).filter(models.Film.id == id).one()
         if f is None:
             return {}, 404
-        return _get_film(f), 200
+        return _get_film(db_.session, f), 200
 
 
 def _api():

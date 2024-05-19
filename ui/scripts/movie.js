@@ -12,7 +12,8 @@ export default class Movie {
         this.genres = this.getListHTML(genres, "movie-genres-list");
         // TODO: handle null flag
         this.countries = this.getListHTML(countries.map(c => c.flag + " " + c.name), "movie-countries-list");
-        this.offers = this.getListHTML(offers, "movie-offers-list");
+        // TODO: expose urls
+        this.offers = this.getListHTML(offers.map(o => o.name), "movie-offers-list");
         this.directors = directors;
         this.cover_url = "img/movie_temp.jpg"
     }

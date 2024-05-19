@@ -30,7 +30,11 @@ class Country(Schema):
 
 
 class Offer(Schema):
-    type = "string"
+    properties = {
+        "name": {"type": "string"},
+        "url": NullableURL,
+    }
+    required = ["name", "url"]
 
 
 class DirectorInfo(Schema):

@@ -1,3 +1,4 @@
+from collections import namedtuple
 import functools
 import re
 import urllib.parse
@@ -8,6 +9,9 @@ from letsrolld import director
 from letsrolld import http
 from letsrolld import justwatch as jw
 from letsrolld.base import BaseObject
+
+
+Offer = namedtuple("Offer", ["technical_name", "url"])
 
 
 KANOPY = "kanopy"
@@ -119,10 +123,13 @@ class Film(BaseObject):
 
     @property
     def available_services(self):
-        services = [offer.technical_name for offer in self.offers]
+        services = [
+            Offer(technical_name=offer.technical_name, url=offer.url)
+            for offer in self.offers
+        ]
         if self.available_physical():
-            services.append(PHYSICAL)
-        return set(services)
+            services.append(Offer(technical_name=PHYSICAL, url=None))
+        return services
 
     @functools.cached_property
     def jw_url(self):

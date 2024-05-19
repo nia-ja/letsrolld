@@ -90,24 +90,29 @@ def get_offers(session, offers):
 
 
 def update_objs(session, model, names):
+    objs = []
     for name in names:
         db_obj = session.query(model).filter_by(name=name).first()
         if db_obj is not None:
+            objs.append(db_obj)
             continue
-        session.add(model(name=name))
+        db_obj = model(name=name)
+        session.add(db_obj)
+        objs.append(db_obj)
         print(f"Adding {model.__name__.lower()}: {name}")
+    return objs
 
 
 def update_genres(session, genres):
-    update_objs(session, models.Genre, genres)
+    return update_objs(session, models.Genre, genres)
 
 
 def update_countries(session, countries):
-    update_objs(session, models.Country, countries)
+    return update_objs(session, models.Country, countries)
 
 
 def update_offers(session, offers):
-    update_objs(session, models.Offer, offers)
+    return update_objs(session, models.Offer, {o.technical_name for o in offers})
 
 
 def add_films(session, films):
@@ -201,8 +206,16 @@ def refresh_director(session, db_obj, api_obj):
 
 
 def report_offer_changes(session, db_obj, api_obj):
-    old = set(o.name for o in db_obj.offers) - set(api_obj.available_services)
-    new = set(api_obj.available_services) - set(o.name for o in db_obj.offers)
+    old_names = set(
+        o.name
+        for o in session.query(models.Offer)
+        .join(models.FilmOffer)
+        .filter(models.FilmOffer.film_id == db_obj.id)
+        .all()
+    )
+    new_names = set(o.technical_name for o in api_obj.available_services)
+    old = old_names - new_names
+    new = new_names - old_names
     if new or old:
         for o in new:
             print(f"\t+ {o}")
@@ -232,9 +245,25 @@ def refresh_film(session, db_obj, api_obj):
 
 def refresh_offers(session, db_obj, api_obj):
     # just in case genres or countries or offers changed
-    update_offers(session, api_obj.available_services)
+    db_offers = update_offers(session, api_obj.available_services)
+
+    def get_offer_id(offer):
+        return next(o.id for o in db_offers if o.name == offer)
+
     report_offer_changes(session, db_obj, api_obj)
-    db_obj.offers = get_offers(session, api_obj.available_services)
+    for offer in api_obj.available_services:
+        if (
+            session.query(models.FilmOffer)
+            .filter_by(film_id=db_obj.id, offer_id=get_offer_id(offer.technical_name))
+            .first()
+        ):
+            continue
+        obj = models.FilmOffer(
+            film_id=db_obj.id,
+            offer_id=get_offer_id(offer.technical_name),
+            url=offer.url,
+        )
+        session.add(obj)
     db_obj.last_offers_updated = _NOW
 
 

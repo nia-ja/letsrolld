@@ -104,7 +104,21 @@
                                 "offers": {
                                     "type": "array",
                                     "items": {
-                                        "type": "string"
+                                        "properties": {
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "url": {
+                                                "type": "string",
+                                                "format": "url",
+                                                "nullable": true
+                                            }
+                                        },
+                                        "required": [
+                                            "name",
+                                            "url"
+                                        ],
+                                        "type": "object"
                                     }
                                 },
                                 "directors": {
@@ -228,7 +242,21 @@
                                     "offers": {
                                         "type": "array",
                                         "items": {
-                                            "type": "string"
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "url": {
+                                                    "type": "string",
+                                                    "format": "url",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "required": [
+                                                "name",
+                                                "url"
+                                            ],
+                                            "type": "object"
                                         }
                                     },
                                     "directors": {
@@ -358,7 +386,21 @@
                                 "offers": {
                                     "type": "array",
                                     "items": {
-                                        "type": "string"
+                                        "properties": {
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "url": {
+                                                "type": "string",
+                                                "format": "url",
+                                                "nullable": true
+                                            }
+                                        },
+                                        "required": [
+                                            "name",
+                                            "url"
+                                        ],
+                                        "type": "object"
                                     }
                                 },
                                 "directors": {
@@ -464,7 +506,21 @@
                     "offers": {
                         "type": "array",
                         "items": {
-                            "type": "string"
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string",
+                                    "format": "url",
+                                    "nullable": true
+                                }
+                            },
+                            "required": [
+                                "name",
+                                "url"
+                            ],
+                            "type": "object"
                         }
                     },
                     "directors": {
@@ -557,7 +613,21 @@
                         "offers": {
                             "type": "array",
                             "items": {
-                                "type": "string"
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "url": {
+                                        "type": "string",
+                                        "format": "url",
+                                        "nullable": true
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "url"
+                                ],
+                                "type": "object"
                             }
                         },
                         "directors": {
@@ -656,7 +726,21 @@
                     "offers": {
                         "type": "array",
                         "items": {
-                            "type": "string"
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string",
+                                    "format": "url",
+                                    "nullable": true
+                                }
+                            },
+                            "required": [
+                                "name",
+                                "url"
+                            ],
+                            "type": "object"
                         }
                     },
                     "directors": {
@@ -741,7 +825,10 @@
                                                     }
                                                 ],
                                                 "offers": [
-                                                    "string"
+                                                    {
+                                                        "name": "string",
+                                                        "url": "string"
+                                                    }
                                                 ],
                                                 "directors": [
                                                     {
@@ -810,7 +897,10 @@
                                                 }
                                             ],
                                             "offers": [
-                                                "string"
+                                                {
+                                                    "name": "string",
+                                                    "url": "string"
+                                                }
                                             ],
                                             "directors": [
                                                 {
@@ -900,7 +990,10 @@
                                             }
                                         ],
                                         "offers": [
-                                            "string"
+                                            {
+                                                "name": "string",
+                                                "url": "string"
+                                            }
                                         ],
                                         "directors": [
                                             {
@@ -960,7 +1053,10 @@
                                         }
                                     ],
                                     "offers": [
-                                        "string"
+                                        {
+                                            "name": "string",
+                                            "url": "string"
+                                        }
                                     ],
                                     "directors": [
                                         {
