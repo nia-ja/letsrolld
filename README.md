@@ -28,6 +28,14 @@ make test
 make init_db
 ```
 
+If the database is already initialized, you may need to update its schema if
+there were new alembric migrations added. To do this, run the following
+command:
+
+```bash
+make run-db-upgrade
+```
+
 6. Populate the database with test data. This will initialize the database with
    10 directors and their films, by default.
 
