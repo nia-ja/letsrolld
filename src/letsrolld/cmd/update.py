@@ -224,6 +224,7 @@ def refresh_film(session, db_obj, api_obj):
     db_obj.rating = api_obj.rating
     db_obj.runtime = api_obj.runtime
     db_obj.jw_url = api_obj.jw_url
+    db_obj.trailer_url = api_obj.trailer_url
     db_obj.genres = get_genres(session, api_obj.genres)
     db_obj.countries = get_countries(session, api_obj.countries)
     db_obj.last_updated = _NOW

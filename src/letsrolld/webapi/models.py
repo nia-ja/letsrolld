@@ -68,6 +68,7 @@ class Film(Schema):
         },
         "lb_url": URL,
         "jw_url": NullableURL,
+        "trailer_url": NullableURL,
         "genres": Genre.array(),
         "countries": Country.array(),
         "offers": Offer.array(),

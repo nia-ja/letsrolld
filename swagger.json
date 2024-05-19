@@ -72,6 +72,11 @@
                                     "format": "url",
                                     "nullable": true
                                 },
+                                "trailer_url": {
+                                    "type": "string",
+                                    "format": "url",
+                                    "nullable": true
+                                },
                                 "genres": {
                                     "type": "array",
                                     "items": {
@@ -187,6 +192,11 @@
                                         "format": "url"
                                     },
                                     "jw_url": {
+                                        "type": "string",
+                                        "format": "url",
+                                        "nullable": true
+                                    },
+                                    "trailer_url": {
                                         "type": "string",
                                         "format": "url",
                                         "nullable": true
@@ -316,6 +326,11 @@
                                     "format": "url",
                                     "nullable": true
                                 },
+                                "trailer_url": {
+                                    "type": "string",
+                                    "format": "url",
+                                    "nullable": true
+                                },
                                 "genres": {
                                     "type": "array",
                                     "items": {
@@ -417,6 +432,11 @@
                         "format": "url",
                         "nullable": true
                     },
+                    "trailer_url": {
+                        "type": "string",
+                        "format": "url",
+                        "nullable": true
+                    },
                     "genres": {
                         "type": "array",
                         "items": {
@@ -501,6 +521,11 @@
                             "format": "url"
                         },
                         "jw_url": {
+                            "type": "string",
+                            "format": "url",
+                            "nullable": true
+                        },
+                        "trailer_url": {
                             "type": "string",
                             "format": "url",
                             "nullable": true
@@ -595,6 +620,11 @@
                         "format": "url"
                     },
                     "jw_url": {
+                        "type": "string",
+                        "format": "url",
+                        "nullable": true
+                    },
+                    "trailer_url": {
                         "type": "string",
                         "format": "url",
                         "nullable": true
@@ -700,6 +730,7 @@
                                                 "runtime": "integer",
                                                 "lb_url": "string",
                                                 "jw_url": "string",
+                                                "trailer_url": "string",
                                                 "genres": [
                                                     "string"
                                                 ],
@@ -768,6 +799,7 @@
                                             "runtime": "integer",
                                             "lb_url": "string",
                                             "jw_url": "string",
+                                            "trailer_url": "string",
                                             "genres": [
                                                 "string"
                                             ],
@@ -857,6 +889,7 @@
                                         "runtime": "integer",
                                         "lb_url": "string",
                                         "jw_url": "string",
+                                        "trailer_url": "string",
                                         "genres": [
                                             "string"
                                         ],
@@ -916,6 +949,7 @@
                                     "runtime": "integer",
                                     "lb_url": "string",
                                     "jw_url": "string",
+                                    "trailer_url": "string",
                                     "genres": [
                                         "string"
                                     ],

@@ -65,6 +65,7 @@ def _get_film(f):
         runtime=f.runtime,
         lb_url=f.lb_url,
         jw_url=f.jw_url,
+        trailer_url=f.trailer_url,
         genres=[g.name for g in f.genres],
         countries=countries,
         offers=[o.name for o in f.offers],

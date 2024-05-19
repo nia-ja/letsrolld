@@ -72,6 +72,7 @@ class Film(Base):
 
     jw_url = Column(String, nullable=True)
     lb_url = Column(String, nullable=False, unique=True)
+    trailer_url = Column(String, nullable=True)
 
     last_updated = Column(DateTime, nullable=True)
     last_checked = Column(DateTime, nullable=True)
