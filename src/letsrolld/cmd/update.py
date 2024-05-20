@@ -252,18 +252,20 @@ def refresh_offers(session, db_obj, api_obj):
 
     report_offer_changes(session, db_obj, api_obj)
     for offer in api_obj.available_services:
-        if (
+        obj = (
             session.query(models.FilmOffer)
             .filter_by(film_id=db_obj.id, offer_id=get_offer_id(offer.technical_name))
             .first()
-        ):
-            continue
-        obj = models.FilmOffer(
-            film_id=db_obj.id,
-            offer_id=get_offer_id(offer.technical_name),
-            url=offer.url,
         )
-        session.add(obj)
+        if  obj is not None:
+            obj.url = offer.url
+        else:
+            obj = models.FilmOffer(
+                film_id=db_obj.id,
+                offer_id=get_offer_id(offer.technical_name),
+                url=offer.url,
+            )
+            session.add(obj)
     db_obj.last_offers_updated = _NOW
 
 
