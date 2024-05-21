@@ -85,6 +85,20 @@ body {
   background-color: rgba(30, 3, 59, 0.8);
   border-radius: 5px;
   position: relative;
+  cursor: default;
+}
+.movie-image:hover {
+  cursor: default;
+}
+.movie-image:hover:has(.movie-image-caption) {
+  cursor: pointer;
+}
+.movie-image:hover:has(.movie-image-caption) .movie-image-cover {
+  filter: blur(3px) brightness(80%);
+  cursor: pointer;
+}
+.movie-image:hover:has(.movie-image-caption) .movie-image-caption {
+  font-size: 20px;
   cursor: pointer;
 }
 .movie-image:hover .movie-image-caption {
@@ -92,15 +106,12 @@ body {
   transform: translateY(50%);
   opacity: 1;
   border-radius: 0;
-}
-.movie-image:hover .movie-image-cover {
-  filter: blur(3px) brightness(80%);
+  cursor: pointer;
 }
 .movie-image-cover {
   display: block;
   width: 100%;
   border-radius: 5px;
-  cursor: pointer;
 }
 .movie-image-caption {
   color: white;
@@ -115,6 +126,9 @@ body {
   text-align: center;
   opacity: 1;
   transition: all 0.5s;
+}
+.movie-image-caption:hover {
+  cursor: pointer;
 }
 .movie-right {
   width: 55%;
@@ -172,6 +186,7 @@ body {
   font-size: 40px;
   padding-top: 10px;
   padding-right: 20px;
+  cursor: pointer;
 }
 .modal-content .modal-header .closeBtn:hover, .modal-content .modal-header .closeBtn:focus {
   color: #1e033b;
@@ -203,6 +218,7 @@ body {
   background-color: #1e033b;
   color: #f7f7f7;
   border-bottom: 2px solid white;
+  z-index: 9999;
 }
 .navbar form {
   width: 70%;

@@ -34,9 +34,9 @@ async function getMovies() {
 
 function showMovies(movies) {
     movies.forEach(movie => {
-        const {title, description, year, rating, runtime, lb_url, jw_url, genres, countries, offers, directors} = movie
+        const {title, description, year, rating, runtime, lb_url, jw_url, trailer_url, genres, countries, offers, directors} = movie
 
-        let movieEl = new Movie(title, description, year, rating, runtime, lb_url, jw_url, genres, countries, offers, directors);
+        let movieEl = new Movie(title, description, year, rating, runtime, lb_url, jw_url, trailer_url, genres, countries, offers, directors);
 
         movieEl = movieEl.createFullMovie();
 
