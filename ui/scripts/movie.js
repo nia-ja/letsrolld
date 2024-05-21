@@ -10,12 +10,11 @@ export default class Movie {
         this.lb_url = lb_url;
         this.jw_url = jw_url;
         this.genres = this.getListHTML(genres, "movie-genres-list");
-        // TODO: handle null flag
-        this.countries = this.getListHTML(countries.map(c => c.flag + " " + c.name), "movie-countries-list");
+        this.countries = this.getFlags(countries, "countries-list");
         // TODO: expose urls
         this.offers = this.getListHTML(offers.map(o => o.name), "movie-offers-list");
-        this.directors = directors;
-        this.cover_url = "img/movie_temp.jpg"
+        this.directors = directors.map(d => d.name);
+        this.cover_url = "img/movie_temp.jpg";
     }
 
     createFullMovie() {
@@ -71,6 +70,7 @@ export default class Movie {
 
         const title = this.createMovieElemText("h1", "movie-title", this.title);
         const year = this.createMovieElemText("h2", "movie-year", this.year);
+        const director = this.createDirectorsList(this.directors);
         const rating = this.createMovieElemText("h3", "movie-rating", this.rating);
         const runtime = this.createMovieElemText("h4", "movie-runtime", this.runtime? `${this.runtime} min` : "");
         const description = this.createMovieElemText("p", "movie-description", this.description);
@@ -80,6 +80,7 @@ export default class Movie {
 
         movieInfoConteiner.appendChild(title);
         movieInfoConteiner.appendChild(year);
+        movieInfoConteiner.appendChild(director);
         movieInfoConteiner.appendChild(rating);
         movieInfoConteiner.appendChild(runtime);
         movieInfoConteiner.appendChild(description);
@@ -88,6 +89,19 @@ export default class Movie {
         movieInfoConteiner.appendChild(links);
 
         return movieInfoConteiner;
+    }
+
+    createDirectorsList(names) {
+        const conteiner = document.createElement('h2');
+        conteiner.classList.add("movie-directors");
+
+        if(names !== "") {
+            let dirNamesStr = names.map(String).join(', ');
+            let result = `Directed by <span class="directors-names">${dirNamesStr}</span>`;
+            conteiner.innerHTML = result;
+        }
+
+        return conteiner;
     }
 
     createListWithTitle(name, data) {
@@ -103,6 +117,31 @@ export default class Movie {
         }
 
         return conteiner;
+    }
+
+    // expects countries object that has name and flag fields, class  
+    getFlags(counries, name) {
+        let flags = "";
+
+        if (counries.length !== 0) {
+            const list = document.createElement("ul");
+            list.classList.add(name);
+
+            counries.map(country => {
+                if (country.flag) {
+                    flags += `<li class="country-flag">${country.flag}<span class="country-name-tooltip">${country.name}</span></li>`;
+                } else {
+                    // handle null flag
+                    // &#127987; adds white flag symbol
+                    flags += `<li class="country-flag">&#127987;<span class="country-name-tooltip">${country.name}</span></li>`;
+                }
+            })
+            list.innerHTML = flags;
+            return list;
+        } else {
+            return flags;
+        }
+
     }
 
     getListHTML(arr, name) {
