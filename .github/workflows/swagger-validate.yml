@@ -1,0 +1,22 @@
+name: Swagger Validate
+on: [push, pull_request]
+jobs:
+  swagger-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'
+      - name: Install java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+      - name: Install openapi-generator-cli
+        run: |
+          npm install @openapitools/openapi-generator-cli -g
+      - name: Validate swagger.json
+        run: |
+          openapi-generator-cli validate -i swagger.json
