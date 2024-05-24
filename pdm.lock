@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:66c03a5512fa6b4d1fd4bbe0986a62bf774ffd14a61e3cf798aa668e96712afe"
+content_hash = "sha256:0b66be8fd460280d3e5e3e242e21d7c5f4fe621bcef81757436d2b1c5bf8ff3a"
 
 [[package]]
 name = "alembic"
@@ -451,6 +451,16 @@ dependencies = [
 files = [
     {file = "pre_commit-3.6.2-py2.py3-none-any.whl", hash = "sha256:ba637c2d7a670c10daedc059f5c49b5bd0aadbccfcd7ec15592cf9665117532c"},
     {file = "pre_commit-3.6.2.tar.gz", hash = "sha256:c3ef34f463045c88658c5b99f38c1e297abdcc0ff13f98d3370055fbbfabc67e"},
+]
+
+[[package]]
+name = "pycountry"
+version = "23.12.11"
+requires_python = ">=3.8"
+summary = "ISO country, subdivision, language, currency and script definitions and their translations"
+files = [
+    {file = "pycountry-23.12.11-py3-none-any.whl", hash = "sha256:2ff91cff4f40ff61086e773d61e72005fe95de4a57bfc765509db05695dc50ab"},
+    {file = "pycountry-23.12.11.tar.gz", hash = "sha256:00569d82eaefbc6a490a311bfa84a9c571cff9ddbf8b0a4f4e7b4f868b4ad925"},
 ]
 
 [[package]]
