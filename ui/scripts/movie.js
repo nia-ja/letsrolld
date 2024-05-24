@@ -82,45 +82,45 @@ export default class Movie {
         const counries = this.createListWithTitle("countries", this.countries);
         const links = this.getLinks();
 
-        movieInfoConteiner.appendChild(title);
-        movieInfoConteiner.appendChild(year);
-        movieInfoConteiner.appendChild(director);
-        movieInfoConteiner.appendChild(rating);
-        movieInfoConteiner.appendChild(runtime);
-        movieInfoConteiner.appendChild(description);
-        movieInfoConteiner.appendChild(genres);
-        movieInfoConteiner.appendChild(counries);
-        movieInfoConteiner.appendChild(links);
+        movieInfoContainer.appendChild(title);
+        movieInfoContainer.appendChild(year);
+        movieInfoContainer.appendChild(director);
+        movieInfoContainer.appendChild(rating);
+        movieInfoContainer.appendChild(runtime);
+        movieInfoContainer.appendChild(description);
+        movieInfoContainer.appendChild(genres);
+        movieInfoContainer.appendChild(counries);
+        movieInfoContainer.appendChild(links);
 
-        return movieInfoConteiner;
+        return movieInfoContainer;
     }
 
     createDirectorsList(names) {
-        const conteiner = document.createElement('h2');
-        conteiner.classList.add("movie-directors");
+        const container = document.createElement('h2');
+        container.classList.add("movie-directors");
 
         if(names !== "") {
             let dirNamesStr = names.map(String).join(', ');
             let result = `Directed by <span class="directors-names">${dirNamesStr}</span>`;
-            conteiner.innerHTML = result;
+            container.innerHTML = result;
         }
 
-        return conteiner;
+        return container;
     }
 
     createListWithTitle(name, data) {
-        const conteiner = document.createElement('div');
-        conteiner.classList.add(name);
+        const container = document.createElement('div');
+        container.classList.add(name);
 
         const titleUpper = name.charAt(0).toUpperCase() + name.slice(1);
 
         if(data !== "") {
             const title = this.createMovieElemText("h3", `${name}-title`, `${titleUpper}:`);
-            conteiner.appendChild(title);
-            conteiner.appendChild(data);
+            container.appendChild(title);
+            container.appendChild(data);
         }
 
-        return conteiner;
+        return container;
     }
 
     // expects countries object that has name and flag fields, class  
@@ -135,8 +135,7 @@ export default class Movie {
         list.classList.add(name);
 
         countries.map(({flag, name} = country) => {
-            // let {flag, name} = country;
-            // &#127987; adds white flag symbol
+            // &#127987; adds white flag symbol as a default flag
             flag = flag || "&#127987;";
             flags += `<li class="country-flag">${flag}<span class="country-name-tooltip">${name}</span></li>`;
         })
