@@ -43,7 +43,6 @@ dev = [
 recommend = "letsrolld.cmd.recommend:main"
 directors = "letsrolld.cmd.directors:main"
 
-db-init = "letsrolld.cmd.db_init:main"
 populate-directors = "letsrolld.cmd.populate_directors:main"
 update-directors = "letsrolld.cmd.update:directors_main"
 update-films = "letsrolld.cmd.update:films_main"
