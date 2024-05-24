@@ -42,6 +42,7 @@ def _get_flag(country):
 
     countries = {
         "UK": "GB",
+        "Czechoslovakia": "CZ",
     }
     for getter in getters:
         try:
