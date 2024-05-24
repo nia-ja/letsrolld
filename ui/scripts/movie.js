@@ -127,25 +127,21 @@ export default class Movie {
     getFlags(countries, name) {
         let flags = "";
 
-        if (countries.length !== 0) {
-            const list = document.createElement("ul");
-            list.classList.add(name);
-
-            countries.map(country => {
-                if (country.flag) {
-                    flags += `<li class="country-flag">${country.flag}<span class="country-name-tooltip">${country.name}</span></li>`;
-                } else {
-                    // handle null flag
-                    // &#127987; adds white flag symbol
-                    flags += `<li class="country-flag">&#127987;<span class="country-name-tooltip">${country.name}</span></li>`;
-                }
-            })
-            list.innerHTML = flags;
-            return list;
-        } else {
+        if (countries.length == 0) {
             return flags;
         }
 
+        const list = document.createElement("ul");
+        list.classList.add(name);
+
+        countries.map(({flag, name} = country) => {
+            // let {flag, name} = country;
+            // &#127987; adds white flag symbol
+            flag = flag || "&#127987;";
+            flags += `<li class="country-flag">${flag}<span class="country-name-tooltip">${name}</span></li>`;
+        })
+        list.innerHTML = flags;
+        return list;
     }
 
     getListHTML(arr, name) {
