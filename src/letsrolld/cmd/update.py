@@ -257,7 +257,7 @@ def refresh_offers(session, db_obj, api_obj):
             .filter_by(film_id=db_obj.id, offer_id=get_offer_id(offer.technical_name))
             .first()
         )
-        if  obj is not None:
+        if obj is not None:
             obj.url = offer.url
         else:
             obj = models.FilmOffer(
