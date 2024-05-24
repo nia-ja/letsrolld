@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:0b66be8fd460280d3e5e3e242e21d7c5f4fe621bcef81757436d2b1c5bf8ff3a"
+content_hash = "sha256:7a2e1e77db51d22cbd912b78085b16b9e57f9b658b60e17173397ad08d0d5048"
 
 [[package]]
 name = "alembic"
