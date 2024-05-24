@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:5d9eb21fe99a185cb6323404f87ccff10aa6723a8553fb70b01dad300f6aa6aa"
+content_hash = "sha256:66c03a5512fa6b4d1fd4bbe0986a62bf774ffd14a61e3cf798aa668e96712afe"
 
 [[package]]
 name = "alembic"
@@ -220,6 +220,20 @@ summary = "Extract swagger specs from your flask-restful project. Project based 
 dependencies = [
     "Flask-Cors",
     "Flask-RESTful>=0.3.7",
+]
+
+[[package]]
+name = "flask-sqlalchemy"
+version = "3.1.1"
+requires_python = ">=3.8"
+summary = "Add SQLAlchemy support to your Flask application."
+dependencies = [
+    "flask>=2.2.5",
+    "sqlalchemy>=2.0.16",
+]
+files = [
+    {file = "flask_sqlalchemy-3.1.1-py3-none-any.whl", hash = "sha256:4ba4be7f419dc72f4efd8802d69974803c37259dd42f3913b0dcf75c9447e0a0"},
+    {file = "flask_sqlalchemy-3.1.1.tar.gz", hash = "sha256:e4b68bb881802dda1a7d878b2fc84c06d1ee57fb40b874d3dc97dabfa36b8312"},
 ]
 
 [[package]]
