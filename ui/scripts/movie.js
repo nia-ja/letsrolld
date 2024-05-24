@@ -1,7 +1,7 @@
 import Modal from "/scripts/modal.js";
 
 export default class Movie {
-    constructor(title, description, year, rating, runtime, lb_url, jw_url, genres, countries, offers, directors) {
+    constructor(title, description, year, rating, runtime, lb_url, jw_url, trailer_url, genres, countries, offers, directors) {
         this.title = title;
         this.description = description;
         this.year = year;
@@ -9,13 +9,14 @@ export default class Movie {
         this.runtime = runtime;
         this.lb_url = lb_url;
         this.jw_url = jw_url;
+        this.trailer_url = trailer_url;
         this.genres = this.getListHTML(genres, "movie-genres-list");
         // TODO: handle null flag
         this.countries = this.getListHTML(countries.map(c => c.flag + " " + c.name), "movie-countries-list");
         // TODO: expose urls
         this.offers = this.getListHTML(offers.map(o => o.name), "movie-offers-list");
         this.directors = directors;
-        this.cover_url = "img/movie_temp.jpg"
+        this.cover_url = "img/movie_temp.jpg";
     }
 
     createFullMovie() {
@@ -36,15 +37,18 @@ export default class Movie {
         const movieLeft = document.createElement("div");
         movieLeft.classList.add("movie-left");
 
-        // @todo: change for the dynamic image cover later
+        // TODO: change for the dynamic image cover later
         const imageElem = `<img class="movie-image-cover" src=${this.cover_url} alt="Watch this space, cover is comming soon" />`;
         const cover = this.createMovieElemHTML('figure', 'movie-image', imageElem);
+        
+        // handle the case if trailer is not available
+        if (this.trailer_url) {
+            //the html character code is an arrow directed to the right
+            const imgCaption = this.createMovieElemHTML("figcaption", "movie-image-caption", "Trailer &#10162;");
+            cover.appendChild(imgCaption);
 
-        const imgCaption = this.createMovieElemText("figcaption", "movie-image-caption", "See the trailer");
-        cover.appendChild(imgCaption);
-
-        // @todo: will need to pass url to the trailer later
-        cover.addEventListener("click", () => new Modal(this.title).fillInModal());
+            cover.addEventListener("click", () => new Modal(this.title, this.trailer_url).fillInModal());
+        }
 
         const offers = this.createListWithTitle("offers", this.offers);
 
