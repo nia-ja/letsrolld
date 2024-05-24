@@ -1,18 +1,23 @@
 export default class Modal {
-    // @todo: will need to add trailer url later
-    constructor(title) {
+    constructor(title, trailer_url) {
         this.title = title;
-        // this.url = url;
+        this.trailer_url = trailer_url;
+    }
+
+    // extract YouTube movie id from the link
+    getYouTubeId(url) {
+        const movieYouTubeId = url.replace("https://www.youtube.com/watch?v=", "");
+        return movieYouTubeId;
     }
 
     fillInModal() {
-        console.log("hej!")
         const title = document.querySelector(".modal-title");
         title.textContent = this.title;
 
-        // @todo: will have a dynamic link to the trailer later
         const body = document.querySelector(".modal-body");
-        const trailer = this.createTrailer("https://www.youtube.com/embed/LtNYaH61dXY?si=j-aoQsvgBPQFIfBg");
+        const trailer_id = this.getYouTubeId(this.trailer_url);
+        // compose embed link for the trailer
+        const trailer = this.createTrailer(`https://www.youtube.com/embed/${trailer_id}`);
         body.appendChild(trailer);
 
         this.openModal();
