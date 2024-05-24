@@ -69,8 +69,8 @@ export default class Movie {
     }
 
     createFullMovieInfo() {
-        const movieInfoConteiner = document.createElement('div');
-        movieInfoConteiner.classList.add("movie-info");
+        const movieInfoContainer = document.createElement('div');
+        movieInfoContainer.classList.add("movie-info");
 
         const title = this.createMovieElemText("h1", "movie-title", this.title);
         const year = this.createMovieElemText("h2", "movie-year", this.year);
@@ -99,7 +99,7 @@ export default class Movie {
         const container = document.createElement('h2');
         container.classList.add("movie-directors");
 
-        if(names !== "") {
+        if(names) {
             let dirNamesStr = names.map(String).join(', ');
             let result = `Directed by <span class="directors-names">${dirNamesStr}</span>`;
             container.innerHTML = result;
