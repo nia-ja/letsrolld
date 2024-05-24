@@ -22,15 +22,8 @@ make install
 make test
 ```
 
-5. Initialize an empty database.
-
-```bash
-make init_db
-```
-
-If the database is already initialized, you may need to update its schema if
-there were new alembric migrations added. To do this, run the following
-command:
+5. Initialize an empty database. This will also upgrade schema for existing
+   database, if needed.
 
 ```bash
 make run-db-upgrade
