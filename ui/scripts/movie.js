@@ -124,14 +124,14 @@ export default class Movie {
     }
 
     // expects countries object that has name and flag fields, class  
-    getFlags(counries, name) {
+    getFlags(countries, name) {
         let flags = "";
 
-        if (counries.length !== 0) {
+        if (countries.length !== 0) {
             const list = document.createElement("ul");
             list.classList.add(name);
 
-            counries.map(country => {
+            countries.map(country => {
                 if (country.flag) {
                     flags += `<li class="country-flag">${country.flag}<span class="country-name-tooltip">${country.name}</span></li>`;
                 } else {
