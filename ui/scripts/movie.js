@@ -20,7 +20,6 @@ export default class Movie {
     }
 
     createFullMovie() {
-        console.log
         const movieEl = document.createElement("div");
         movieEl.classList.add("movie-card");
 
@@ -38,13 +37,13 @@ export default class Movie {
         const movieLeft = document.createElement("div");
         movieLeft.classList.add("movie-left");
 
-        // @todo: change for the dynamic image cover later
+        // TODO: change for the dynamic image cover later
         const imageElem = `<img class="movie-image-cover" src=${this.cover_url} alt="Watch this space, cover is comming soon" />`;
         const cover = this.createMovieElemHTML('figure', 'movie-image', imageElem);
-
         
-        // @todo: will need to pass url to the trailer later
+        // handle the case if trailer is not available
         if (this.trailer_url) {
+            //the html character code is an arrow directed to the right
             const imgCaption = this.createMovieElemHTML("figcaption", "movie-image-caption", "Trailer &#10162;");
             cover.appendChild(imgCaption);
 
