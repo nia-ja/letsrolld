@@ -14,7 +14,8 @@ export default class Movie {
         // TODO: handle null flag
         this.countries = this.getListHTML(countries.map(c => c.flag + " " + c.name), "movie-countries-list");
         // TODO: expose urls
-        this.offers = this.getListHTML(offers.map(o => o.name), "movie-offers-list");
+        // this.offers = this.getListHTML(offers.map(o => o.name), "movie-offers-list");
+        this.offers = this.getOffers(offers, "movie-offers-list");
         this.directors = directors;
         this.cover_url = "img/movie_temp.jpg";
     }
@@ -50,10 +51,14 @@ export default class Movie {
             cover.addEventListener("click", () => new Modal(this.title, this.trailer_url).fillInModal());
         }
 
-        const offers = this.createListWithTitle("offers", this.offers);
-
         movieLeft.appendChild(cover);
-        movieLeft.appendChild(offers);
+
+        if (this.offers) {
+            const offers = document.createElement('div');
+            offers.classList.add("offers");
+            offers.appendChild(this.offers);
+            movieLeft.appendChild(offers);
+        }
 
         return movieLeft;
     }
@@ -109,6 +114,45 @@ export default class Movie {
         return conteiner;
     }
 
+    // TODO: move this into separate module
+    // TODO: make list of offers shorter by default, then add add an option to expand list in modal window 
+    // expects offers object that has name and url fields
+    getOffers(offers, name) {
+        const offersList = document.createElement("div");
+        offersList.classList.add(name);
+
+        if (offers.length == 0) {
+            return "";
+        }
+
+        // NEED: a full list of services in the DB
+        // TODO: check if the service has a matching logo, if not - use a placeholder logo
+        offers.map(({name, url} = offer) => {
+            const link = this.createLinkElem(url, "offer", name);
+            // add icon to the link
+            // TODO: add icons for different services (SVG?)
+            // TODO: for now it shows only couple of icons, should add icons source for everything
+            const icon = document.createElement("span");
+            icon.classList.add("brand-icon");
+            
+            const logoName = this.getSvg(name);
+
+            console.log(`name: ${name}, logoName: ${logoName}`);
+            
+            icon.innerHTML = `<img id="svg-${name}" src="../img/offers_icons/${logoName}" class="logo-img logo-${name} alt="Logo for ${name} streaming service" />`;
+            link.appendChild(icon);
+
+            offersList.appendChild(link);
+        })
+
+        return offersList;
+    }
+
+    // TODO: expend checks for services other then physical
+    getSvg(name) {
+        return name === "physical" ? name = "png/buy.png" : `svg/${name}.svg`;
+    }
+
     getListHTML(arr, name) {
         let result = "";
 
@@ -157,13 +201,23 @@ export default class Movie {
         return button;
     }
 
-    createLinkElem(link, name, linkText) {
+    createLinkElem(link, name, text) {
         const linkElem = document.createElement('a');
-        linkElem.setAttribute("href", link);
-        linkElem.setAttribute("target", "_blank");
+
+        // url can be null (the most common example: a physical offer)
+        if (link !== null) {
+            linkElem.setAttribute("href", link);
+            linkElem.setAttribute("target", "_blank");
+        }
+
         linkElem.classList.add("movie-link");
         linkElem.classList.add(`movie-link-${name}`);
-        linkElem.innerText = linkText;
+
+        const linkText = document.createElement("span");
+        linkText.classList.add("title-link");
+        linkText.innerText = text;
+        linkElem.appendChild(linkText);
+
         return linkElem;
     }
 
