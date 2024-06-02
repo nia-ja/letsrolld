@@ -1,5 +1,5 @@
 name: Swagger
-on: [push, pull_request]
+on: [pull_request]
 jobs:
   swagger:
     runs-on: ubuntu-latest
