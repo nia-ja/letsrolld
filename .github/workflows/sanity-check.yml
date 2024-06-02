@@ -3,6 +3,7 @@ on: [pull_request]
 jobs:
   sanity-check:
     runs-on: ubuntu-latest
+    timeout-minutes: 600
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
