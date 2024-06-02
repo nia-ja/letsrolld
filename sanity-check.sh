@@ -1,6 +1,20 @@
 #!/bin/sh
 set -xe
 
+StringContains() {
+    string="$1"
+    substring="$2"
+
+    case "$string" in
+        *"$substring"*)
+            return 0
+            ;;
+        *)
+            return 1
+            ;;
+    esac
+}
+
 DIRECTORS_FILE=directors.csv
 
 # create empty database
@@ -26,8 +40,8 @@ test $lines -eq 10  # 10 is default in webapi
 # (the first two entries in the input file)
 out=$(lcli directors get)
 # TODO: we could probably extract these programmatically here
-test grep -q "Maryam Touzani" $out
-test grep -q "Štefan Uher" $out
+StringContains "$out" "Maryam Touzani"
+StringContains "$out" "Štefan Uher"
 
 # stop webapp
 kill $WEBAPP_PID
