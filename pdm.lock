@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:7fa75fd682e1779978bc77d90006e64884065f72c3cff59e12f0357418c1bb9d"
+content_hash = "sha256:6c6f7696e235e138c6b6e143446b493ac22bca001a31f5d12925b529d6f5e087"
 
 [[package]]
 name = "alembic"
@@ -362,8 +362,7 @@ files = [
 name = "letsrolld-api-client"
 version = "0.1"
 requires_python = ">=3.8,<4.0"
-git = "https://github.com/booxter/letsrolld-client.git"
-revision = "1822119c7add754bd5a42166fbb786908eb3b556"
+path = "./letsrolld-api-client"
 summary = "A client library for accessing letsrolld API"
 dependencies = [
     "attrs>=21.3.0",

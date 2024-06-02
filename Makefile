@@ -5,7 +5,7 @@ DIRECTORS_FILE?=directors.csv
 RUN_LOG?=run.log
 RUN_LOG_CMD?=ts | tee -a $(RUN_LOG)
 
-.PHONY: install lint test populate run-update-directors run-update-films run-update-offers run-cleanup run-all run-db-upgrade webapp ui swagger get-dirs get-films
+.PHONY: install lint test populate run-update-directors run-update-films run-update-offers run-cleanup run-all run-db-upgrade webapp ui swagger swagger_py get-dirs get-films
 
 install:
 	pdm install -v
@@ -43,6 +43,9 @@ swagger:
 	#curl http://localhost:8000/api/doc/swagger.json -o swagger.json
 	pdm run swagger > swagger.json
 	openapi-generator-cli validate -i swagger.json
+
+swagger_py: swagger
+	pdm run openapi-python-client generate --path swagger.json
 
 ui:
 	cd ui && http-server --port 8081 -c-1 -o
