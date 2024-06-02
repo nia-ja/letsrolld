@@ -1,5 +1,5 @@
 name: Sanity Check
-on: [push, pull_request]
+on: [pull_request]
 jobs:
   sanity-check:
     runs-on: ubuntu-latest
