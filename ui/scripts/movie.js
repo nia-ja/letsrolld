@@ -1,4 +1,5 @@
 import Modal from "/scripts/modal.js";
+import { important_offers } from "/scripts/variables.js";
 
 export default class Movie {
     constructor(title, description, year, rating, runtime, lb_url, jw_url, trailer_url, genres, countries, offers, directors) {
@@ -13,9 +14,11 @@ export default class Movie {
         this.genres = this.getListHTML(genres, "movie-genres-list");
         // TODO: handle null flag
         this.countries = this.getListHTML(countries.map(c => c.flag + " " + c.name), "movie-countries-list");
-        // TODO: expose urls
-        // this.offers = this.getListHTML(offers.map(o => o.name), "movie-offers-list");
-        this.offers = this.getOffers(offers, "movie-offers-list");
+        /*
+        keys: name, url, logo
+        logo can be url (string) or null
+        */
+        this.offers = this.getOffersLogoes(offers);
         this.directors = directors;
         this.cover_url = "img/movie_temp.jpg";
     }
@@ -53,10 +56,38 @@ export default class Movie {
 
         movieLeft.appendChild(cover);
 
-        if (this.offers) {
+        // TODO: add a link for other services if they exist
+        // other services -> open in modal, simple list with no logos
+        this.offers.map(o => console.log(o));
+        console.log(this.offers.length);
+        if (this.offers.length > 0) {
+            const movie_important_offers = this.filterImportant(this.offers);
+
+            const my_offers = this.getOffers(movie_important_offers, "movie-offers-list");
+
+            console.log(my_offers);
+
             const offers = document.createElement('div');
             offers.classList.add("offers");
-            offers.appendChild(this.offers);
+
+            console.log(`my_offers: ${movie_important_offers.length}, all_offers: ${this.offers.length}`);
+
+            if (my_offers) {
+                offers.appendChild(my_offers);
+
+                console.log(`My_offers number of childs:${my_offers.childNodes.length}`);
+
+                
+                if (movie_important_offers.length < this.offers.length) {
+                    // TODO: show diff text depending on do we have important offers or not
+                    const moreLink = this.createLinkElem(null, "show_more", "show more...");
+                    offers.appendChild(moreLink);
+                }
+            } else {
+                //add link with "where to watch"
+                const moreLink = this.createLinkElem(null, "show_more", "where to watch...");
+                offers.appendChild(moreLink);
+            }
             movieLeft.appendChild(offers);
         }
 
@@ -114,43 +145,56 @@ export default class Movie {
         return conteiner;
     }
 
+
+    getOffersLogoes(offers) {
+        offers.map((offer) => {
+            important_offers.includes(offer.name) ? offer.logo = `../img/offers_icons/svg/${offer.name}.svg` : offer.logo = null;
+        });
+        return offers;
+    }
+
+    // NEED: a full list of services in the DB
+    // only important services are shown on the main card component and use a logo
+    /* 
+    important services:
+    - kanopy
+    - hoopla
+    - criterionchannel
+    - prime
+    - amazon
+    - youtube
+    - netflix
+    - hbo
+    - itunes
+    */
+    filterImportant(data) {
+        return data.filter(o => o.logo !== null);
+    }
+
     // TODO: move this into separate module
-    // TODO: make list of offers shorter by default, then add add an option to expand list in modal window 
+    // TODO: add an option to expand list in modal window 
     // expects offers object that has name and url fields
     getOffers(offers, name) {
         const offersList = document.createElement("div");
         offersList.classList.add(name);
 
-        if (offers.length == 0) {
-            return "";
-        }
-
-        // NEED: a full list of services in the DB
-        // TODO: check if the service has a matching logo, if not - use a placeholder logo
-        offers.map(({name, url} = offer) => {
+        offers.map(({name, url, logo} = offer) => {
             const link = this.createLinkElem(url, "offer", name);
+
             // add icon to the link
-            // TODO: add icons for different services (SVG?)
-            // TODO: for now it shows only couple of icons, should add icons source for everything
             const icon = document.createElement("span");
             icon.classList.add("brand-icon");
-            
-            const logoName = this.getSvg(name);
-
-            console.log(`name: ${name}, logoName: ${logoName}`);
-            
-            icon.innerHTML = `<img id="svg-${name}" src="../img/offers_icons/${logoName}" class="logo-img logo-${name} alt="Logo for ${name} streaming service" />`;
+            icon.innerHTML = `<img id="svg-${name}" src=${logo} class="logo-img logo-${name} alt="Logo for ${name} streaming service" />`;
             link.appendChild(icon);
 
             offersList.appendChild(link);
         })
 
-        return offersList;
-    }
+        if (offersList.childNodes.length === 0) {
+            return null
+        }
 
-    // TODO: expend checks for services other then physical
-    getSvg(name) {
-        return name === "physical" ? name = "png/buy.png" : `svg/${name}.svg`;
+        return offersList;
     }
 
     getListHTML(arr, name) {
