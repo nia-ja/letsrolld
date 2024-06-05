@@ -1,4 +1,5 @@
 import Modal from "/scripts/modal.js";
+import Offers from "/scripts/offers.js";
 import { important_offers } from "/scripts/variables.js";
 
 export default class Movie {
@@ -18,7 +19,7 @@ export default class Movie {
         keys: name, url, logo
         logo can be url (string) or null
         */
-        this.offers = this.getOffersLogoes(offers);
+        this.offers = offers;
         this.directors = directors;
         this.cover_url = "img/movie_temp.jpg";
     }
@@ -58,34 +59,37 @@ export default class Movie {
 
         // TODO: add a link for other services if they exist
         // other services -> open in modal, simple list with no logos
-        this.offers.map(o => console.log(o));
-        console.log(this.offers.length);
+
         if (this.offers.length > 0) {
-            const movie_important_offers = this.filterImportant(this.offers);
+            const movie_offers = new Offers(this.offers);
 
-            const my_offers = this.getOffers(movie_important_offers, "movie-offers-list");
+            const movie_offers_all = movie_offers.getAllOffers();
+            console.log(`All offers from Offers class: ${movie_offers_all.length}`);
+            // movie_offers_all.map(o => console.log(o));
 
-            console.log(my_offers);
+            const movie_offers_important = movie_offers.filterImportant();
+            console.log(`Important offers from Offers class: ${movie_offers_important.length}`);
+
+            const offers_el = this.getOffers(movie_offers_important, "movie-offers-list");
 
             const offers = document.createElement('div');
             offers.classList.add("offers");
 
-            console.log(`my_offers: ${movie_important_offers.length}, all_offers: ${this.offers.length}`);
+            // console.log(`my_offers: ${movie_important_offers.length}, all_offers: ${this.offers.length}`);
 
-            if (my_offers) {
-                offers.appendChild(my_offers);
+            if (offers_el) {
+                offers.appendChild(offers_el);
 
-                console.log(`My_offers number of childs:${my_offers.childNodes.length}`);
+                // console.log(`Offers_el number of childs:${offers_el.childNodes.length}`);
 
-                
-                if (movie_important_offers.length < this.offers.length) {
-                    // TODO: show diff text depending on do we have important offers or not
-                    const moreLink = this.createLinkElem(null, "show_more", "show more...");
+                // TODO: add modal with "show more..."
+                if (movie_offers_important.length < movie_offers_all.length) {
+                    const moreLink = this.createLinkElem(null, "show_more", "show more ->");
                     offers.appendChild(moreLink);
                 }
             } else {
-                //add link with "where to watch"
-                const moreLink = this.createLinkElem(null, "show_more", "where to watch...");
+                // TODO: add modal with "where to watch"
+                const moreLink = this.createLinkElem(null, "show_more", "where to watch ->");
                 offers.appendChild(moreLink);
             }
             movieLeft.appendChild(offers);
@@ -143,32 +147,6 @@ export default class Movie {
         }
 
         return conteiner;
-    }
-
-
-    getOffersLogoes(offers) {
-        offers.map((offer) => {
-            important_offers.includes(offer.name) ? offer.logo = `../img/offers_icons/svg/${offer.name}.svg` : offer.logo = null;
-        });
-        return offers;
-    }
-
-    // NEED: a full list of services in the DB
-    // only important services are shown on the main card component and use a logo
-    /* 
-    important services:
-    - kanopy
-    - hoopla
-    - criterionchannel
-    - prime
-    - amazon
-    - youtube
-    - netflix
-    - hbo
-    - itunes
-    */
-    filterImportant(data) {
-        return data.filter(o => o.logo !== null);
     }
 
     // TODO: move this into separate module
