@@ -16,19 +16,26 @@
             // border: 1px solid red;
             .movie-offers-list {
                 // border: 1px solid orange;
+                display: flex;
                 .movie-link-offer {
                     // border: 1px solid blue;
                     display: inline-block;
                     display: flex;
-                    flex-direction: row-reverse;
-                    justify-content: flex-end;
-                    align-items: center;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    align-items: flex-start;
                     text-decoration: none;
                     color: $color-dark;
+                    position: relative;
 
                     &:hover {
                         text-decoration: underline;
-                        text-decoration-color: $color-grey-dark-3;;
+                        text-decoration-color: $color-grey-dark-3;
+                        cursor: default;
+                    }
+
+                    &:hover span.offer-name-tooltip {
+                        visibility: visible;
                     }
 
                     &:has(.logo-img.logo-physical) {
@@ -51,7 +58,7 @@
 
                     .brand-icon {
                         display: block;
-                        margin-right: 5px;
+                        // margin-right: 5px;
                         width: 35px;
                         height: 35px;
                         border-radius: 5px;

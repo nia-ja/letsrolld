@@ -157,13 +157,17 @@ export default class Movie {
         offersList.classList.add(name);
 
         offers.map(({name, url, logo} = offer) => {
-            const link = this.createLinkElem(url, "offer", name);
+            const link = this.createLinkElem(url, "offer", null);
 
             // add icon to the link
             const icon = document.createElement("span");
             icon.classList.add("brand-icon");
             icon.innerHTML = `<img id="svg-${name}" src=${logo} class="logo-img logo-${name} alt="Logo for ${name} streaming service" />`;
+            const tooltip = document.createElement("span");
+            tooltip.classList.add("offer-name-tooltip");
+            tooltip.innerText = name;
             link.appendChild(icon);
+            link.appendChild(tooltip);
 
             offersList.appendChild(link);
         })
@@ -235,10 +239,12 @@ export default class Movie {
         linkElem.classList.add("movie-link");
         linkElem.classList.add(`movie-link-${name}`);
 
-        const linkText = document.createElement("span");
-        linkText.classList.add("title-link");
-        linkText.innerText = text;
-        linkElem.appendChild(linkText);
+        if(text) {
+            const linkText = document.createElement("span");
+            linkText.classList.add("title-link");
+            linkText.innerText = text;
+            linkElem.appendChild(linkText);
+        }
 
         return linkElem;
     }

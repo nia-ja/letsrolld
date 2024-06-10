@@ -78,18 +78,26 @@ body {
 .movie-left {
   width: 40%;
 }
+.movie-left .offers .movie-offers-list {
+  display: flex;
+}
 .movie-left .offers .movie-offers-list .movie-link-offer {
   display: inline-block;
   display: flex;
-  flex-direction: row-reverse;
-  justify-content: flex-end;
-  align-items: center;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
   text-decoration: none;
   color: #000000;
+  position: relative;
 }
 .movie-left .offers .movie-offers-list .movie-link-offer:hover {
   text-decoration: underline;
   text-decoration-color: #333;
+  cursor: default;
+}
+.movie-left .offers .movie-offers-list .movie-link-offer:hover span.offer-name-tooltip {
+  visibility: visible;
 }
 .movie-left .offers .movie-offers-list .movie-link-offer:has(.logo-img.logo-physical):hover {
   text-decoration: none;
@@ -106,7 +114,6 @@ body {
 }
 .movie-left .offers .movie-offers-list .movie-link-offer .brand-icon {
   display: block;
-  margin-right: 5px;
   width: 35px;
   height: 35px;
   border-radius: 5px;
@@ -277,6 +284,25 @@ body {
     scale: 1;
   }
 }
+.movie-link span.offer-name-tooltip {
+  /* hide by default */
+  visibility: hidden;
+  /* style */
+  font-size: 12px;
+  line-height: 12px;
+  font-weight: bold;
+  background-color: rgba(238, 238, 238, 0.7);
+  color: #1e033b;
+  text-align: center;
+  border-radius: 3px;
+  padding: 3px 5px;
+  /* Position the tooltip */
+  position: absolute;
+  top: 30px;
+  left: 0;
+  z-index: 1;
+}
+
 .navbar {
   width: 100vw;
   position: fixed;
