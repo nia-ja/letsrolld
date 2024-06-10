@@ -78,78 +78,6 @@ body {
 .movie-left {
   width: 40%;
 }
-.movie-left .offers .movie-offers-list {
-  display: flex;
-}
-.movie-left .offers .movie-offers-list .movie-link-offer {
-  display: inline-block;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  text-decoration: none;
-  color: #000000;
-  position: relative;
-}
-.movie-left .offers .movie-offers-list .movie-link-offer:hover {
-  text-decoration: underline;
-  text-decoration-color: #333;
-  cursor: default;
-}
-.movie-left .offers .movie-offers-list .movie-link-offer:hover span.offer-name-tooltip {
-  visibility: visible;
-}
-.movie-left .offers .movie-offers-list .movie-link-offer:has(.logo-img.logo-physical):hover {
-  text-decoration: none;
-  color: #000000;
-  text-decoration-color: #000000;
-}
-.movie-left .offers .movie-offers-list .movie-link-offer .title-link {
-  color: #000000;
-  font-weight: bold;
-  font-size: 18px;
-}
-.movie-left .offers .movie-offers-list .movie-link-offer .title-link:hover {
-  color: #333;
-}
-.movie-left .offers .movie-offers-list .movie-link-offer .brand-icon {
-  display: block;
-  width: 35px;
-  height: 35px;
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 3px;
-}
-.movie-left .offers .movie-offers-list .movie-link-offer .brand-icon .logo-img {
-  width: 35px;
-  height: 35px;
-}
-.movie-left .offers .movie-offers-list .movie-link-offer .brand-icon .logo-img.logo-criterionchannel {
-  width: 25px;
-  height: 25px;
-  margin: 5px;
-}
-.movie-left .offers .movie-offers-list .movie-link-offer .brand-icon .logo-img.logo-kanopy, .movie-left .offers .movie-offers-list .movie-link-offer .brand-icon .logo-img.logo-vudu, .movie-left .offers .movie-offers-list .movie-link-offer .brand-icon .logo-img.logo-physical {
-  width: 20px;
-  height: 20px;
-}
-.movie-left .offers .movie-offers-list .movie-link-offer .brand-icon .logo-img.logo-physical {
-  width: 16px;
-  height: 16px;
-}
-.movie-left .offers .movie-offers-list .movie-link-offer .brand-icon:has(.logo-img.logo-kanopy, .logo-img.logo-vudu, .logo-img.logo-physical) {
-  width: 25px;
-  height: 25px;
-  margin: 5.5px;
-}
-.movie-left .offers .movie-offers-list .movie-link-offer .brand-icon:has(.logo-img.logo-kanopy, .logo-img.logo-physical) {
-  background-color: black;
-}
-.movie-left .offers .movie-offers-list .movie-link-offer .brand-icon:has(.logo-img.logo-vudu) {
-  background-color: #2d6dbe;
-}
 .movie-image {
   width: 90%;
   margin: 0;
@@ -284,7 +212,28 @@ body {
     scale: 1;
   }
 }
-.movie-link span.offer-name-tooltip {
+.offers .movie-offers-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+.offers .movie-offers-list .movie-link-offer {
+  display: inline-block;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-decoration: none;
+  color: #000000;
+  position: relative;
+}
+.offers .movie-offers-list .movie-link-offer:hover {
+  text-decoration: underline;
+  text-decoration-color: #333;
+}
+.offers .movie-offers-list .movie-link-offer:hover .offer-name-tooltip {
+  visibility: visible;
+}
+.offers .movie-offers-list .movie-link-offer .offer-name-tooltip {
   /* hide by default */
   visibility: hidden;
   /* style */
@@ -301,6 +250,57 @@ body {
   top: 30px;
   left: 0;
   z-index: 1;
+}
+.offers .movie-offers-list .movie-link-offer:has(.logo-img.logo-physical):hover {
+  text-decoration: none;
+  color: #000000;
+  text-decoration-color: #000000;
+}
+.offers .movie-offers-list .movie-link-offer .title-link {
+  color: #000000;
+  font-weight: bold;
+  font-size: 18px;
+}
+.offers .movie-offers-list .movie-link-offer .title-link:hover {
+  color: #333;
+}
+.offers .movie-offers-list .movie-link-offer .brand-icon {
+  display: block;
+  width: 35px;
+  height: 35px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 3px;
+}
+.offers .movie-offers-list .movie-link-offer .brand-icon .logo-img {
+  width: 35px;
+  height: 35px;
+}
+.offers .movie-offers-list .movie-link-offer .brand-icon .logo-img.logo-criterionchannel {
+  width: 25px;
+  height: 25px;
+  margin: 5px;
+}
+.offers .movie-offers-list .movie-link-offer .brand-icon .logo-img.logo-kanopy, .offers .movie-offers-list .movie-link-offer .brand-icon .logo-img.logo-vudu, .offers .movie-offers-list .movie-link-offer .brand-icon .logo-img.logo-physical {
+  width: 20px;
+  height: 20px;
+}
+.offers .movie-offers-list .movie-link-offer .brand-icon .logo-img.logo-physical {
+  width: 16px;
+  height: 16px;
+}
+.offers .movie-offers-list .movie-link-offer .brand-icon:has(.logo-img.logo-kanopy, .logo-img.logo-vudu, .logo-img.logo-physical) {
+  width: 25px;
+  height: 25px;
+  margin: 5.5px;
+}
+.offers .movie-offers-list .movie-link-offer .brand-icon:has(.logo-img.logo-kanopy, .logo-img.logo-physical) {
+  background-color: black;
+}
+.offers .movie-offers-list .movie-link-offer .brand-icon:has(.logo-img.logo-vudu) {
+  background-color: #2d6dbe;
 }
 
 .navbar {
