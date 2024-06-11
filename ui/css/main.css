@@ -307,10 +307,10 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex-wrap: wrap;
   color: white;
   font-size: 36px;
   width: 50%;
-  height: 100%;
   margin: 60px auto 0 auto;
 }
 .offers-all .movie-link {

@@ -1,3 +1,4 @@
+// links to important offers (when opened inside the movie card: icon + tooltip)
 .offers {
     // border: 1px solid red;
     .movie-offers-list {
@@ -111,16 +112,18 @@
     }
 }
 
+// TODO: offers should fit inside the modal body
+// links to all offers (when opened inside the modal)
 .offers-all {
     display: flex;
     flex-direction: column;
     align-items: center;
-    // justify-content: center;
+    flex-wrap: wrap;
     color: white;
     font-size: 36px;
     width: 50%;
-    height: 100%;
     margin: 60px auto 0 auto;
+
     .movie-link {
         color: white;
         text-decoration: none;
