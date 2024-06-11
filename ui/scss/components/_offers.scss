@@ -111,6 +111,26 @@
     }
 }
 
-.movie-link {
-    
+.offers-all {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // justify-content: center;
+    color: white;
+    font-size: 36px;
+    width: 50%;
+    height: 100%;
+    margin: 60px auto 0 auto;
+    .movie-link {
+        color: white;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+            text-decoration-color: white;
+        }
+    }
+    .movie-link-physical:hover {
+        text-decoration: none;
+    }
 }
