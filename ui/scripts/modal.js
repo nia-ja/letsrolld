@@ -15,10 +15,13 @@ export default class Modal {
         title.textContent = this.title;
 
         const body = document.querySelector(".modal-body");
-        const trailer_id = this.getYouTubeId(this.trailer_url);
-        // compose embed link for the trailer
-        const trailer = this.createTrailer(`https://www.youtube.com/embed/${trailer_id}`);
-        body.appendChild(trailer);
+        
+        if(this.trailer_url) {
+            const trailer_id = this.getYouTubeId(this.trailer_url);
+            // compose embed link for the trailer
+            const trailer = this.createTrailer(`https://www.youtube.com/embed/${trailer_id}`);
+            body.appendChild(trailer);
+        }
 
         this.openModal();
 

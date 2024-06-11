@@ -85,11 +85,13 @@ export default class Movie {
                 // TODO: add modal with "show more..."
                 if (movie_offers_important.length < movie_offers_all.length) {
                     const moreLink = this.createLinkElem(null, "show_more", "show more ->");
+                    moreLink.addEventListener("click", () => new Modal("Where to watch", null).fillInModal());
                     offers.appendChild(moreLink);
                 }
             } else {
                 // TODO: add modal with "where to watch"
                 const moreLink = this.createLinkElem(null, "show_more", "where to watch ->");
+                moreLink.addEventListener("click", () => new Modal("Where to watch", null).fillInModal());
                 offers.appendChild(moreLink);
             }
             movieLeft.appendChild(offers);
