@@ -5,7 +5,7 @@ DIRECTORS_FILE?=directors.csv
 RUN_LOG?=run.log
 RUN_LOG_CMD?=ts | tee -a $(RUN_LOG)
 
-.PHONY: install lint mypy test populate run-update-directors run-update-films run-update-offers run-cleanup run-all run-db-upgrade webapp ui swagger swagger_py get-dirs get-films
+.PHONY: install lint mypy test populate run-update-directors run-update-films run-update-offers run-cleanup run-all run-db-upgrade webapp ui swagger swagger-py swagger-js swagger-all get-dirs get-films
 
 install:
 	pdm install -vd
@@ -44,11 +44,19 @@ webapp:
 
 swagger:
 	#curl http://localhost:8000/api/doc/swagger.json -o swagger.json
-	pdm run swagger > swagger.json
+	pdm run swagger > swagger.json.tmp
+	mv swagger.json.tmp swagger.json
 	openapi-generator-cli validate -i swagger.json
 
-swagger_py: swagger
+swagger-py: swagger
+	rm -rf letsrolld-api-client
 	pdm run openapi-python-client generate --path swagger.json
+
+swagger-js: swagger
+	rm -rf js
+	openapi-generator-cli generate -i swagger.json -g javascript -o js
+
+swagger-all: swagger-py swagger-js
 
 ui:
 	cd ui && http-server --port 8081 -c-1 -o
