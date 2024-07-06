@@ -227,7 +227,8 @@ def _api():
 
 def main():
     _ = _api()
-    app.run(port=8000, debug=True)
+    # app.run(port=8000, debug=True)
+    app.run(port=8000, debug=False)
 
 
 def swagger_json():
