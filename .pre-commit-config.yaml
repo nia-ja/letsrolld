@@ -17,4 +17,8 @@ repos:
       args: [ --fix ]
     # Run the formatter.
     - id: ruff-format
-exclude: 'letsrolld-api-client/.*'
+exclude: |
+  (?x)^(
+    letsrolld-api-client/.*|
+    js/.*
+  )$
