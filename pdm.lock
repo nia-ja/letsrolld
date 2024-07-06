@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:6c6f7696e235e138c6b6e143446b493ac22bca001a31f5d12925b529d6f5e087"
+content_hash = "sha256:2117ecb9a1c036f1c9fd8ec3575a0a359a5b8f6cfc8898e21fe3a05372d3e9c4"
 
 [[package]]
 name = "alembic"
@@ -746,13 +746,15 @@ files = [
 
 [[package]]
 name = "simple-justwatch-python-api"
-version = "0.13"
+version = "0.14"
+requires_python = ">=3.11"
 summary = "A simple JustWatch Python API"
 dependencies = [
     "httpx",
 ]
 files = [
-    {file = "simple-justwatch-python-api-0.13.tar.gz", hash = "sha256:32a1ad4bb01f5ff214040fc1251fa02712f9364e0447b65ca2250d1096b0a4f8"},
+    {file = "simple-justwatch-python-api-0.14.tar.gz", hash = "sha256:abeaa80657e3d8645d26943254c688324cd87bff95b7c4ae3941e77737c248d4"},
+    {file = "simple_justwatch_python_api-0.14-py3-none-any.whl", hash = "sha256:5885bcb2df04fe28d00d1934a884d2fde403ac49521ba2e435562c3402d0bdbd"},
 ]
 
 [[package]]
