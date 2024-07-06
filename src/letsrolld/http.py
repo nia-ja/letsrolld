@@ -6,6 +6,12 @@ import requests
 
 _CACHE_INSTALLED = False
 
+# TODO: use a library to fill these in
+_HEADERS = {
+    "Content-Type": "application/json",
+    "User-Agent": "PostmanRuntime/7.39.0",
+}
+
 
 # stolen from stackoverflow
 def enable_debug():
@@ -24,4 +30,4 @@ def get_url(url):
 
 
 def get_json(url, json):
-    return requests.post(url, json=json).json()
+    return requests.post(url, headers=_HEADERS, json=json)
