@@ -34,7 +34,7 @@ sleep 5
 
 # check that it is running and returns some data
 lines=$(lcli films get | wc -l)
-test $lines -eq 10  # 10 is default in webapi
+test "$lines" -eq 10  # 10 is default in webapi
 
 # we know which directors we fed into the database
 # (the first two entries in the input file)
