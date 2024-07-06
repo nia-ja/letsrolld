@@ -17,6 +17,15 @@ repos:
       args: [ --fix ]
     # Run the formatter.
     - id: ruff-format
+- repo: local
+  hooks:
+  - id: shellcheck
+    name: shellcheck
+    description: Test shell scripts with shellcheck
+    entry: shellcheck
+    language: python
+    types: [shell]
+    require_serial: true # shellcheck can detect sourcing this way
 exclude: |
   (?x)^(
     letsrolld-api-client/.*|
