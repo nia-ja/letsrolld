@@ -20,5 +20,6 @@ repos:
 exclude: |
   (?x)^(
     letsrolld-api-client/.*|
-    js/.*
+    js/.*|
+    ts/.*
   )$

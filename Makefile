@@ -5,7 +5,7 @@ DIRECTORS_FILE?=directors.csv
 RUN_LOG?=run.log
 RUN_LOG_CMD?=ts | tee -a $(RUN_LOG)
 
-.PHONY: install lint mypy test populate run-update-directors run-update-films run-update-offers run-cleanup run-all run-db-upgrade webapp ui swagger swagger-py swagger-js swagger-all get-dirs get-films
+.PHONY: install lint mypy test populate run-update-directors run-update-films run-update-offers run-cleanup run-all run-db-upgrade webapp ui swagger swagger-py swagger-js swagger-ts swagger-all get-dirs get-films
 
 install:
 	pdm install -vd
@@ -56,7 +56,11 @@ swagger-js: swagger
 	rm -rf js
 	openapi-generator-cli generate -i swagger.json -g javascript -o js
 
-swagger-all: swagger-py swagger-js
+swagger-ts: swagger
+	rm -rf ts
+	openapi-generator-cli generate -i swagger.json -g typescript-node -o ts
+
+swagger-all: swagger-py swagger-js swagger-ts
 
 ui:
 	cd ui && http-server --port 8081 -c-1 -o
