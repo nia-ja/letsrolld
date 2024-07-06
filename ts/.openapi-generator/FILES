@@ -1,0 +1,15 @@
+.gitignore
+.openapi-generator-ignore
+api.ts
+api/apis.ts
+api/defaultApi.ts
+git_push.sh
+model/arrayOfDirectors.ts
+model/arrayOfFilms.ts
+model/director.ts
+model/directorFilmsInner.ts
+model/directorFilmsInnerCountriesInner.ts
+model/directorFilmsInnerOffersInner.ts
+model/directorInfo.ts
+model/film.ts
+model/models.ts
