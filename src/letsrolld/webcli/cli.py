@@ -62,7 +62,7 @@ def directors_get():
         for director in get_directors.sync(client=client):
             director_reports.append(list_director(director))
 
-    print("\n\n".join(director_reports))
+    print("\n".join(director_reports))
 
 
 @cli.group()
@@ -113,7 +113,7 @@ def films_query(
             for film in films:
                 film_reports.append(report_film(film))
 
-    print("\n\n".join(film_reports))
+    print("\n".join(film_reports))
 
 
 if __name__ == "__main__":
