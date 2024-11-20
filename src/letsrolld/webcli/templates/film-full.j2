@@ -1,6 +1,4 @@
->>>
-{{ film.title }}
->>>
+>>> {{ film.title }}
   📅:{{ film.year }} | 📽:{{ film.directors|map(attribute='name')|join(', ') }}
   ⌛:{{ film.runtime }}m ⭐:{{ film.rating }} 📎:{{ film.genres|join(',') }}
 {%- set ns = namespace(all_country_names=[]) -%}
