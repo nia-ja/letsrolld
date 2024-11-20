@@ -30,6 +30,10 @@ pycountry.pkg-path = "python312Packages.pycountry"
 act.pkg-path = "act"
 shellcheck.pkg-path = "shellcheck"
 pip.pkg-path = "python312Packages.pip"
+clang_15.pkg-path = "clang_15"
+cargo.pkg-path = "cargo"
+rustc.pkg-path = "rustc"
+libiconv.pkg-path = "libiconv"
 
 # Set environment variables in the `[vars]` section. These variables may not
 # reference one another, and are added to the environment without first

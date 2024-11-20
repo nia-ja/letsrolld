@@ -12,6 +12,12 @@
       "beautifulsoup4": {
         "pkg-path": "python312Packages.beautifulsoup4"
       },
+      "cargo": {
+        "pkg-path": "cargo"
+      },
+      "clang_15": {
+        "pkg-path": "clang_15"
+      },
       "flask": {
         "pkg-path": "python312Packages.flask"
       },
@@ -29,6 +35,9 @@
       },
       "http-server": {
         "pkg-path": "nodePackages.http-server"
+      },
+      "libiconv": {
+        "pkg-path": "libiconv"
       },
       "moreutils": {
         "pkg-path": "moreutils"
@@ -56,6 +65,9 @@
       },
       "requests": {
         "pkg-path": "python312Packages.requests"
+      },
+      "rustc": {
+        "pkg-path": "rustc"
       },
       "shellcheck": {
         "pkg-path": "shellcheck"
@@ -445,6 +457,238 @@
         "dist": "/nix/store/mrxga4zfah4qnd5a1v8r5s0i7xwcvx5c-python3.12-beautifulsoup4-4.12.3-dist",
         "doc": "/nix/store/1dmk9n8axbjdafrfiq5q2pzzj247i9fn-python3.12-beautifulsoup4-4.12.3-doc",
         "out": "/nix/store/x0mvadgwvbqj6cpn02hvsjvj8vr8788s-python3.12-beautifulsoup4-4.12.3"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "cargo",
+      "broken": false,
+      "derivation": "/nix/store/kcq45ajspdjs4g2rgqz9aj2xrr2znffp-cargo-1.82.0.drv",
+      "description": "Downloads your Rust project's dependencies and builds your project",
+      "install_id": "cargo",
+      "license": "[ MIT, Apache-2.0 ]",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "name": "cargo-1.82.0",
+      "pname": "cargo",
+      "rev": "5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "rev_count": 708622,
+      "rev_date": "2024-11-15T13:07:34Z",
+      "scrape_date": "2024-11-17T03:59:12Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "1.82.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/arsxsvbjmappgjrxviayspqnjm1nhrma-cargo-1.82.0"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "cargo",
+      "broken": false,
+      "derivation": "/nix/store/bazsn0mngvqagk3kvqm5nvl1wsqfh1x6-cargo-1.82.0.drv",
+      "description": "Downloads your Rust project's dependencies and builds your project",
+      "install_id": "cargo",
+      "license": "[ MIT, Apache-2.0 ]",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "name": "cargo-1.82.0",
+      "pname": "cargo",
+      "rev": "5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "rev_count": 708622,
+      "rev_date": "2024-11-15T13:07:34Z",
+      "scrape_date": "2024-11-17T03:59:12Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "1.82.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/f3cq37b3397bzj900w0mlyyg4sxjqnbz-cargo-1.82.0"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "cargo",
+      "broken": false,
+      "derivation": "/nix/store/29ppbxs735wj1kjmrrmq5yn8lhhn4yy6-cargo-1.82.0.drv",
+      "description": "Downloads your Rust project's dependencies and builds your project",
+      "install_id": "cargo",
+      "license": "[ MIT, Apache-2.0 ]",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "name": "cargo-1.82.0",
+      "pname": "cargo",
+      "rev": "5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "rev_count": 708622,
+      "rev_date": "2024-11-15T13:07:34Z",
+      "scrape_date": "2024-11-17T03:59:12Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "1.82.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/ighhvn60wvid5h3h10fvmsa3qnxw9bnl-cargo-1.82.0"
+      },
+      "system": "x86_64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "cargo",
+      "broken": false,
+      "derivation": "/nix/store/373bgz3qs9rl9gn2srlfaj4a56baqhmf-cargo-1.82.0.drv",
+      "description": "Downloads your Rust project's dependencies and builds your project",
+      "install_id": "cargo",
+      "license": "[ MIT, Apache-2.0 ]",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "name": "cargo-1.82.0",
+      "pname": "cargo",
+      "rev": "5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "rev_count": 708622,
+      "rev_date": "2024-11-15T13:07:34Z",
+      "scrape_date": "2024-11-17T03:59:12Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "1.82.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/6sn3alxhxzwz4q3bbmkh5ywgjj0g8m2a-cargo-1.82.0"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "clang_15",
+      "broken": false,
+      "derivation": "/nix/store/4z18w6pmzki1hzaqr8fy35ab9zmri988-clang-wrapper-15.0.7.drv",
+      "description": "C language family frontend for LLVM (wrapper script)",
+      "install_id": "clang_15",
+      "license": "NCSA",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "name": "clang-wrapper-15.0.7",
+      "pname": "clang_15",
+      "rev": "5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "rev_count": 708622,
+      "rev_date": "2024-11-15T13:07:34Z",
+      "scrape_date": "2024-11-17T03:59:12Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "clang-wrapper-15.0.7",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/4axg4prhi6d1zz5yhc0jlsnhpgh1v23b-clang-wrapper-15.0.7"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "clang_15",
+      "broken": false,
+      "derivation": "/nix/store/pwmfcyncklc3rsp1lbkyxsq5wl32dvmg-clang-wrapper-15.0.7.drv",
+      "description": "C language family frontend for LLVM (wrapper script)",
+      "install_id": "clang_15",
+      "license": "NCSA",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "name": "clang-wrapper-15.0.7",
+      "pname": "clang_15",
+      "rev": "5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "rev_count": 708622,
+      "rev_date": "2024-11-15T13:07:34Z",
+      "scrape_date": "2024-11-17T03:59:12Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "clang-wrapper-15.0.7",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/4w8l12w1da8wmjp3aj60y384yq4ii3ci-clang-wrapper-15.0.7"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "clang_15",
+      "broken": false,
+      "derivation": "/nix/store/9sg3wpbkppajh8d0wrxp368xayd4d4g2-clang-wrapper-15.0.7.drv",
+      "description": "C language family frontend for LLVM (wrapper script)",
+      "install_id": "clang_15",
+      "license": "NCSA",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "name": "clang-wrapper-15.0.7",
+      "pname": "clang_15",
+      "rev": "5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "rev_count": 708622,
+      "rev_date": "2024-11-15T13:07:34Z",
+      "scrape_date": "2024-11-17T03:59:12Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "clang-wrapper-15.0.7",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/1dygzwina8pvss1z36fbx2zld5yl8hhz-clang-wrapper-15.0.7"
+      },
+      "system": "x86_64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "clang_15",
+      "broken": false,
+      "derivation": "/nix/store/9z5fc3frfkkpc4b52nhxx8pb704vyb9l-clang-wrapper-15.0.7.drv",
+      "description": "C language family frontend for LLVM (wrapper script)",
+      "install_id": "clang_15",
+      "license": "NCSA",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "name": "clang-wrapper-15.0.7",
+      "pname": "clang_15",
+      "rev": "5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "rev_count": 708622,
+      "rev_date": "2024-11-15T13:07:34Z",
+      "scrape_date": "2024-11-17T03:59:12Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "clang-wrapper-15.0.7",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/2744i4jaaq32rlq4bkaw3npnp0s93rnx-clang-wrapper-15.0.7"
       },
       "system": "x86_64-linux",
       "group": "toplevel",
@@ -1171,6 +1415,120 @@
       ],
       "outputs": {
         "out": "/nix/store/wplldq7bwc4a2clhh4mhkik78y5y3y19-http-server-14.1.1"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "libiconv",
+      "broken": false,
+      "derivation": "/nix/store/g49q1nnlpczkw7dg7p9lp8b0xl1gp6wn-libiconv-107.drv",
+      "description": "Iconv(3) implementation",
+      "install_id": "libiconv",
+      "license": "[ BSD-2-Clause, BSD-3-Clause, APSL-1.0 ]",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "name": "libiconv-107",
+      "pname": "libiconv",
+      "rev": "5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "rev_count": 708622,
+      "rev_date": "2024-11-15T13:07:34Z",
+      "scrape_date": "2024-11-17T03:59:12Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "107",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "dev": "/nix/store/gpm8lxlqya85j5pnp8q2q956qflpdxix-libiconv-107-dev",
+        "out": "/nix/store/iwbpxcjz1s816d80sqg0mxg5p8m0dqak-libiconv-107"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "libiconv",
+      "broken": false,
+      "derivation": "/nix/store/wfcnxs10g8lzgzfqzfv0c5sj2621mpqx-glibc-iconv-2.40.drv",
+      "install_id": "libiconv",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "name": "glibc-iconv-2.40",
+      "pname": "libiconv",
+      "rev": "5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "rev_count": 708622,
+      "rev_date": "2024-11-15T13:07:34Z",
+      "scrape_date": "2024-11-17T03:59:12Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "glibc-iconv-2.40",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/vmj98hrwfjba7rsqml99gvv7ad0x2a4x-glibc-iconv-2.40"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "libiconv",
+      "broken": false,
+      "derivation": "/nix/store/vsp6c34npdjwxz5ja49v9sl76c2brfk7-libiconv-107.drv",
+      "description": "Iconv(3) implementation",
+      "install_id": "libiconv",
+      "license": "[ BSD-2-Clause, BSD-3-Clause, APSL-1.0 ]",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "name": "libiconv-107",
+      "pname": "libiconv",
+      "rev": "5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "rev_count": 708622,
+      "rev_date": "2024-11-15T13:07:34Z",
+      "scrape_date": "2024-11-17T03:59:12Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "107",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "dev": "/nix/store/5b7ddkjx3bp5yv3rf172dqp6f2957l2g-libiconv-107-dev",
+        "out": "/nix/store/ns9fk2cg2k84c2b10cwassgk44gim2c8-libiconv-107"
+      },
+      "system": "x86_64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "libiconv",
+      "broken": false,
+      "derivation": "/nix/store/5b49wsbgdp9vnwywnq7yr20syg1kc8am-glibc-iconv-2.40.drv",
+      "install_id": "libiconv",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "name": "glibc-iconv-2.40",
+      "pname": "libiconv",
+      "rev": "5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "rev_count": 708622,
+      "rev_date": "2024-11-15T13:07:34Z",
+      "scrape_date": "2024-11-17T03:59:12Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "glibc-iconv-2.40",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/nx02dmkq0kv0jdi4dksy49dxvhg75lxb-glibc-iconv-2.40"
       },
       "system": "x86_64-linux",
       "group": "toplevel",
@@ -2253,6 +2611,134 @@
       "outputs": {
         "dist": "/nix/store/0hldc3mv0z64rm8nm6spk7q9dzqa36jl-python3.12-requests-2.32.3-dist",
         "out": "/nix/store/hzx37lg2l7km3v2bwz1cajgb845b0rsh-python3.12-requests-2.32.3"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "rustc",
+      "broken": false,
+      "derivation": "/nix/store/byws1qzhapw96vd79vv7nyb2giva5wpg-rustc-wrapper-1.82.0.drv",
+      "description": "Safe, concurrent, practical language (wrapper script)",
+      "install_id": "rustc",
+      "license": "[ MIT, Apache-2.0 ]",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "name": "rustc-wrapper-1.82.0",
+      "pname": "rustc",
+      "rev": "5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "rev_count": 708622,
+      "rev_date": "2024-11-15T13:07:34Z",
+      "scrape_date": "2024-11-17T03:59:12Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "wrapper-1.82.0",
+      "outputs_to_install": [
+        "out",
+        "man"
+      ],
+      "outputs": {
+        "doc": "/nix/store/qndrbdgx2pcl7vdvk79hy5zhj07jfds9-rustc-wrapper-1.82.0-doc",
+        "man": "/nix/store/vaa0r5pza84rc0vmkvy5399lrrsp3klp-rustc-wrapper-1.82.0-man",
+        "out": "/nix/store/5nz0x9bfbz8bqj25gxbhc7p8mgyy463g-rustc-wrapper-1.82.0"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "rustc",
+      "broken": false,
+      "derivation": "/nix/store/jbxs3frvin5swcbf9pzmp0sfj7zrv07v-rustc-wrapper-1.82.0.drv",
+      "description": "Safe, concurrent, practical language (wrapper script)",
+      "install_id": "rustc",
+      "license": "[ MIT, Apache-2.0 ]",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "name": "rustc-wrapper-1.82.0",
+      "pname": "rustc",
+      "rev": "5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "rev_count": 708622,
+      "rev_date": "2024-11-15T13:07:34Z",
+      "scrape_date": "2024-11-17T03:59:12Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "wrapper-1.82.0",
+      "outputs_to_install": [
+        "out",
+        "man"
+      ],
+      "outputs": {
+        "doc": "/nix/store/8cqkiqp5qcay7crhq3zbqvjwnghnn309-rustc-wrapper-1.82.0-doc",
+        "man": "/nix/store/ng9pxsvrq6mm4wx13h56xw2c10hhjgn4-rustc-wrapper-1.82.0-man",
+        "out": "/nix/store/1jya7157hn9a3bgdpjxj44x4sib1v1qy-rustc-wrapper-1.82.0"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "rustc",
+      "broken": false,
+      "derivation": "/nix/store/60wy50r2l40hi1ik6bzmmm5c2vw41gii-rustc-wrapper-1.82.0.drv",
+      "description": "Safe, concurrent, practical language (wrapper script)",
+      "install_id": "rustc",
+      "license": "[ MIT, Apache-2.0 ]",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "name": "rustc-wrapper-1.82.0",
+      "pname": "rustc",
+      "rev": "5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "rev_count": 708622,
+      "rev_date": "2024-11-15T13:07:34Z",
+      "scrape_date": "2024-11-17T03:59:12Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "wrapper-1.82.0",
+      "outputs_to_install": [
+        "out",
+        "man"
+      ],
+      "outputs": {
+        "doc": "/nix/store/0bzp19ynp3fnx3cx6vwr36f2lijfnb7w-rustc-wrapper-1.82.0-doc",
+        "man": "/nix/store/ab3ks1majqhs5a6zkddg5ykci56v0clr-rustc-wrapper-1.82.0-man",
+        "out": "/nix/store/rvq0vrk1m46davhlplbzjii7xprjiiys-rustc-wrapper-1.82.0"
+      },
+      "system": "x86_64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "rustc",
+      "broken": false,
+      "derivation": "/nix/store/fn21gyjwclzmw4zv3y3bjsn7iidg1wp2-rustc-wrapper-1.82.0.drv",
+      "description": "Safe, concurrent, practical language (wrapper script)",
+      "install_id": "rustc",
+      "license": "[ MIT, Apache-2.0 ]",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "name": "rustc-wrapper-1.82.0",
+      "pname": "rustc",
+      "rev": "5e4fbfb6b3de1aa2872b76d49fafc942626e2add",
+      "rev_count": 708622,
+      "rev_date": "2024-11-15T13:07:34Z",
+      "scrape_date": "2024-11-17T03:59:12Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "wrapper-1.82.0",
+      "outputs_to_install": [
+        "out",
+        "man"
+      ],
+      "outputs": {
+        "doc": "/nix/store/sir583hqhvdq8nd0yfliyfmy83giaa6f-rustc-wrapper-1.82.0-doc",
+        "man": "/nix/store/dkqyxzzx10byqkyb8v7pdfaypzjf4kvy-rustc-wrapper-1.82.0-man",
+        "out": "/nix/store/xjndavbjpgzkabvnrl8xl6h51pksymfy-rustc-wrapper-1.82.0"
       },
       "system": "x86_64-linux",
       "group": "toplevel",
