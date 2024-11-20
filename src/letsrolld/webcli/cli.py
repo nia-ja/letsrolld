@@ -30,17 +30,17 @@ env = Environment(
 
 
 def list_film(film):
-    template = env.get_template("film.template")
+    template = env.get_template("film.j2")
     return template.render(film=film)
 
 
 def list_director(director):
-    template = env.get_template("director.template")
+    template = env.get_template("director.j2")
     return template.render(director=director)
 
 
 def report_film(film):
-    template = env.get_template("film-full.template")
+    template = env.get_template("film-full.j2")
     return template.render(film=film, offers=DEFAULT_OFFERS)
 
 
