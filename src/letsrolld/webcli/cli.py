@@ -108,8 +108,10 @@ def films_query(
     with client as client:
         args = _get_query_args(limit, genre, country, offer)
         film_reports = []
-        for film in get_films.sync(client=client, **args):
-            film_reports.append(report_film(film))
+        films = get_films.sync(client=client, **args)
+        if films:
+            for film in films:
+                film_reports.append(report_film(film))
 
     print("\n\n".join(film_reports))
 
