@@ -42,6 +42,9 @@ run-db-upgrade:
 webapp:
 	pdm run webapp
 
+email:
+	./scripts/email.sh --start-server
+
 swagger:
 	#curl http://localhost:8000/api/doc/swagger.json -o swagger.json
 	pdm run swagger > swagger.json.tmp
