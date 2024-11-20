@@ -2,12 +2,15 @@ import localVarRequest from 'request';
 
 export * from './arrayOfDirectors';
 export * from './arrayOfFilms';
+export * from './arrayOfReports';
 export * from './director';
 export * from './directorFilmsInner';
 export * from './directorFilmsInnerCountriesInner';
 export * from './directorFilmsInnerOffersInner';
 export * from './directorInfo';
 export * from './film';
+export * from './report';
+export * from './reportSectionsInner';
 
 import * as fs from 'fs';
 
@@ -24,12 +27,15 @@ export type RequestFile = string | Buffer | fs.ReadStream | RequestDetailedFile;
 
 import { ArrayOfDirectors } from './arrayOfDirectors';
 import { ArrayOfFilms } from './arrayOfFilms';
+import { ArrayOfReports } from './arrayOfReports';
 import { Director } from './director';
 import { DirectorFilmsInner } from './directorFilmsInner';
 import { DirectorFilmsInnerCountriesInner } from './directorFilmsInnerCountriesInner';
 import { DirectorFilmsInnerOffersInner } from './directorFilmsInnerOffersInner';
 import { DirectorInfo } from './directorInfo';
 import { Film } from './film';
+import { Report } from './report';
+import { ReportSectionsInner } from './reportSectionsInner';
 
 /* tslint:disable:no-unused-variable */
 let primitives = [
@@ -49,12 +55,15 @@ let enumsMap: {[index: string]: any} = {
 let typeMap: {[index: string]: any} = {
     "ArrayOfDirectors": ArrayOfDirectors,
     "ArrayOfFilms": ArrayOfFilms,
+    "ArrayOfReports": ArrayOfReports,
     "Director": Director,
     "DirectorFilmsInner": DirectorFilmsInner,
     "DirectorFilmsInnerCountriesInner": DirectorFilmsInnerCountriesInner,
     "DirectorFilmsInnerOffersInner": DirectorFilmsInnerOffersInner,
     "DirectorInfo": DirectorInfo,
     "Film": Film,
+    "Report": Report,
+    "ReportSectionsInner": ReportSectionsInner,
 }
 
 // Check if a string starts with another string without using es6 features

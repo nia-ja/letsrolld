@@ -127,18 +127,23 @@ Class | Method | HTTP request | Description
 *LetsrolldApi.DefaultApi* | [**directorsIdGet**](docs/DefaultApi.md#directorsIdGet) | **GET** /directors/{id} | Get Director
 *LetsrolldApi.DefaultApi* | [**filmsGet**](docs/DefaultApi.md#filmsGet) | **GET** /films | Get Films
 *LetsrolldApi.DefaultApi* | [**filmsIdGet**](docs/DefaultApi.md#filmsIdGet) | **GET** /films/{id} | Get Film
+*LetsrolldApi.DefaultApi* | [**reportsGet**](docs/DefaultApi.md#reportsGet) | **GET** /reports | List Reports
+*LetsrolldApi.DefaultApi* | [**reportsIdGet**](docs/DefaultApi.md#reportsIdGet) | **GET** /reports/{id} | Execute Report
 
 
 ## Documentation for Models
 
  - [LetsrolldApi.ArrayOfDirectors](docs/ArrayOfDirectors.md)
  - [LetsrolldApi.ArrayOfFilms](docs/ArrayOfFilms.md)
+ - [LetsrolldApi.ArrayOfReports](docs/ArrayOfReports.md)
  - [LetsrolldApi.Director](docs/Director.md)
  - [LetsrolldApi.DirectorFilmsInner](docs/DirectorFilmsInner.md)
  - [LetsrolldApi.DirectorFilmsInnerCountriesInner](docs/DirectorFilmsInnerCountriesInner.md)
  - [LetsrolldApi.DirectorFilmsInnerOffersInner](docs/DirectorFilmsInnerOffersInner.md)
  - [LetsrolldApi.DirectorInfo](docs/DirectorInfo.md)
  - [LetsrolldApi.Film](docs/Film.md)
+ - [LetsrolldApi.Report](docs/Report.md)
+ - [LetsrolldApi.ReportSectionsInner](docs/ReportSectionsInner.md)
 
 
 ## Documentation for Authorization

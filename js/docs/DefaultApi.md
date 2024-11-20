@@ -8,6 +8,8 @@ Method | HTTP request | Description
 [**directorsIdGet**](DefaultApi.md#directorsIdGet) | **GET** /directors/{id} | Get Director
 [**filmsGet**](DefaultApi.md#filmsGet) | **GET** /films | Get Films
 [**filmsIdGet**](DefaultApi.md#filmsIdGet) | **GET** /films/{id} | Get Film
+[**reportsGet**](DefaultApi.md#reportsGet) | **GET** /reports | List Reports
+[**reportsIdGet**](DefaultApi.md#reportsIdGet) | **GET** /reports/{id} | Execute Report
 
 
 
@@ -182,6 +184,88 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**Film**](Film.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## reportsGet
+
+> [Object] reportsGet()
+
+List Reports
+
+### Example
+
+```javascript
+import LetsrolldApi from 'letsrolld_api';
+
+let apiInstance = new LetsrolldApi.DefaultApi();
+apiInstance.reportsGet((error, data, response) => {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+});
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**[Object]**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## reportsIdGet
+
+> Report reportsIdGet(id)
+
+Execute Report
+
+### Example
+
+```javascript
+import LetsrolldApi from 'letsrolld_api';
+
+let apiInstance = new LetsrolldApi.DefaultApi();
+let id = 56; // Number | id
+apiInstance.reportsIdGet(id, (error, data, response) => {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+});
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **Number**| id | 
+
+### Return type
+
+[**Report**](Report.md)
 
 ### Authorization
 

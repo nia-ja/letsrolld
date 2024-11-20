@@ -5,7 +5,7 @@
   ⌛:{{ film.runtime }}m ⭐:{{ film.rating }} 📎:{{ film.genres|join(',') }}
 {%- set ns = namespace(all_country_names=[]) -%}
 {%- for country in film.countries -%}
-  {%- set ns.all_country_names = ns.all_country_names + [country.flag + country.name] -%}
+  {%- set ns.all_country_names = ns.all_country_names + [(country.flag or '') + country.name] -%}
 {%- endfor %}
   Countries: {{ ns.all_country_names|join(', ') }}
   ---

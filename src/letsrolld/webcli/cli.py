@@ -6,7 +6,10 @@ from letsrolld_api_client.api.default import get_directors
 
 # from letsrolld_api_client.api.default import get_directors_id
 from letsrolld_api_client.api.default import get_films
+
 # from letsrolld_api_client.api.default import get_films_id
+from letsrolld_api_client.api.default import get_reports
+from letsrolld_api_client.api.default import get_reports_id
 
 
 DEFAULT_OFFERS = {
@@ -44,6 +47,16 @@ def report_film(film):
     return template.render(film=film, offers=DEFAULT_OFFERS)
 
 
+def list_report(report):
+    template = env.get_template("report.j2")
+    return template.render(report=report)
+
+
+def render_report(report):
+    template = env.get_template("report-full.j2")
+    return template.render(report=report, film_renderer=report_film)
+
+
 @click.group()
 def cli():
     pass
@@ -70,15 +83,25 @@ def films():
     pass
 
 
+def _get_short_report_section(films):
+    film_entries = []
+    for film in films:
+        film_entries.append(list_film(film))
+    return "\n".join(film_entries)
+
+
+def _get_long_report_section(films):
+    film_entries = []
+    for film in films:
+        film_entries.append(report_film(film))
+    return "\n".join(film_entries)
+
+
 @films.command(name="get")
 def films_get():
     global client
     with client as client:
-        film_reports = []
-        for film in get_films.sync(client=client):
-            film_reports.append(list_film(film))
-
-    print("\n".join(film_reports))
+        print(_get_short_report_section(get_films.sync(client=client)))
 
 
 def _get_query_args(limit, genre, country, offer):
@@ -107,13 +130,46 @@ def films_query(
     global client
     with client as client:
         args = _get_query_args(limit, genre, country, offer)
-        film_reports = []
         films = get_films.sync(client=client, **args)
         if films:
-            for film in films:
-                film_reports.append(report_film(film))
+            print(_get_long_report_section(films))
 
-    print("\n".join(film_reports))
+
+@cli.group()
+def report():
+    pass
+
+
+@report.command(name="get")
+def report_get():
+    global client
+    with client as client:
+        reports = get_reports.sync(client=client)
+        if reports:
+            report_entries = []
+            for report in reports:
+                report_entries.append(list_report(report))
+            print("\n".join(report_entries))
+
+
+@report.command(name="render")
+@click.option("--name", required=True)
+def report_render(
+    name: str,
+):
+    global client
+    with client as client:
+        reports = get_reports.sync(client=client)
+        if reports:
+            id_ = None
+            for report in reports:
+                if report.name == name:
+                    id_ = report.id
+                    break
+            if id_ is not None:
+                requested_report = get_reports_id.sync(client=client, id=id_)
+                if requested_report:
+                    print(render_report(requested_report))
 
 
 if __name__ == "__main__":

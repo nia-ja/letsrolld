@@ -6,6 +6,7 @@ api/defaultApi.ts
 git_push.sh
 model/arrayOfDirectors.ts
 model/arrayOfFilms.ts
+model/arrayOfReports.ts
 model/director.ts
 model/directorFilmsInner.ts
 model/directorFilmsInnerCountriesInner.ts
@@ -13,3 +14,5 @@ model/directorFilmsInnerOffersInner.ts
 model/directorInfo.ts
 model/film.ts
 model/models.ts
+model/report.ts
+model/reportSectionsInner.ts
