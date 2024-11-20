@@ -157,7 +157,6 @@ class FilmResource(Resource):
                 "required": False,
                 "schema": {"type": "integer", "default": 10},
             },
-            # TODO: make filters accept multiple values
             {
                 "name": "genre",
                 "in": "query",
@@ -186,17 +185,16 @@ class FilmResource(Resource):
 
         query = db_.session.query(models.Film)
         if args["genre"]:
-            query = query.join(models.Film.genres).filter(
-                models.Genre.name == args["genre"]
-            )
+            genres = args["genre"].split(",")
+            query = query.join(models.Film.genres).filter(models.Genre.name.in_(genres))
         if args["country"]:
+            countries = args["country"].split(",")
             query = query.join(models.Film.countries).filter(
-                models.Country.name == args["country"]
+                models.Country.name.in_(countries)
             )
         if args["offer"]:
-            query = query.join(models.Film.offers).filter(
-                models.Offer.name == args["offer"]
-            )
+            offers = args["offer"].split(",")
+            query = query.join(models.Film.offers).filter(models.Offer.name.in_(offers))
 
         query = query.order_by(func.random()).limit(args["limit"])
         return [_get_film(db_.session, d) for d in query], 200
