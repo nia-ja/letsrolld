@@ -99,10 +99,10 @@ def _get_query_args(limit, genre, country, offer):
 @click.option("--country", default=None)
 @click.option("--offer", default=None)
 def films_query(
-        limit: int,
-        genre: str,
-        country: str,
-        offer: str,
+    limit: int,
+    genre: str,
+    country: str,
+    offer: str,
 ):
     global client
     with client as client:
