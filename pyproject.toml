@@ -44,9 +44,6 @@ build-backend = "pdm.backend"
 distribution = true
 
 [project.scripts]
-# TODO: remove this obsolete script
-directors = "letsrolld.cmd.directors:main"
-
 populate-directors = "letsrolld.cmd.populate_directors:main"
 update-directors = "letsrolld.cmd.update:directors_main"
 update-films = "letsrolld.cmd.update:films_main"
