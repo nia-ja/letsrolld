@@ -15,6 +15,7 @@
 import ApiClient from "../ApiClient";
 import Director from '../model/Director';
 import Film from '../model/Film';
+import Report from '../model/Report';
 
 /**
 * Default service.
@@ -200,6 +201,84 @@ export default class DefaultApi {
       let returnType = Film;
       return this.apiClient.callApi(
         '/films/{id}', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the reportsGet operation.
+     * @callback module:api/DefaultApi~reportsGetCallback
+     * @param {String} error Error message, if any.
+     * @param {Array.<Object>} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * List Reports
+     * @param {module:api/DefaultApi~reportsGetCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link Array.<Object>}
+     */
+    reportsGet(callback) {
+      let postBody = null;
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = [Object];
+      return this.apiClient.callApi(
+        '/reports', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the reportsIdGet operation.
+     * @callback module:api/DefaultApi~reportsIdGetCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/Report} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Execute Report
+     * @param {Number} id id
+     * @param {module:api/DefaultApi~reportsIdGetCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/Report}
+     */
+    reportsIdGet(id, callback) {
+      let postBody = null;
+      // verify the required parameter 'id' is set
+      if (id === undefined || id === null) {
+        throw new Error("Missing the required parameter 'id' when calling reportsIdGet");
+      }
+
+      let pathParams = {
+        'id': id
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = Report;
+      return this.apiClient.callApi(
+        '/reports/{id}', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, null, callback
       );

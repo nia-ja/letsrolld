@@ -88,6 +88,26 @@
         done();
       });
     });
+    describe('reportsGet', function() {
+      it('should call reportsGet successfully', function(done) {
+        //uncomment below and update the code to test reportsGet
+        //instance.reportsGet(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('reportsIdGet', function() {
+      it('should call reportsIdGet successfully', function(done) {
+        //uncomment below and update the code to test reportsIdGet
+        //instance.reportsIdGet(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
   });
 
 }));

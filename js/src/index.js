@@ -15,12 +15,15 @@
 import ApiClient from './ApiClient';
 import ArrayOfDirectors from './model/ArrayOfDirectors';
 import ArrayOfFilms from './model/ArrayOfFilms';
+import ArrayOfReports from './model/ArrayOfReports';
 import Director from './model/Director';
 import DirectorFilmsInner from './model/DirectorFilmsInner';
 import DirectorFilmsInnerCountriesInner from './model/DirectorFilmsInnerCountriesInner';
 import DirectorFilmsInnerOffersInner from './model/DirectorFilmsInnerOffersInner';
 import DirectorInfo from './model/DirectorInfo';
 import Film from './model/Film';
+import Report from './model/Report';
+import ReportSectionsInner from './model/ReportSectionsInner';
 import DefaultApi from './api/DefaultApi';
 
 
@@ -75,6 +78,12 @@ export {
     ArrayOfFilms,
 
     /**
+     * The ArrayOfReports model constructor.
+     * @property {module:model/ArrayOfReports}
+     */
+    ArrayOfReports,
+
+    /**
      * The Director model constructor.
      * @property {module:model/Director}
      */
@@ -109,6 +118,18 @@ export {
      * @property {module:model/Film}
      */
     Film,
+
+    /**
+     * The Report model constructor.
+     * @property {module:model/Report}
+     */
+    Report,
+
+    /**
+     * The ReportSectionsInner model constructor.
+     * @property {module:model/ReportSectionsInner}
+     */
+    ReportSectionsInner,
 
     /**
     * The DefaultApi service constructor.

@@ -1,4 +1,5 @@
 import json
+import os
 
 from flask import Flask
 from flask_cors import CORS
@@ -8,6 +9,7 @@ from flask_sqlalchemy import SQLAlchemy
 import pycountry
 from sqlalchemy.sql.expression import func
 
+from letsrolld import config as lconfig
 from letsrolld import db
 from letsrolld.db import models
 from letsrolld.webapi import models as webapi_models
@@ -84,6 +86,14 @@ def _get_film(session, f):
         countries=countries,
         offers=offers,
         directors=[_get_director_info(d) for d in f.directors],
+    )
+
+
+def _get_report(sections=None):
+    return webapi_models.Report(
+        id=0,
+        name="default",
+        sections=sections or [],
     )
 
 
@@ -211,6 +221,83 @@ class FilmItemResource(Resource):
         return _get_film(db_.session, f), 200
 
 
+def _get_report_config(id):
+    # TODO: store configs in db; convert id into actual name
+    sections = list(lconfig.Config.from_file(os.path.join("configs", "default.json")))
+    return sections
+
+
+def _execute_section_plan(db, config):
+    query = db.session.query(models.Film)
+    if config.services:
+        query = query.join(models.Film.offers).filter(
+            models.Offer.name.in_(config.services)
+        )
+
+    if config.min_rating:
+        query = query.filter(models.Film.rating >= config.min_rating)
+    if config.max_rating:
+        query = query.filter(models.Film.rating <= config.min_rating)
+
+    if config.min_length:
+        query = query.filter(models.Film.runtime >= config.min_length)
+    if config.max_length:
+        query = query.filter(models.Film.runtime <= config.max_length)
+
+    if config.genre:
+        # TODO: support multiple genres filter
+        query = query.join(models.Film.genres).filter(models.Genre.name == config.genre)
+    if config.exclude_genres:
+        query = query.join(models.Film.genres).filter(
+            ~models.Genre.name.in_(config.exclude_genres)
+        )
+
+    if config.exclude_countries:
+        query = query.join(models.Film.genres).filter(
+            ~models.Genre.name.in_(config.exclude_countries)
+        )
+
+    if config.min_year:
+        query = query.filter(models.Film.year >= config.min_year)
+    if config.max_year:
+        query = query.filter(models.Film.year <= config.max_year)
+
+    query = query.order_by(func.random()).limit(config.max_movies)
+    return [_get_film(db.session, f) for f in query]
+
+
+class ReportResource(Resource):
+    @swagger.reorder_with(
+        webapi_models.ArrayOfReports,
+        description="Returns available reports",
+        summary="List Reports",
+    )
+    def get(self):
+        # TODO: actually list available reports
+        return [_get_report()]
+
+
+class ReportItemResource(Resource):
+    @swagger.reorder_with(
+        webapi_models.Report,
+        description="Execute a report",
+        summary="Execute Report",
+    )
+    def get(self, id):
+        # TODO: support multiple reports
+        if id != 0:
+            return {}, 404
+        return _get_report(
+            sections=[
+                webapi_models.ReportSection(
+                    name=config.name,
+                    films=_execute_section_plan(db_, config),
+                )
+                for config in _get_report_config(id)
+            ]
+        ), 200
+
+
 def _api():
     api = Api(app, title="letsrolld API", license=_LICENSE, version="0.1")
 
@@ -220,6 +307,11 @@ def _api():
 
     api.add_resource(FilmResource, "/films")
     api.add_resource(FilmItemResource, "/films/<int:id>")
+
+    # TODO: support different ids
+    # TODO: store report rules in db
+    api.add_resource(ReportResource, "/reports")
+    api.add_resource(ReportItemResource, "/reports/<int:id>")
 
     return api
 

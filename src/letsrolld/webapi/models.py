@@ -89,6 +89,30 @@ class Director(Schema):
     required = ["info"]
 
 
+class ReportSection(Schema):
+    properties = {
+        "name": {
+            "type": "string",
+        },
+        "films": Film.array(),
+    }
+    required = ["name", "films"]
+
+
+class Report(Schema):
+    properties = {
+        "id": {
+            "type": "integer",
+            "format": "int64",
+        },
+        "name": {
+            "type": "string",
+        },
+        "sections": ReportSection.array(),
+    }
+    required = ["id", "name"]
+
+
 class ArrayOfDirectors(Schema):
     type = "array"
     properties = Director.properties
@@ -99,3 +123,9 @@ class ArrayOfFilms(Schema):
     type = "array"
     properties = Film.properties
     items = Film
+
+
+class ArrayOfReports(Schema):
+    type = "array"
+    properties = Report.properties
+    items = Report

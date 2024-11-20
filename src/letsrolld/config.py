@@ -23,6 +23,16 @@ class Config:
             setattr(self, k, v)
         self._set_defaults()
 
+    # TODO: remove properties after configs are converted to the new format
+    # Define some properties to translate into more reasonable names
+    @property
+    def exclude_genres(self):
+        return self.exclude_genre
+
+    @property
+    def exclude_countries(self):
+        return self.exclude_country
+
     def __setattr__(self, key, value):
         if key in ("min_rating", "max_rating"):
             if value is not None:
@@ -30,6 +40,7 @@ class Config:
         elif key in ("min_length", "max_length"):
             if value is not None:
                 value = int(value)
+        # TODO: support text filter in api?
         elif key in ("text",):
             if value is not None:
                 value = value.lower()
