@@ -249,13 +249,20 @@ def _execute_section_plan(db, config, seen_films):
         # TODO: support multiple genres filter
         query = query.join(models.Film.genres).filter(models.Genre.name == config.genre)
     if config.exclude_genres:
-        query = query.join(models.Film.genres).filter(
-            ~models.Genre.name.in_(config.exclude_genres)
+        query = query.filter(
+            ~models.Film.genres.any(models.Genre.name.in_(config.exclude_genres))
         )
 
+    if config.country:
+        # TODO: support multiple countries filter
+        query = query.join(models.Film.countries).filter(
+            models.Country.name == config.country
+        )
     if config.exclude_countries:
-        query = query.join(models.Film.genres).filter(
-            ~models.Genre.name.in_(config.exclude_countries)
+        query = query.filter(
+            ~models.Film.countries.any(
+                models.Country.name.in_(config.exclude_countries)
+            )
         )
 
     if config.min_year:
