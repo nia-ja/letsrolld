@@ -8,6 +8,8 @@ if [ "$1" = "--start-server" ]; then
   sleep 10 # Wait for the server to start.
 fi
 
+trap 'kill %1' EXIT
+
 FROMADDR=ihar.hrachyshka@gmail.com
 TOADDRS=$FROMADDR
 
@@ -20,6 +22,3 @@ mailsend-go -from $FROMADDR -t $TOADDRS -sub "Movies for $(date '+%Y-%m-%d')" \
   body -file "$reportfile"
 
 rm -r "$tmpdir"
-
-kill %1
-exit

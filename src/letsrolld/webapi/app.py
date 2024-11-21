@@ -227,8 +227,8 @@ def _get_report_config(id):
     return sections
 
 
-def _execute_section_plan(db, config):
-    query = db.session.query(models.Film)
+def _execute_section_plan(db, config, seen_films):
+    query = db.session.query(models.Film).filter(~models.Film.id.in_(seen_films))
     if config.services:
         query = query.join(models.Film.offers).filter(
             models.Offer.name.in_(config.services)
@@ -287,15 +287,13 @@ class ReportItemResource(Resource):
         # TODO: support multiple reports
         if id != 0:
             return {}, 404
-        return _get_report(
-            sections=[
-                webapi_models.ReportSection(
-                    name=config.name,
-                    films=_execute_section_plan(db_, config),
-                )
-                for config in _get_report_config(id)
-            ]
-        ), 200
+        sections = []
+        seen_films = set()
+        for config in _get_report_config(id):
+            films = _execute_section_plan(db_, config, seen_films)
+            seen_films.update(f["id"] for f in films)
+            sections.append(webapi_models.ReportSection(name=config.name, films=films))
+        return _get_report(sections=sections), 200
 
 
 def _api():
