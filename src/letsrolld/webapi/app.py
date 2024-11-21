@@ -11,6 +11,7 @@ from sqlalchemy.sql.expression import func
 
 from letsrolld import config as lconfig
 from letsrolld import db
+from letsrolld import film
 from letsrolld.db import models
 from letsrolld.webapi import models as webapi_models
 
@@ -231,7 +232,7 @@ def _execute_section_plan(db, config, seen_films):
     query = db.session.query(models.Film).filter(~models.Film.id.in_(seen_films))
     if config.services:
         query = query.join(models.Film.offers).filter(
-            models.Offer.name.in_(config.services)
+            models.Offer.name.in_(film.get_services(config.services))
         )
 
     if config.min_rating:
