@@ -1,3 +1,4 @@
+import json
 import logging
 from http.client import HTTPConnection
 
@@ -29,5 +30,5 @@ def get_url(url):
     return requests.get(url).text
 
 
-def get_json(url, json):
-    return requests.post(url, headers=_HEADERS, json=json)
+def get_json(url, data):
+    return json.loads(requests.post(url, headers=_HEADERS, json=data).text)

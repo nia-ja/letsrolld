@@ -73,6 +73,7 @@ def _parse_entry(json):
     genres = [node.get("slug") for node in content.get("genres", []) if node]
     external_ids = content.get("externalIds")
     imdb_id = external_ids.get("imdbId") if external_ids else None
+    tmdb_id = external_ids.get("tmdbId") if external_ids else None
     poster_url_field = content.get("posterUrl")
     poster = jw_query._IMAGES_URL + poster_url_field if poster_url_field else None
     backdrops = [
@@ -93,8 +94,13 @@ def _parse_entry(json):
         short_description,
         genres,
         imdb_id,
+        tmdb_id,
         poster,
         backdrops,
+        None,  # age_certification
+        None,  # scoring - TODO: is it of interest?
+        None,  # interactions
+        None,  # streaming_charts
         offers,
     )
 

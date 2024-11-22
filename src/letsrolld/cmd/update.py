@@ -15,7 +15,6 @@ from letsrolld import film as film_obj
 from letsrolld import http
 
 
-_MAX_RATING = 5
 _SEC_WAIT_ON_FAIL = 5
 _LAST_CHECKED_FIELD = "last_checked"
 _LAST_UPDATED_FIELD = "last_updated"

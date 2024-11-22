@@ -17,16 +17,19 @@ Offer = namedtuple("Offer", ["technical_name", "url"])
 KANOPY = "kanopy"
 HOOPLA = "hoopla"
 AMAZONPRIME = "amazonprime"
+AMAZONPRIMEWITHADS = "amazonprimevideowithads"
 AMAZON = "amazon"
 YOUTUBE = "youtube"
 CRITERION = "criterionchannel"
 
 PHYSICAL = "physical"
 
+# TODO: make these sets?
 SERVICES = [
     KANOPY,
     HOOPLA,
     AMAZONPRIME,
+    AMAZONPRIMEWITHADS,
     AMAZON,
     YOUTUBE,
     CRITERION,
@@ -37,7 +40,7 @@ FREE_ALIAS = "FREE"
 STREAM_ALIAS = "STREAM"
 ANY_ALIAS = "ANY"
 
-FREE_SERVICES = [KANOPY, HOOPLA, AMAZONPRIME]
+FREE_SERVICES = [KANOPY, HOOPLA, AMAZONPRIME, AMAZONPRIMEWITHADS]
 STREAM_SERVICES = FREE_SERVICES + [AMAZON, YOUTUBE, CRITERION]
 ANY_SERVICES = STREAM_SERVICES + [PHYSICAL]
 
@@ -124,7 +127,7 @@ class Film(BaseObject):
     @property
     def available_services(self):
         services = [
-            Offer(technical_name=offer.technical_name, url=offer.url)
+            Offer(technical_name=offer.package.technical_name, url=offer.url)
             for offer in self.offers
         ]
         if self.available_physical():
