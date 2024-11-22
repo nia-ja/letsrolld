@@ -17,7 +17,5 @@
     {% for offer in film.offers|selectattr("name", "in", offers) -%}
     {%- if offer.url -%}
       {{ offer.name }}: {{ offer.url }}
-    {% else -%}
-      {{ offer.name }}
     {% endif -%}
     {% endfor -%}
