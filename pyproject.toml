@@ -70,3 +70,8 @@ exclude = [
 ]
 # honor excludes by not following there through imports
 follow_imports = "silent"
+
+[tool.ruff]
+exclude = [
+    "letsrolld-api-client/",
+]

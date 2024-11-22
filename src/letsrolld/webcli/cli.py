@@ -1,6 +1,8 @@
 import click
 from jinja2 import Environment, PackageLoader
 
+from letsrolld import film as lfilm
+
 from letsrolld_api_client import Client
 from letsrolld_api_client.api.default import get_directors
 
@@ -12,15 +14,7 @@ from letsrolld_api_client.api.default import get_reports
 from letsrolld_api_client.api.default import get_reports_id
 
 
-DEFAULT_OFFERS = {
-    # TODO: use constants for offer names
-    "criterionchannel",
-    "amazon",
-    "kanopy",
-    "hoopla",
-    "amazonprime",
-    "youtube",
-}
+DEFAULT_OFFERS = set(lfilm.STREAM_SERVICES)
 
 
 # TODO: make the url configurable

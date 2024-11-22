@@ -39,10 +39,10 @@ run-all: run-update-directors run-update-films run-update-offers run-cleanup
 run-db-upgrade:
 	pdm run alembic upgrade head
 
-webapp:
+webapp: install
 	pdm run webapp
 
-email:
+email: install
 	./scripts/email.sh --start-server
 
 swagger:

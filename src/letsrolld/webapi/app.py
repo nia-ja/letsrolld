@@ -270,8 +270,8 @@ def _execute_section_plan(db, config, seen_films):
     if config.max_year:
         query = query.filter(models.Film.year <= config.max_year)
 
-    query = query.order_by(func.random()).limit(config.max_movies)
-    return [_get_film(db.session, f) for f in query]
+    query = query.order_by(func.random())
+    return [_get_film(db.session, f) for f in query.limit(config.max_movies)]
 
 
 class ReportResource(Resource):
