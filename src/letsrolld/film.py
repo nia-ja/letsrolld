@@ -142,12 +142,16 @@ class Film(BaseObject):
                 return None
             return link
 
-    # TODO: extract runtime from letterboxd if quickwatch is not available
     @functools.cached_property
     def runtime(self):
-        if self.jw is None:
-            return None
-        return self.jw.runtime_minutes
+        # first, try (structured) justwatch data
+        if self.jw is not None:
+            return self.jw.runtime_minutes
+        # fall back to letterboxd html
+        for p in self.soup.find_all("p", class_="text-link text-footer"):
+            match = re.search(r"(\d+)\smins", p.text)
+            if match:
+                return int(match.group(1))
 
     @functools.cached_property
     def _full_title(self):
