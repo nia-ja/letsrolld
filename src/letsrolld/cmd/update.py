@@ -182,7 +182,7 @@ def offer_threshold(f):
         return multiplier
     # refresh offers for newer films more often
     multiplier = max(0, _NOW.year - year(f)) + 1
-    # cap the multiplier at 14 (weeks)
+    # cap the multiplier at 14 days
     return min(14, multiplier)
 
 
@@ -226,6 +226,9 @@ def refresh_film(session, db_obj, api_obj):
     # just in case genres or countries or offers changed
     update_genres(session, api_obj.genres)
     update_countries(session, api_obj.countries)
+
+    # Since we have all the data by virtue of pulling genres, update offers too
+    refresh_offers(session, db_obj, api_obj)
 
     if not math.isclose(float(api_obj.rating), db_obj.rating):
         print(f"\t{db_obj.rating:.3f} -> {api_obj.rating}")
