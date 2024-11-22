@@ -12,6 +12,7 @@ from sqlalchemy.sql.expression import func
 from letsrolld import config as lconfig
 from letsrolld import db
 from letsrolld import film
+from letsrolld import filmlist
 from letsrolld.db import models
 from letsrolld.webapi import models as webapi_models
 
@@ -32,6 +33,8 @@ _LICENSE = {
     "name": "GPL-3.0",
     "url": "https://www.gnu.org/licenses/gpl-3.0.html",
 }
+
+WATCHED_FILE = "data/watched.csv"
 
 
 def _get_flag(country):
@@ -285,6 +288,30 @@ class ReportResource(Resource):
         return [_get_report()]
 
 
+# TODO: store watched movied in db, per user
+def _initialize_seen_movies(db):
+    ids = set()
+    films = [
+        # TODO: handle invalid int conversion
+        (f.name, int(f.year))
+        for f in filmlist.read_film_list(WATCHED_FILE)
+    ]
+
+    # first, find all watched movies in a single query
+    candidates = (
+        db.session.query(models.Film)
+        .filter(models.Film.title.in_([f[0] for f in films]))
+        .all()
+    )
+
+    for candidate in candidates:
+        if (candidate.title, candidate.year) in films:
+            ids.add(candidate.id)
+            films.remove((candidate.title, candidate.year))
+
+    return ids
+
+
 class ReportItemResource(Resource):
     @swagger.reorder_with(
         webapi_models.Report,
@@ -296,7 +323,7 @@ class ReportItemResource(Resource):
         if id != 0:
             return {}, 404
         sections = []
-        seen_films = set()
+        seen_films = _initialize_seen_movies(db_)
         for config in _get_report_config(id):
             films = _execute_section_plan(db_, config, seen_films)
             seen_films.update(f["id"] for f in films)
