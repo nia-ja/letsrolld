@@ -224,10 +224,10 @@ class FilmItemResource(Resource):
 
 def _get_report_config(id):
     # TODO: store configs in db; convert id into actual name
-    sections = list(lconfig.Config.from_file(os.path.join("configs", "default.json")))
-    return sections
+    return list(lconfig.from_file(os.path.join("configs", "default.json")))
 
 
+# TODO: support freeform text search filter
 def _execute_section_plan(db, config, seen_films):
     query = db.session.query(models.Film).filter(~models.Film.id.in_(seen_films))
     if config.services:
