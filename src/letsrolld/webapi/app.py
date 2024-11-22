@@ -228,6 +228,7 @@ def _get_report_config(id):
     return sections
 
 
+# TODO: support freeform text search filter
 def _execute_section_plan(db, config, seen_films):
     query = db.session.query(models.Film).filter(~models.Film.id.in_(seen_films))
     if config.services:
