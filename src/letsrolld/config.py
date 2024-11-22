@@ -10,14 +10,14 @@ class Config:
     def __getattr__(self, key):
         return None
 
-    @classmethod
-    def from_file(cls, filename):
-        try:
-            with open(filename) as f:
-                data = json.load(f)
-            for name, settings in data.items():
-                yield Config(name, **settings)
-        except FileNotFoundError:
-            raise
-        except json.JSONDecodeError as e:
-            raise ValueError(f"invalid JSON file: {e}")
+
+def from_file(filename):
+    try:
+        with open(filename) as f:
+            data = json.load(f)
+        for name, settings in data.items():
+            yield Config(name, **settings)
+    except FileNotFoundError:
+        raise
+    except json.JSONDecodeError as e:
+        raise ValueError(f"invalid JSON file: {e}")
