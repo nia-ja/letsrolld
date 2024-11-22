@@ -14,7 +14,7 @@ film_genre_association_table = Table(
 )
 
 
-class Genre(Base):
+class Genre(Base):  # type: ignore[valid-type,misc]
     __tablename__ = "genres"
 
     id = Column(Integer, primary_key=True)
@@ -29,14 +29,14 @@ film_country_association_table = Table(
 )
 
 
-class Country(Base):
+class Country(Base):  # type: ignore[valid-type,misc]
     __tablename__ = "countries"
 
     id = Column(Integer, primary_key=True)
     name = Column(String, unique=True)
 
 
-class FilmOffer(Base):
+class FilmOffer(Base):  # type: ignore[valid-type,misc]
     __tablename__ = "film_offer_association_table"
 
     film_id = mapped_column(ForeignKey("films.id"), primary_key=True)
@@ -45,7 +45,7 @@ class FilmOffer(Base):
     url = Column(String, nullable=True)
 
 
-class Offer(Base):
+class Offer(Base):  # type: ignore[valid-type,misc]
     __tablename__ = "offers"
 
     id = Column(Integer, primary_key=True)
@@ -60,7 +60,7 @@ director_film_association_table = Table(
 )
 
 
-class Film(Base):
+class Film(Base):  # type: ignore[valid-type,misc]
     __tablename__ = "films"
 
     id = Column(Integer, primary_key=True)
@@ -97,7 +97,7 @@ class Film(Base):
         return self.title
 
 
-class Director(Base):
+class Director(Base):  # type: ignore[valid-type,misc]
     __tablename__ = "directors"
 
     id = Column(Integer, primary_key=True)

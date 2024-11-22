@@ -8,7 +8,8 @@ Create Date: 2024-05-24 17:30:52.520717
 
 from typing import Sequence, Union
 
-from alembic import op
+# TODO: Fix type ignore by moving alembic/ directory?
+from alembic import op  # type: ignore[attr-defined]
 import sqlalchemy as sa
 
 
