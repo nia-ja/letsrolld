@@ -14,9 +14,6 @@ from letsrolld_api_client.api.default import get_reports
 from letsrolld_api_client.api.default import get_reports_id
 
 
-DEFAULT_OFFERS = set(lfilm.STREAM_SERVICES)
-
-
 # TODO: make the url configurable
 client = Client(base_url="http://localhost:8000")
 
@@ -36,9 +33,26 @@ def list_director(director):
     return template.render(director=director)
 
 
+def _get_offers_with_unique_urls(film):
+    offers_to_report = []
+    urls_seen = set()
+    for service in lfilm.STREAM_SERVICES:
+        for o in film.offers:
+            if o.name != service:
+                continue
+            if o.url not in urls_seen:
+                offers_to_report.append(o.name)
+                urls_seen.add(o.url)
+    return offers_to_report
+
+
+def _get_services_to_report(film):
+    return _get_offers_with_unique_urls(film)
+
+
 def report_film(film):
     template = env.get_template("film-full.j2")
-    return template.render(film=film, offers=DEFAULT_OFFERS)
+    return template.render(film=film, offers=_get_services_to_report(film))
 
 
 def list_report(report):
