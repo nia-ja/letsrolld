@@ -21,6 +21,20 @@ AMAZONPRIMEWITHADS = "amazonprimevideowithads"
 AMAZON = "amazon"
 YOUTUBE = "youtube"
 CRITERION = "criterionchannel"
+METROGRAPH = "metrograph"
+PLEX = "plex"
+JUSTWATCHPLEX = "justwatchplexchannel"
+PLUTO = "pluto"
+PLUTOTV = "plutotv"
+TUBITV = "tubitv"
+FANDOR = "amazonfandor"
+NETFLIX = "netflix"
+DISNEYPLUS = "disneyplus"
+OVID = "ovid"
+KLASSIKI = "klassiki"
+DAFILMS = "dafilms"
+GUIDEDOC = "guidedoc"
+HULU = "hulu"
 
 PHYSICAL = "physical"
 
@@ -33,6 +47,20 @@ SERVICES = [
     AMAZON,
     YOUTUBE,
     CRITERION,
+    METROGRAPH,
+    PLEX,
+    JUSTWATCHPLEX,
+    PLUTO,
+    PLUTOTV,
+    TUBITV,
+    FANDOR,
+    NETFLIX,
+    DISNEYPLUS,
+    OVID,
+    KLASSIKI,
+    DAFILMS,
+    GUIDEDOC,
+    HULU,
     PHYSICAL,
 ]
 
@@ -40,8 +68,31 @@ FREE_ALIAS = "FREE"
 STREAM_ALIAS = "STREAM"
 ANY_ALIAS = "ANY"
 
-FREE_SERVICES = [KANOPY, HOOPLA, AMAZONPRIME, AMAZONPRIMEWITHADS]
-STREAM_SERVICES = FREE_SERVICES + [AMAZON, YOUTUBE, CRITERION]
+FREE_SERVICES = [
+    KANOPY,
+    HOOPLA,
+    AMAZONPRIME,
+    AMAZONPRIMEWITHADS,
+    PLEX,
+    JUSTWATCHPLEX,
+    PLUTO,
+    PLUTOTV,
+    TUBITV,
+]
+STREAM_SERVICES = FREE_SERVICES + [
+    AMAZON,
+    YOUTUBE,
+    CRITERION,
+    METROGRAPH,
+    FANDOR,
+    NETFLIX,
+    DISNEYPLUS,
+    OVID,
+    KLASSIKI,
+    DAFILMS,
+    GUIDEDOC,
+    HULU,
+]
 ANY_SERVICES = STREAM_SERVICES + [PHYSICAL]
 
 SERVICE_ALIASES = {

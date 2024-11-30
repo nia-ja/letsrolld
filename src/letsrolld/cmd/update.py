@@ -27,7 +27,7 @@ _MIN_REFRESH_FREQUENCY = datetime.timedelta(days=180)
 
 _MODEL_TO_THRESHOLD = {
     models.Film: datetime.timedelta(days=7),
-    models.Director: datetime.timedelta(days=1),
+    models.Director: datetime.timedelta(days=3),
 }
 
 
