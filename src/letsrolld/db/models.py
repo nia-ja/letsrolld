@@ -1,4 +1,6 @@
-from sqlalchemy import Integer, String, Numeric, DateTime
+import enum
+
+from sqlalchemy import Enum, Integer, String, Numeric, DateTime
 from sqlalchemy import Column, Table, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Mapped, relationship, mapped_column
@@ -45,11 +47,27 @@ class FilmOffer(Base):  # type: ignore[valid-type,misc]
     url = Column(String, nullable=True)
 
 
+class MonetizationType(enum.Enum):
+    FREE = "FREE"
+    FLATRATE = "FLATRATE"
+    RENT = "RENT"
+    BUY = "BUY"
+    ADS = "ADS"
+    # TODO: what is that? should I expose it in render?
+    FAST = "FAST"
+    CINEMA = "CINEMA"
+    DISC = "DISC"
+
+    def __str__(self):
+        return str(self.value)
+
+
 class Offer(Base):  # type: ignore[valid-type,misc]
     __tablename__ = "offers"
 
     id = Column(Integer, primary_key=True)
     name = Column(String, unique=True)
+    monetization_type = Column(Enum(MonetizationType))  # type: ignore[var-annotated]
 
 
 director_film_association_table = Table(

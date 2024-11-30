@@ -54,6 +54,25 @@ def delete_orphaned_films(session, model, dry_run=False):
             session.rollback()
 
 
+def delete_orphaned_offers(session, model, dry_run=False):
+    try:
+        for offer in session.query(model).all():
+            film = (
+                session.query(models.Film)
+                .join(models.Film.offers)
+                .filter(models.Offer.id == offer.id)
+                .first()
+            )
+            if film is None:
+                print(f"Deleting orphaned offer: {offer.name}")
+                session.delete(offer)
+    finally:
+        if not dry_run:
+            session.commit()
+        else:
+            session.rollback()
+
+
 # TODO: abstract dry_run handling away
 def nullify_zero_years(session, model, dry_run=False):
     try:
@@ -92,6 +111,10 @@ _CLEANUP = [
     (
         models.Film,
         delete_orphaned_films,
+    ),
+    (
+        models.Offer,
+        delete_orphaned_offers,
     ),
     # (
     #     models.Film,

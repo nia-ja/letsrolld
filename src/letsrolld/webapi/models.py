@@ -32,9 +32,10 @@ class Country(Schema):
 class Offer(Schema):
     properties = {
         "name": {"type": "string"},
+        "monetization_type": {"type": "string"},
         "url": NullableURL,
     }
-    required = ["name", "url"]
+    required = ["name", "url", "monetization_type"]
 
 
 class DirectorInfo(Schema):

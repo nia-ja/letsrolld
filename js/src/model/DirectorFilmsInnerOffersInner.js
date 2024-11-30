@@ -23,11 +23,12 @@ class DirectorFilmsInnerOffersInner {
      * Constructs a new <code>DirectorFilmsInnerOffersInner</code>.
      * @alias module:model/DirectorFilmsInnerOffersInner
      * @param name {String} 
+     * @param monetizationType {String} 
      * @param url {String} 
      */
-    constructor(name, url) { 
+    constructor(name, monetizationType, url) { 
         
-        DirectorFilmsInnerOffersInner.initialize(this, name, url);
+        DirectorFilmsInnerOffersInner.initialize(this, name, monetizationType, url);
     }
 
     /**
@@ -35,8 +36,9 @@ class DirectorFilmsInnerOffersInner {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, name, url) { 
+    static initialize(obj, name, monetizationType, url) { 
         obj['name'] = name;
+        obj['monetization_type'] = monetizationType;
         obj['url'] = url;
     }
 
@@ -53,6 +55,9 @@ class DirectorFilmsInnerOffersInner {
 
             if (data.hasOwnProperty('name')) {
                 obj['name'] = ApiClient.convertToType(data['name'], 'String');
+            }
+            if (data.hasOwnProperty('monetization_type')) {
+                obj['monetization_type'] = ApiClient.convertToType(data['monetization_type'], 'String');
             }
             if (data.hasOwnProperty('url')) {
                 obj['url'] = ApiClient.convertToType(data['url'], 'String');
@@ -78,6 +83,10 @@ class DirectorFilmsInnerOffersInner {
             throw new Error("Expected the field `name` to be a primitive type in the JSON string but got " + data['name']);
         }
         // ensure the json data is a string
+        if (data['monetization_type'] && !(typeof data['monetization_type'] === 'string' || data['monetization_type'] instanceof String)) {
+            throw new Error("Expected the field `monetization_type` to be a primitive type in the JSON string but got " + data['monetization_type']);
+        }
+        // ensure the json data is a string
         if (data['url'] && !(typeof data['url'] === 'string' || data['url'] instanceof String)) {
             throw new Error("Expected the field `url` to be a primitive type in the JSON string but got " + data['url']);
         }
@@ -88,12 +97,17 @@ class DirectorFilmsInnerOffersInner {
 
 }
 
-DirectorFilmsInnerOffersInner.RequiredProperties = ["name", "url"];
+DirectorFilmsInnerOffersInner.RequiredProperties = ["name", "monetization_type", "url"];
 
 /**
  * @member {String} name
  */
 DirectorFilmsInnerOffersInner.prototype['name'] = undefined;
+
+/**
+ * @member {String} monetization_type
+ */
+DirectorFilmsInnerOffersInner.prototype['monetization_type'] = undefined;
 
 /**
  * @member {String} url

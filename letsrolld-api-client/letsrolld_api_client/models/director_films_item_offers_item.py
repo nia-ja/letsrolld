@@ -11,15 +11,19 @@ class DirectorFilmsItemOffersItem:
     """
     Attributes:
         name (str):
+        monetization_type (str):
         url (Union[None, str]):
     """
 
     name: str
+    monetization_type: str
     url: Union[None, str]
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
         name = self.name
+
+        monetization_type = self.monetization_type
 
         url: Union[None, str]
         url = self.url
@@ -29,6 +33,7 @@ class DirectorFilmsItemOffersItem:
         field_dict.update(
             {
                 "name": name,
+                "monetization_type": monetization_type,
                 "url": url,
             }
         )
@@ -40,6 +45,8 @@ class DirectorFilmsItemOffersItem:
         d = src_dict.copy()
         name = d.pop("name")
 
+        monetization_type = d.pop("monetization_type")
+
         def _parse_url(data: object) -> Union[None, str]:
             if data is None:
                 return data
@@ -49,6 +56,7 @@ class DirectorFilmsItemOffersItem:
 
         director_films_item_offers_item = cls(
             name=name,
+            monetization_type=monetization_type,
             url=url,
         )
 
