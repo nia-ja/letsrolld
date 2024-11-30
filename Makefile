@@ -28,10 +28,13 @@ run-update-films:
 run-update-offers:
 	pdm run update-offers $(ARGS) | $(RUN_LOG_CMD)
 
+run-update-services:
+	pdm run update-services $(ARGS) | $(RUN_LOG_CMD)
+
 run-cleanup:
 	pdm run cleanup $(ARGS) | $(RUN_LOG_CMD)
 
-run-all: run-update-directors run-update-films run-update-offers run-cleanup
+run-all: run-update-directors run-update-films run-update-offers run-update-services run-cleanup
 
 run-db-upgrade:
 	pdm run alembic upgrade head

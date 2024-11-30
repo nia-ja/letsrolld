@@ -11,111 +11,7 @@ from letsrolld import justwatch as jw
 from letsrolld.base import BaseObject
 
 
-Offer = namedtuple("Offer", ["technical_name", "url"])
-
-
-KANOPY = "kanopy"
-HOOPLA = "hoopla"
-AMAZONPRIME = "amazonprime"
-AMAZONPRIMEWITHADS = "amazonprimevideowithads"
-AMAZONAMCPLUS = "amazonamcplus"
-AMAZONMUBI = "amazonmubi"
-AMAZON = "amazon"
-YOUTUBE = "youtube"
-CRITERION = "criterionchannel"
-METROGRAPH = "metrograph"
-PLEX = "plex"
-JUSTWATCHPLEX = "justwatchplexchannel"
-PLUTO = "pluto"
-PLUTOTV = "plutotv"
-TUBITV = "tubitv"
-FANDOR = "amazonfandor"
-NETFLIX = "netflix"
-DISNEYPLUS = "disneyplus"
-OVID = "ovid"
-KLASSIKI = "klassiki"
-DAFILMS = "dafilms"
-GUIDEDOC = "guidedoc"
-HULU = "hulu"
-
-PHYSICAL = "physical"
-
-# TODO: make these sets?
-SERVICES = [
-    KANOPY,
-    HOOPLA,
-    AMAZONPRIME,
-    AMAZONPRIMEWITHADS,
-    AMAZONMUBI,
-    AMAZONAMCPLUS,
-    AMAZON,
-    YOUTUBE,
-    CRITERION,
-    METROGRAPH,
-    PLEX,
-    JUSTWATCHPLEX,
-    PLUTO,
-    PLUTOTV,
-    TUBITV,
-    FANDOR,
-    NETFLIX,
-    DISNEYPLUS,
-    OVID,
-    KLASSIKI,
-    DAFILMS,
-    GUIDEDOC,
-    HULU,
-    PHYSICAL,
-]
-
-FREE_ALIAS = "FREE"
-STREAM_ALIAS = "STREAM"
-ANY_ALIAS = "ANY"
-
-FREE_SERVICES = [
-    KANOPY,
-    HOOPLA,
-    AMAZONPRIME,
-    AMAZONPRIMEWITHADS,
-    PLEX,
-    JUSTWATCHPLEX,
-    PLUTO,
-    PLUTOTV,
-    TUBITV,
-]
-STREAM_SERVICES = FREE_SERVICES + [
-    AMAZON,
-    AMAZONAMCPLUS,
-    AMAZONMUBI,
-    YOUTUBE,
-    CRITERION,
-    METROGRAPH,
-    FANDOR,
-    NETFLIX,
-    DISNEYPLUS,
-    OVID,
-    KLASSIKI,
-    DAFILMS,
-    GUIDEDOC,
-    HULU,
-]
-ANY_SERVICES = STREAM_SERVICES + [PHYSICAL]
-
-SERVICE_ALIASES = {
-    FREE_ALIAS: FREE_SERVICES,
-    STREAM_ALIAS: STREAM_SERVICES,
-    ANY_ALIAS: ANY_SERVICES,
-}
-
-
-def get_services(services):
-    res = set()
-    for s in services or []:
-        if s in SERVICE_ALIASES:
-            res.update(SERVICE_ALIASES[s])
-        elif s in SERVICES:
-            res.add(s)
-    return res
+Offer = namedtuple("Offer", ["technical_name", "url", "monetization_type"])
 
 
 class Film(BaseObject):
@@ -184,11 +80,19 @@ class Film(BaseObject):
     @property
     def available_services(self):
         services = [
-            Offer(technical_name=offer.package.technical_name, url=offer.url)
+            # TODO: confirm that api returns one of the known monetization types
+            Offer(
+                technical_name=offer.package.technical_name,
+                url=offer.url,
+                monetization_type=offer.monetization_type,
+            )
             for offer in self.offers
         ]
         if self.available_physical():
-            services.append(Offer(technical_name=PHYSICAL, url=None))
+            # TODO: use const for monetization type
+            services.append(
+                Offer(technical_name="physical", url=None, monetization_type="DISC")
+            )
         return services
 
     @functools.cached_property

@@ -111,7 +111,19 @@ def update_countries(session, countries):
 
 
 def update_offers(session, offers):
-    return update_objs(session, models.Offer, {o.technical_name for o in offers})
+    objs = []
+    for offer in offers:
+        model = models.Offer
+        name = offer.technical_name
+        db_obj = session.query(model).filter_by(name=name).first()
+        if db_obj is not None:
+            objs.append(db_obj)
+            continue
+        db_obj = model(name=name, monetization_type=offer.monetization_type)
+        session.add(db_obj)
+        objs.append(db_obj)
+        print(f"Adding {model.__name__.lower()}: {name}")
+    return objs
 
 
 def add_films(session, films):
@@ -249,7 +261,6 @@ def refresh_film(session, db_obj, api_obj):
 
 
 def refresh_offers(session, db_obj, api_obj):
-    # just in case genres or countries or offers changed
     db_offers = update_offers(session, api_obj.available_services)
 
     def get_offer_id(offer):
@@ -346,6 +357,10 @@ def parse_args():
     return parser.parse_args()
 
 
+def get_session():
+    return sessionmaker(bind=db.create_engine())()
+
+
 def main(
     model,
     api_cls,
@@ -365,7 +380,7 @@ def main(
                 datetime.timedelta(0) if args.force else _MODEL_TO_THRESHOLD[model]
             )
             run_update(
-                sessionmaker(bind=db.create_engine())(),
+                get_session(),
                 model,
                 api_cls,
                 refresh_func,
@@ -400,3 +415,43 @@ def offers_main():
         "last_offers_checked",
         "last_offers_updated",
     )
+
+
+# TODO: reuse generic main() machinery for services_main()
+def services_main():
+    session = get_session()
+    done = set()
+    while True:
+        offers = (
+            session.query(models.Offer)
+            .filter(models.Offer.is_(None))
+            .filter(models.Offer.id.notin_(done))
+            .all()
+        )
+        if not offers:
+            break
+        for offer in offers:
+            print(f"Offer {offer.name} has no monetization type, fixing...")
+            film = (
+                session.query(models.Film)
+                .join(models.FilmOffer)
+                .filter(models.FilmOffer.offer_id == offer.id)
+                .order_by(func.random())
+                .limit(1)
+                .first()
+            )
+            if film is None:
+                print(f"Offer {offer.name} has no film, skipping...")
+                done.add(offer.id)
+                continue
+            print(f"Offer {offer.name} is associated with film {film.name}, fixing...")
+            for api_offer in film_obj.Film(film.lb_url).available_services:
+                if api_offer.technical_name == offer.name:
+                    offer.monetization_type = api_offer.monetization_type
+                    print(
+                        f"Offer {offer.name} is now of type {offer.monetization_type}"
+                    )
+                    session.add(offer)
+                    done.add(offer.id)
+                    break
+        session.commit()

@@ -14,6 +14,7 @@ import { RequestFile } from './models';
 
 export class DirectorFilmsInnerOffersInner {
     'name': string;
+    'monetizationType': string;
     'url': string | null;
 
     static discriminator: string | undefined = undefined;
@@ -22,6 +23,11 @@ export class DirectorFilmsInnerOffersInner {
         {
             "name": "name",
             "baseName": "name",
+            "type": "string"
+        },
+        {
+            "name": "monetizationType",
+            "baseName": "monetization_type",
             "type": "string"
         },
         {

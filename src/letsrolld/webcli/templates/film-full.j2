@@ -14,8 +14,15 @@
 {{ film.description|wordwrap(70)|indent(2, first=True) }}
   ---
   Available @
-    {% for offer in film.offers|selectattr("name", "in", offers) -%}
-    {%- if offer.url -%}
-      {{ offer.name }}: {{ offer.url }}
+    {% for monetization_type in ('FREE', 'ADS', 'FLATRATE', 'RENT', 'BUY', 'DISC') -%}
+    {%- if monetization_type in offers -%}
+    {{ monetization_type }}:
+    {% for offer in offers[monetization_type] -%}
+    {%-   if offer.url -%}
+    {{ offer.name }}: {{ offer.url }}
+    {%-   else -%}
+    {{ offer.name }}
+    {%    endif %}
+    {% endfor %}
     {% endif -%}
     {% endfor -%}

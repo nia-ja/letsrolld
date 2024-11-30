@@ -60,6 +60,12 @@
       //expect(instance).to.be();
     });
 
+    it('should have the property monetizationType (base name: "monetization_type")', function() {
+      // uncomment below and update the code to test the property monetizationType
+      //var instance = new LetsrolldApi.DirectorFilmsInnerOffersInner();
+      //expect(instance).to.be();
+    });
+
     it('should have the property url (base name: "url")', function() {
       // uncomment below and update the code to test the property url
       //var instance = new LetsrolldApi.DirectorFilmsInnerOffersInner();

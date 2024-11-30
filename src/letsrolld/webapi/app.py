@@ -7,13 +7,13 @@ from flask_restful_swagger_3 import Api, Resource, swagger, create_open_api_reso
 from flask_sqlalchemy import SQLAlchemy
 
 import pycountry
+from sqlalchemy import or_
 from sqlalchemy.sql.expression import func
 
 from letsrolld import config as lconfig
 from letsrolld import db
-from letsrolld import film
-from letsrolld import filmlist
 from letsrolld.db import models
+from letsrolld import filmlist
 from letsrolld.webapi import models as webapi_models
 
 import logging
@@ -62,7 +62,9 @@ def _get_flag(country):
 # TODO: this is ugly; reimplement it as association proxy if possible
 def _get_offers(session, f):
     return list(
-        session.query(models.Offer.name, models.FilmOffer.url)
+        session.query(
+            models.Offer.name, models.FilmOffer.url, models.Offer.monetization_type
+        )
         .join(models.FilmOffer)
         .filter(models.FilmOffer.film_id == f.id)
         .all()
@@ -74,7 +76,10 @@ def _get_film(session, f):
         webapi_models.Country(name=c.name, flag=_get_flag(c.name)) for c in f.countries
     ]
     offers = [
-        webapi_models.Offer(name=name, url=url) for name, url in _get_offers(session, f)
+        webapi_models.Offer(
+            name=name, url=url, monetization_type=str(monetization_type)
+        )
+        for name, url, monetization_type in _get_offers(session, f)
     ]
     return webapi_models.Film(
         id=f.id,
@@ -266,14 +271,17 @@ def _execute_section_plan(db, config, seen_films):
 
     if config.services:
         query = query.join(models.Film.offers).filter(
-            models.Offer.name.in_(film.get_services(config.services))
+            or_(
+                models.Offer.name.in_(config.services),
+                models.Offer.monetization_type.in_(config.services),
+            )
         )
     if config.exclude_services:
         query = query.join(models.Film.offers).filter(
             ~models.Film.offers.any(
-                models.Offer.name.in_(
-                    film.get_services(config.exclude_services)
-                    - film.get_services(config.services)
+                or_(
+                    models.Offer.name.in_(config.exclude_services),
+                    models.Offer.monetization_type.in_(config.exclude_services),
                 )
             )
         )

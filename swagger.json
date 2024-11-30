@@ -108,6 +108,9 @@
                                             "name": {
                                                 "type": "string"
                                             },
+                                            "monetization_type": {
+                                                "type": "string"
+                                            },
                                             "url": {
                                                 "type": "string",
                                                 "format": "url",
@@ -116,7 +119,8 @@
                                         },
                                         "required": [
                                             "name",
-                                            "url"
+                                            "url",
+                                            "monetization_type"
                                         ],
                                         "type": "object"
                                     }
@@ -246,6 +250,9 @@
                                                 "name": {
                                                     "type": "string"
                                                 },
+                                                "monetization_type": {
+                                                    "type": "string"
+                                                },
                                                 "url": {
                                                     "type": "string",
                                                     "format": "url",
@@ -254,7 +261,8 @@
                                             },
                                             "required": [
                                                 "name",
-                                                "url"
+                                                "url",
+                                                "monetization_type"
                                             ],
                                             "type": "object"
                                         }
@@ -390,6 +398,9 @@
                                             "name": {
                                                 "type": "string"
                                             },
+                                            "monetization_type": {
+                                                "type": "string"
+                                            },
                                             "url": {
                                                 "type": "string",
                                                 "format": "url",
@@ -398,7 +409,8 @@
                                         },
                                         "required": [
                                             "name",
-                                            "url"
+                                            "url",
+                                            "monetization_type"
                                         ],
                                         "type": "object"
                                     }
@@ -510,6 +522,9 @@
                                 "name": {
                                     "type": "string"
                                 },
+                                "monetization_type": {
+                                    "type": "string"
+                                },
                                 "url": {
                                     "type": "string",
                                     "format": "url",
@@ -518,7 +533,8 @@
                             },
                             "required": [
                                 "name",
-                                "url"
+                                "url",
+                                "monetization_type"
                             ],
                             "type": "object"
                         }
@@ -617,6 +633,9 @@
                                     "name": {
                                         "type": "string"
                                     },
+                                    "monetization_type": {
+                                        "type": "string"
+                                    },
                                     "url": {
                                         "type": "string",
                                         "format": "url",
@@ -625,7 +644,8 @@
                                 },
                                 "required": [
                                     "name",
-                                    "url"
+                                    "url",
+                                    "monetization_type"
                                 ],
                                 "type": "object"
                             }
@@ -730,6 +750,9 @@
                                 "name": {
                                     "type": "string"
                                 },
+                                "monetization_type": {
+                                    "type": "string"
+                                },
                                 "url": {
                                     "type": "string",
                                     "format": "url",
@@ -738,7 +761,8 @@
                             },
                             "required": [
                                 "name",
-                                "url"
+                                "url",
+                                "monetization_type"
                             ],
                             "type": "object"
                         }
@@ -861,6 +885,9 @@
                                                         "name": {
                                                             "type": "string"
                                                         },
+                                                        "monetization_type": {
+                                                            "type": "string"
+                                                        },
                                                         "url": {
                                                             "type": "string",
                                                             "format": "url",
@@ -869,7 +896,8 @@
                                                     },
                                                     "required": [
                                                         "name",
-                                                        "url"
+                                                        "url",
+                                                        "monetization_type"
                                                     ],
                                                     "type": "object"
                                                 }
@@ -1001,6 +1029,9 @@
                                                             "name": {
                                                                 "type": "string"
                                                             },
+                                                            "monetization_type": {
+                                                                "type": "string"
+                                                            },
                                                             "url": {
                                                                 "type": "string",
                                                                 "format": "url",
@@ -1009,7 +1040,8 @@
                                                         },
                                                         "required": [
                                                             "name",
-                                                            "url"
+                                                            "url",
+                                                            "monetization_type"
                                                         ],
                                                         "type": "object"
                                                     }
@@ -1148,6 +1180,9 @@
                                                         "name": {
                                                             "type": "string"
                                                         },
+                                                        "monetization_type": {
+                                                            "type": "string"
+                                                        },
                                                         "url": {
                                                             "type": "string",
                                                             "format": "url",
@@ -1156,7 +1191,8 @@
                                                     },
                                                     "required": [
                                                         "name",
-                                                        "url"
+                                                        "url",
+                                                        "monetization_type"
                                                     ],
                                                     "type": "object"
                                                 }
@@ -1261,6 +1297,7 @@
                                                 "offers": [
                                                     {
                                                         "name": "string",
+                                                        "monetization_type": "string",
                                                         "url": "string"
                                                     }
                                                 ],
@@ -1333,6 +1370,7 @@
                                             "offers": [
                                                 {
                                                     "name": "string",
+                                                    "monetization_type": "string",
                                                     "url": "string"
                                                 }
                                             ],
@@ -1426,6 +1464,7 @@
                                         "offers": [
                                             {
                                                 "name": "string",
+                                                "monetization_type": "string",
                                                 "url": "string"
                                             }
                                         ],
@@ -1489,6 +1528,7 @@
                                     "offers": [
                                         {
                                             "name": "string",
+                                            "monetization_type": "string",
                                             "url": "string"
                                         }
                                     ],
@@ -1549,6 +1589,7 @@
                                                         "offers": [
                                                             {
                                                                 "name": "string",
+                                                                "monetization_type": "string",
                                                                 "url": "string"
                                                             }
                                                         ],
@@ -1623,6 +1664,7 @@
                                                     "offers": [
                                                         {
                                                             "name": "string",
+                                                            "monetization_type": "string",
                                                             "url": "string"
                                                         }
                                                     ],

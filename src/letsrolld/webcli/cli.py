@@ -1,7 +1,8 @@
+from collections import defaultdict
+
 import click
 from jinja2 import Environment, PackageLoader
 
-from letsrolld import film as lfilm
 
 from letsrolld_api_client import Client
 from letsrolld_api_client.api.default import get_directors
@@ -34,15 +35,12 @@ def list_director(director):
 
 
 def _get_services_to_report(film):
-    offers_to_report = []
+    offers_to_report = defaultdict(list)
     urls_seen = set()
-    for service in lfilm.STREAM_SERVICES:
-        for o in film.offers:
-            if o.name != service:
-                continue
-            if o.url not in urls_seen:
-                offers_to_report.append(o.name)
-                urls_seen.add(o.url)
+    for o in film.offers:
+        if o.url not in urls_seen:
+            offers_to_report[o.monetization_type].append(o)
+            urls_seen.add(o.url)
     return offers_to_report
 
 
