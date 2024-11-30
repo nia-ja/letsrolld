@@ -19,6 +19,7 @@ HOOPLA = "hoopla"
 AMAZONPRIME = "amazonprime"
 AMAZONPRIMEWITHADS = "amazonprimevideowithads"
 AMAZONAMCPLUS = "amazonamcplus"
+AMAZONMUBI = "amazonmubi"
 AMAZON = "amazon"
 YOUTUBE = "youtube"
 CRITERION = "criterionchannel"
@@ -45,6 +46,7 @@ SERVICES = [
     HOOPLA,
     AMAZONPRIME,
     AMAZONPRIMEWITHADS,
+    AMAZONMUBI,
     AMAZONAMCPLUS,
     AMAZON,
     YOUTUBE,
@@ -84,6 +86,7 @@ FREE_SERVICES = [
 STREAM_SERVICES = FREE_SERVICES + [
     AMAZON,
     AMAZONAMCPLUS,
+    AMAZONMUBI,
     YOUTUBE,
     CRITERION,
     METROGRAPH,
