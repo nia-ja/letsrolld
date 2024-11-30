@@ -272,8 +272,8 @@ def _execute_section_plan(db, config, seen_films):
         query = query.join(models.Film.offers).filter(
             ~models.Film.offers.any(
                 models.Offer.name.in_(
-                    film.get_services(config.exclude_services) -
-                    film.get_services(config.services)
+                    film.get_services(config.exclude_services)
+                    - film.get_services(config.services)
                 )
             )
         )
