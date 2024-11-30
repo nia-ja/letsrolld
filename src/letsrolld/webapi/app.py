@@ -233,10 +233,6 @@ def _get_report_config(id):
 # TODO: support freeform text search filter
 def _execute_section_plan(db, config, seen_films):
     query = db.session.query(models.Film).filter(~models.Film.id.in_(seen_films))
-    if config.services:
-        query = query.join(models.Film.offers).filter(
-            models.Offer.name.in_(film.get_services(config.services))
-        )
 
     if config.min_rating:
         query = query.filter(models.Film.rating >= config.min_rating)
@@ -265,6 +261,20 @@ def _execute_section_plan(db, config, seen_films):
         query = query.filter(
             ~models.Film.countries.any(
                 models.Country.name.in_(config.exclude_countries)
+            )
+        )
+
+    if config.services:
+        query = query.join(models.Film.offers).filter(
+            models.Offer.name.in_(film.get_services(config.services))
+        )
+    if config.exclude_services:
+        query = query.join(models.Film.offers).filter(
+            ~models.Film.offers.any(
+                models.Offer.name.in_(
+                    film.get_services(config.exclude_services) -
+                    film.get_services(config.services)
+                )
             )
         )
 
