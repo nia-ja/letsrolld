@@ -18,6 +18,7 @@ KANOPY = "kanopy"
 HOOPLA = "hoopla"
 AMAZONPRIME = "amazonprime"
 AMAZONPRIMEWITHADS = "amazonprimevideowithads"
+AMAZONAMCPLUS = "amazonamcplus"
 AMAZON = "amazon"
 YOUTUBE = "youtube"
 CRITERION = "criterionchannel"
@@ -44,6 +45,7 @@ SERVICES = [
     HOOPLA,
     AMAZONPRIME,
     AMAZONPRIMEWITHADS,
+    AMAZONAMCPLUS,
     AMAZON,
     YOUTUBE,
     CRITERION,
@@ -81,6 +83,7 @@ FREE_SERVICES = [
 ]
 STREAM_SERVICES = FREE_SERVICES + [
     AMAZON,
+    AMAZONAMCPLUS,
     YOUTUBE,
     CRITERION,
     METROGRAPH,
