@@ -33,7 +33,7 @@ def list_director(director):
     return template.render(director=director)
 
 
-def _get_offers_with_unique_urls(film):
+def _get_services_to_report(film):
     offers_to_report = []
     urls_seen = set()
     for service in lfilm.STREAM_SERVICES:
@@ -44,10 +44,6 @@ def _get_offers_with_unique_urls(film):
                 offers_to_report.append(o.name)
                 urls_seen.add(o.url)
     return offers_to_report
-
-
-def _get_services_to_report(film):
-    return _get_offers_with_unique_urls(film)
 
 
 def report_film(film):
