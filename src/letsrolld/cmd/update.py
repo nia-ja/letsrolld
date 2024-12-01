@@ -424,7 +424,7 @@ def services_main():
     while True:
         offers = (
             session.query(models.Offer)
-            .filter(models.Offer.is_(None))
+            .filter(models.Offer.monetization_type.is_(None))
             .filter(models.Offer.id.notin_(done))
             .all()
         )
