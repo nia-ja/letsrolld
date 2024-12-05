@@ -5,10 +5,9 @@ set -e
 # Accept a parameter --start-server to start the server before sending the email.
 if [ "$1" = "--start-server" ]; then
   flox activate -- make webapp &
+  trap 'kill %1' EXIT
   sleep 10 # Wait for the server to start.
 fi
-
-trap 'kill %1' EXIT
 
 FROMADDR=ihar.hrachyshka@gmail.com
 TOADDRS=$FROMADDR
