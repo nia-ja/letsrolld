@@ -1,6 +1,5 @@
 import functools
 import os.path
-import random
 
 from letsrolld.base import BaseObject
 from letsrolld import film
@@ -37,25 +36,3 @@ class Director(BaseObject):
     def films(self):
         for url in self.film_urls:
             yield film.Film(url)
-
-
-def get_directors_by_films(film_list):
-    film_list = film_list[:]
-    random.shuffle(film_list)
-
-    directors = {}
-    for film_ in film_list:
-        movie = film.Film(film_.uri)
-        for director in movie.directors:
-            if director.base_url not in directors:
-                directors[director.base_url] = director
-                yield director
-
-
-def get_directors_by_urls(director_list):
-    director_list = director_list[:]
-    random.shuffle(director_list)
-
-    for director_ in director_list:
-        # assume unique entries in the input list
-        yield Director(director_.uri)
