@@ -1,21 +1,22 @@
-#!/bin/sh
+#!/bin/bash
 set -xe
 
 StringContains() {
     string="$1"
     substring="$2"
 
-    case "$string" in
-        *"$substring"*)
-            return 0
-            ;;
-        *)
-            return 1
-            ;;
-    esac
+    if grep -q "$substring" <<< "$string"; then
+        return 0
+    fi
+    return 1
 }
 
 DIRECTORS_FILE=directors.csv
+
+git worktree add ../sanity-check-env
+trap "git worktree remove ../sanity-check-env" EXIT
+
+cd ../sanity-check-env
 
 # create empty database
 alembic upgrade head
@@ -30,6 +31,7 @@ cleanup
 # start webapp
 webapp &
 WEBAPP_PID=$!
+trap 'kill $WEBAPP_PID; git worktree remove ../sanity-check-env' EXIT
 sleep 5
 
 # check that it is running and returns some data
@@ -43,5 +45,11 @@ out=$(lcli directors get)
 StringContains "$out" "Maryam Touzani"
 StringContains "$out" "Štefan Uher"
 
-# stop webapp
-kill $WEBAPP_PID
+# TODO: support structured output for cli, then use it to extract values
+out=$(lcli films query --limit 1 --genre drama --offer criterionchannel)
+StringContains "$out" "criterionchannel"
+StringContains "$out" "drama"
+StringContains "$out" ">>>"
+StringContains "$out" '⌛:[[:space:]]' && exit 1
+
+exit 0
