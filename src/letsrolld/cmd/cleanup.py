@@ -45,7 +45,9 @@ def delete_orphaned_directors(session, model, dry_run=False):
     try:
         for director in session.query(model).all():
             if not director.films:
-                print(f"Deleting orphaned director: {director.name} @ {director.lb_url}")
+                print(
+                    f"Deleting orphaned director: {director.name} @ {director.lb_url}"
+                )
                 session.delete(director)
     finally:
         if not dry_run:
