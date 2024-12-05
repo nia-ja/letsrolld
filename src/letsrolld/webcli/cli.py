@@ -34,13 +34,26 @@ def list_director(director):
     return template.render(director=director)
 
 
+def _seen(url, urls_seen):
+    if url is None:
+        return False
+    if url in urls_seen:
+        return True
+    if any(url.startswith(u) for u in urls_seen):
+        return True
+    if any(u.startswith(url) for u in urls_seen):
+        return True
+    return False
+
+
 def _get_services_to_report(film):
     offers_to_report = defaultdict(list)
     urls_seen = set()
     for o in film.offers:
-        if o.url not in urls_seen:
+        if not _seen(o.url, urls_seen):
             offers_to_report[o.monetization_type].append(o)
-            urls_seen.add(o.url)
+            if o.url:
+                urls_seen.add(o.url)
     return offers_to_report
 
 
