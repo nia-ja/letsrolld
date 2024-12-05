@@ -47,6 +47,8 @@ distribution = true
 get-directors = "letsrolld.cmd.get_directors:main"
 populate-directors = "letsrolld.cmd.populate_directors:main"
 update-directors = "letsrolld.cmd.update:directors_main"
+dump-directors = "letsrolld.cmd.dump_directors:main"
+
 update-films = "letsrolld.cmd.update:films_main"
 update-offers = "letsrolld.cmd.update:offers_main"
 update-services = "letsrolld.cmd.update:services_main"

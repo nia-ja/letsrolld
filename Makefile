@@ -17,10 +17,13 @@ test: lint
 	pdm run pytest
 
 get-directors:
-	pdm run get-directors -i ./data/lists/everything.csv -o ./directors.csv | $(RUN_LOG_CMD)
+	pdm run get-directors -i ./data/lists/everything.csv -o ${DIRECTORS_FILE} | $(RUN_LOG_CMD)
 
 populate-directors:
 	pdm run populate-directors -d ${DIRECTORS_FILE} -n ${DIRECTORS_NUMBER}
+
+dump-directors:
+	pdm run dump-directors -o ${DIRECTORS_FILE}.new | $(RUN_LOG_CMD)
 
 run-update-directors:
 	pdm run update-directors $(ARGS) | $(RUN_LOG_CMD)
