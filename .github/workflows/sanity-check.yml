@@ -16,4 +16,4 @@ jobs:
           pip install .
       - name: Run sanity check
         run: |
-          sh ./sanity-check.sh
+          ./scripts/sanity-check.sh
