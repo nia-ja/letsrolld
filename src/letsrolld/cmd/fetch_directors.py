@@ -36,7 +36,7 @@ def get_directors_by_films(film_list):
                 sys.stdout.flush()
                 time.sleep(_SEC_WAIT_ON_FAIL)
                 continue
-        print(f"Processed {i + 1}/{len(film_list)} films")
+        print(f"Processed {i + 1}/{len(film_list)} films: {film_.name} ({film_.year})")
         sys.stdout.flush()
 
 
