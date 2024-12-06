@@ -5,10 +5,15 @@ import sys
 import time
 import traceback
 
+from sqlalchemy.orm import sessionmaker
+
+from letsrolld import db
+from letsrolld.db import models
 from letsrolld import film
 from letsrolld import filmlist
 from letsrolld.directorlist import read_director_list
 
+# TODO: deduplicate error handling with update script
 _SEC_WAIT_ON_FAIL = 5
 
 
@@ -25,9 +30,7 @@ def get_directors_by_films(film_list):
                         directors[director.base_url] = director
                         yield director
                 break
-            except (
-                Exception
-            ) as e:  # TODO: deduplicate error handling with update script
+            except Exception as e:
                 traceback.print_exception(e)
                 print(f"Retrying in {_SEC_WAIT_ON_FAIL} seconds...")
                 sys.stdout.flush()
@@ -37,15 +40,38 @@ def get_directors_by_films(film_list):
         sys.stdout.flush()
 
 
+def is_known_film(film_):
+    session = sessionmaker(bind=db.create_engine())()
+    film = (
+        session.query(models.Film)
+        .filter(models.Film.title == film_.name)
+        .filter(models.Film.year == film_.year)
+        .first()
+    )
+    if film is not None:
+        print(f"Skipping known film: {film_.name} ({film_.year})")
+        sys.stdout.flush()
+        return True
+    return False
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-i", "--input", help="input movie list file", required=True)
     parser.add_argument(
         "-o", "--output", help="output director list file", required=True
     )
+    parser.add_argument(
+        "-N",
+        "--new-only",
+        action="store_true",
+        help="whether to ignore (probably) known movies",
+    )
     args = parser.parse_args()
 
     film_list = list(filmlist.read_film_list(args.input))
+    if args.new_only:
+        film_list = [f for f in film_list if not is_known_film(f)]
 
     directors = set()
     if os.path.exists(args.output):
