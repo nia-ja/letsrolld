@@ -3,7 +3,7 @@ import enum
 from sqlalchemy import Enum, Integer, String, Numeric, DateTime
 from sqlalchemy import Column, Table, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import Mapped, relationship, mapped_column
+from sqlalchemy.orm import Mapped, relationship, mapped_column, synonym
 
 Base = declarative_base()
 
@@ -110,9 +110,7 @@ class Film(Base):  # type: ignore[valid-type,misc]
         back_populates="films",
     )
 
-    @property
-    def name(self):
-        return self.title
+    name = synonym("title")
 
 
 class Director(Base):  # type: ignore[valid-type,misc]
