@@ -1,4 +1,5 @@
 import json
+import os
 
 from flask import Flask
 from flask_cors import CORS
@@ -6,10 +7,13 @@ from flask_restful_swagger_3 import Api, Resource, swagger, create_open_api_reso
 from flask_sqlalchemy import SQLAlchemy
 
 import pycountry
+from sqlalchemy import or_
 from sqlalchemy.sql.expression import func
 
+from letsrolld import config as lconfig
 from letsrolld import db
 from letsrolld.db import models
+from letsrolld import filmlist
 from letsrolld.webapi import models as webapi_models
 
 import logging
@@ -29,6 +33,8 @@ _LICENSE = {
     "name": "GPL-3.0",
     "url": "https://www.gnu.org/licenses/gpl-3.0.html",
 }
+
+WATCHED_FILE = "data/watched.csv"
 
 
 def _get_flag(country):
@@ -56,7 +62,9 @@ def _get_flag(country):
 # TODO: this is ugly; reimplement it as association proxy if possible
 def _get_offers(session, f):
     return list(
-        session.query(models.Offer.name, models.FilmOffer.url)
+        session.query(
+            models.Offer.name, models.FilmOffer.url, models.Offer.monetization_type
+        )
         .join(models.FilmOffer)
         .filter(models.FilmOffer.film_id == f.id)
         .all()
@@ -68,7 +76,10 @@ def _get_film(session, f):
         webapi_models.Country(name=c.name, flag=_get_flag(c.name)) for c in f.countries
     ]
     offers = [
-        webapi_models.Offer(name=name, url=url) for name, url in _get_offers(session, f)
+        webapi_models.Offer(
+            name=name, url=url, monetization_type=str(monetization_type)
+        )
+        for name, url, monetization_type in _get_offers(session, f)
     ]
     return webapi_models.Film(
         id=f.id,
@@ -84,6 +95,14 @@ def _get_film(session, f):
         countries=countries,
         offers=offers,
         directors=[_get_director_info(d) for d in f.directors],
+    )
+
+
+def _get_report(sections=None):
+    return webapi_models.Report(
+        id=0,
+        name="default",
+        sections=sections or [],
     )
 
 
@@ -185,17 +204,16 @@ class FilmResource(Resource):
 
         query = db_.session.query(models.Film)
         if args["genre"]:
-            query = query.join(models.Film.genres).filter(
-                models.Genre.name == args["genre"]
-            )
+            genres = args["genre"].split(",")
+            query = query.join(models.Film.genres).filter(models.Genre.name.in_(genres))
         if args["country"]:
+            countries = args["country"].split(",")
             query = query.join(models.Film.countries).filter(
-                models.Country.name == args["country"]
+                models.Country.name.in_(countries)
             )
         if args["offer"]:
-            query = query.join(models.Film.offers).filter(
-                models.Offer.name == args["offer"]
-            )
+            offers = args["offer"].split(",")
+            query = query.join(models.Film.offers).filter(models.Offer.name.in_(offers))
 
         query = query.order_by(func.random()).limit(args["limit"])
         return [_get_film(db_.session, d) for d in query], 200
@@ -212,6 +230,125 @@ class FilmItemResource(Resource):
         return _get_film(db_.session, f), 200
 
 
+def _get_report_config(id):
+    # TODO: store configs in db; convert id into actual name
+    return list(lconfig.from_file(os.path.join("configs", "default.json")))
+
+
+# TODO: support freeform text search filter
+def _execute_section_plan(db, config, seen_films):
+    query = db.session.query(models.Film).filter(~models.Film.id.in_(seen_films))
+
+    if config.min_rating:
+        query = query.filter(models.Film.rating >= config.min_rating)
+    if config.max_rating:
+        query = query.filter(models.Film.rating <= config.min_rating)
+
+    if config.min_length:
+        query = query.filter(models.Film.runtime >= config.min_length)
+    if config.max_length:
+        query = query.filter(models.Film.runtime <= config.max_length)
+
+    if config.genre:
+        # TODO: support multiple genres filter
+        query = query.join(models.Film.genres).filter(models.Genre.name == config.genre)
+    if config.exclude_genres:
+        query = query.filter(
+            ~models.Film.genres.any(models.Genre.name.in_(config.exclude_genres))
+        )
+
+    if config.country:
+        # TODO: support multiple countries filter
+        query = query.join(models.Film.countries).filter(
+            models.Country.name == config.country
+        )
+    if config.exclude_countries:
+        query = query.filter(
+            ~models.Film.countries.any(
+                models.Country.name.in_(config.exclude_countries)
+            )
+        )
+
+    if config.services:
+        query = query.join(models.Film.offers).filter(
+            or_(
+                models.Offer.name.in_(config.services),
+                models.Offer.monetization_type.in_(config.services),
+            )
+        )
+    if config.exclude_services:
+        query = query.join(models.Film.offers).filter(
+            ~models.Film.offers.any(
+                or_(
+                    models.Offer.name.in_(config.exclude_services),
+                    models.Offer.monetization_type.in_(config.exclude_services),
+                )
+            )
+        )
+
+    if config.min_year:
+        query = query.filter(models.Film.year >= config.min_year)
+    if config.max_year:
+        query = query.filter(models.Film.year <= config.max_year)
+
+    query = query.order_by(func.random())
+    return [_get_film(db.session, f) for f in query.limit(config.max_movies)]
+
+
+class ReportResource(Resource):
+    @swagger.reorder_with(
+        webapi_models.ArrayOfReports,
+        description="Returns available reports",
+        summary="List Reports",
+    )
+    def get(self):
+        # TODO: actually list available reports
+        return [_get_report()]
+
+
+# TODO: store watched movied in db, per user
+def _initialize_seen_movies(db):
+    ids = set()
+    films = [
+        # TODO: handle invalid int conversion
+        (f.name, int(f.year))
+        for f in filmlist.read_film_list(WATCHED_FILE)
+    ]
+
+    # first, find all watched movies in a single query
+    candidates = (
+        db.session.query(models.Film)
+        .filter(models.Film.title.in_([f[0] for f in films]))
+        .all()
+    )
+
+    for candidate in candidates:
+        if (candidate.title, candidate.year) in films:
+            ids.add(candidate.id)
+            films.remove((candidate.title, candidate.year))
+
+    return ids
+
+
+class ReportItemResource(Resource):
+    @swagger.reorder_with(
+        webapi_models.Report,
+        description="Execute a report",
+        summary="Execute Report",
+    )
+    def get(self, id):
+        # TODO: support multiple reports
+        if id != 0:
+            return {}, 404
+        sections = []
+        seen_films = _initialize_seen_movies(db_)
+        for config in _get_report_config(id):
+            films = _execute_section_plan(db_, config, seen_films)
+            seen_films.update(f["id"] for f in films)
+            sections.append(webapi_models.ReportSection(name=config.name, films=films))
+        return _get_report(sections=sections), 200
+
+
 def _api():
     api = Api(app, title="letsrolld API", license=_LICENSE, version="0.1")
 
@@ -222,15 +359,21 @@ def _api():
     api.add_resource(FilmResource, "/films")
     api.add_resource(FilmItemResource, "/films/<int:id>")
 
+    # TODO: support different ids
+    # TODO: store report rules in db
+    api.add_resource(ReportResource, "/reports")
+    api.add_resource(ReportItemResource, "/reports/<int:id>")
+
     return api
 
 
 def main():
     _ = _api()
-    app.run(port=8000, debug=True)
+    # app.run(port=8000, debug=True)
+    app.run(port=8000, debug=False)
 
 
-def swagger():
+def swagger_json():
     api = _api()
     with app.test_request_context():
         swagger_doc = create_open_api_resource(api.open_api_object)().get()

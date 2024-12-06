@@ -10,17 +10,31 @@ dependencies = [
     # TODO: remove this dependency
     "requests",
     # TODO: vendorize this dependency, or otherwise replace it
-    "simple-justwatch-python-api",
+    "simple-justwatch-python-api==0.16",
     "SQLAlchemy>=2.0.27",
     "alembic>=1.13.1",
     "flask-restful-swagger-3 @ git+https://github.com/booxter/flask-restful-swagger-3@master",
-    "letsrolld-api-client @ git+https://github.com/booxter/letsrolld-client.git",
+    "letsrolld-api-client @ file:///${PROJECT_ROOT}/letsrolld-api-client",
     "click>=8.1.7",
     "Jinja2>=3.1.3",
+    "Flask-Sqlalchemy>=3.1.1",
+    "pycountry>=23.12.11",
+    "openapi-python-client>=0.20.0",
 ]
-requires-python = ">=3.11,<3.12"
+requires-python = ">=3.12"
 readme = "README.md"
 license = {text = "GPL-3.0-only"}
+
+[project.optional-dependencies]
+dev = [
+        "pre-commit>=3.6.2",
+        "pytest>=8.0.1",
+        "types-Flask-Cors>=4.0.0.20240523",
+        "mypy>=1.10.0",
+        "types-beautifulsoup4>=4.12.0.20240511",
+        "types-requests>=2.32.0.20240602",
+        "sqlalchemy2-stubs>=0.0.2a38",
+]
 
 [build-system]
 requires = ["pdm-backend"]
@@ -29,25 +43,39 @@ build-backend = "pdm.backend"
 [tool.pdm]
 distribution = true
 
-[tool.pdm.dev-dependencies]
-dev = [
-    "pre-commit>=3.6.2",
-    "pytest>=8.0.1",
-]
-
 [project.scripts]
-# TODO: remove these obsolete scripts
-recommend = "letsrolld.cmd.recommend:main"
-directors = "letsrolld.cmd.directors:main"
-
-db-init = "letsrolld.cmd.db_init:main"
+fetch-directors = "letsrolld.cmd.fetch_directors:main"
 populate-directors = "letsrolld.cmd.populate_directors:main"
 update-directors = "letsrolld.cmd.update:directors_main"
+dump-directors = "letsrolld.cmd.dump_directors:main"
+
 update-films = "letsrolld.cmd.update:films_main"
 update-offers = "letsrolld.cmd.update:offers_main"
+update-services = "letsrolld.cmd.update:services_main"
 cleanup = "letsrolld.cmd.cleanup:main"
 
 # webapi
 webapp = "letsrolld.webapi.app:main"
 lcli = "letsrolld.webcli.cli:cli"
-swagger = "letsrolld.webapi.app:swagger"
+swagger = "letsrolld.webapi.app:swagger_json"
+
+[[tool.mypy.overrides]]
+module = [
+    "flask_restful_swagger_3",
+    "simplejustwatchapi"
+]
+ignore_missing_imports = true
+
+[tool.mypy]
+disable_error_code = ["import-not-found", "import-untyped"]
+exclude = [
+    "alembic/env.py",
+    "src/letsrolld/db/models.py",
+]
+# honor excludes by not following there through imports
+follow_imports = "silent"
+
+[tool.ruff]
+exclude = [
+    "letsrolld-api-client/",
+]

@@ -39,7 +39,7 @@ export default class Movie {
         // TODO: change for the dynamic image cover later
         const imageElem = `<img class="movie-image-cover" src=${this.cover_url} alt="Watch this space, cover is comming soon" />`;
         const cover = this.createMovieElemHTML('figure', 'movie-image', imageElem);
-        
+
         // handle the case if trailer is not available
         if (this.trailer_url) {
             //the html character code is an arrow directed to the right
@@ -123,7 +123,7 @@ export default class Movie {
         return container;
     }
 
-    // expects countries object that has name and flag fields, class  
+    // expects countries object that has name and flag fields, class
     getFlags(countries, name) {
         let flags = "";
 
