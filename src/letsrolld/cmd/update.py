@@ -5,7 +5,7 @@ import sys
 import time
 import traceback
 
-from sqlalchemy import func, select, or_
+from sqlalchemy import func, select, or_, and_
 from sqlalchemy.orm import sessionmaker
 
 from letsrolld import db
@@ -31,24 +31,35 @@ _MODEL_TO_THRESHOLD = {
 }
 
 
-def _get_obj_to_update_query(model, threshold, last_checked_field):
+def _get_obj_to_update_query(model, threshold, last_checked_field, match):
     field = getattr(model, last_checked_field)
-    return or_(
+    query_filter = or_(
         field < _NOW - threshold,
         field > _NOW,
         field == None,  # noqa
     )
+    if match:
+        return and_(
+            query_filter,
+            or_(
+                model.name.ilike(f"%{match}%"),
+                model.lb_url.ilike(f"%{match}%"),
+            ),
+        )
+    return query_filter
 
 
 def _seen_obj_query(model, seen):
     return model.id.notin_(seen)
 
 
-def get_obj_to_update(session, model, threshold, last_checked_field, seen):
+def get_obj_to_update(session, model, threshold, last_checked_field, seen, match):
     return (
         session.execute(
             select(model)
-            .filter(_get_obj_to_update_query(model, threshold, last_checked_field))
+            .filter(
+                _get_obj_to_update_query(model, threshold, last_checked_field, match)
+            )
             .filter(_seen_obj_query(model, seen))
             .limit(1)
         )
@@ -57,12 +68,14 @@ def get_obj_to_update(session, model, threshold, last_checked_field, seen):
     )
 
 
-def get_number_of_objs_to_update(session, model, threshold, last_checked_field):
+def get_number_of_objs_to_update(session, model, threshold, last_checked_field, match):
     try:
         return session.scalar(
             select(func.count())
             .select_from(model)
-            .filter(_get_obj_to_update_query(model, threshold, last_checked_field))
+            .filter(
+                _get_obj_to_update_query(model, threshold, last_checked_field, match)
+            )
         )
     finally:
         session.close()
@@ -295,10 +308,13 @@ def run_update(
     last_checked_field,
     last_updated_field,
     dry_run=False,
+    match=None,
 ):
     model_name = model.__name__
 
-    n_objs = get_number_of_objs_to_update(session, model, threshold, last_checked_field)
+    n_objs = get_number_of_objs_to_update(
+        session, model, threshold, last_checked_field, match
+    )
 
     i = 1
     seen = set()
@@ -327,7 +343,9 @@ def run_update(
         i += 1
 
     while True:
-        obj = get_obj_to_update(session, model, threshold, last_checked_field, seen)
+        obj = get_obj_to_update(
+            session, model, threshold, last_checked_field, seen, match
+        )
         if obj is None:
             break
 
@@ -354,6 +372,7 @@ def parse_args():
     parser.add_argument("--debug", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--force", action="store_true")
+    parser.add_argument("--match")
     return parser.parse_args()
 
 
@@ -377,7 +396,9 @@ def main(
     while True:
         try:
             threshold = (
-                datetime.timedelta(0) if args.force else _MODEL_TO_THRESHOLD[model]
+                datetime.timedelta(0)
+                if (args.force or args.match)
+                else _MODEL_TO_THRESHOLD[model]
             )
             run_update(
                 get_session(),
@@ -389,6 +410,7 @@ def main(
                 last_checked_field,
                 last_updated_field,
                 dry_run=args.dry_run,
+                match=args.match,
             )
             break
         except Exception as e:
@@ -417,6 +439,7 @@ def offers_main():
     )
 
 
+# TODO: move this to cleanup script?
 # TODO: reuse generic main() machinery for services_main()
 def services_main():
     session = get_session()
