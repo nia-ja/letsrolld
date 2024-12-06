@@ -16,13 +16,12 @@ test: lint
 	pdm run pytest
 
 # One can use e.g. https://letterboxd.com/hershwin/list/all-the-movies/ as the base list
-get-directors:
-	pdm run get-directors -i ./data/lists/everything.csv -o ${DIRECTORS_FILE} | $(RUN_LOG_CMD)
+fetch-directors:
+	pdm run fetch-directors -i ./data/lists/everything.csv -o ${DIRECTORS_FILE} | $(RUN_LOG_CMD)
 
 populate-directors:
 	pdm run populate-directors -d ${DIRECTORS_FILE}
 
-# TODO: add dump-directors to run-all?
 dump-directors:
 	pdm run dump-directors -o ${DIRECTORS_FILE}.new | $(RUN_LOG_CMD)
 	mv ${DIRECTORS_FILE}.new ${DIRECTORS_FILE}
@@ -42,7 +41,7 @@ run-update-services:
 run-cleanup:
 	pdm run cleanup $(ARGS) | $(RUN_LOG_CMD)
 
-run-all: populate-directors run-update-directors run-update-films run-update-offers run-update-services run-cleanup
+run-all: populate-directors run-update-directors run-update-films run-update-offers run-update-services run-cleanup dump-directors
 
 run-db-upgrade:
 	pdm run alembic upgrade head
