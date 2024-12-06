@@ -1,11 +1,17 @@
 #!/bin/sh
 
-set -e
-set -x
+set -xe
+
+if [ ! -f cookie.txt ]; then
+  echo "Please create a cookie.txt file with the Letterboxd cookie"
+  exit 1
+fi
 
 COOKIE=$(cat cookie.txt)
 
 DIR=data
+
+rm -rf $DIR
 mkdir -p $DIR
 
 curl 'https://letterboxd.com/data/export/' \

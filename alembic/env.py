@@ -3,7 +3,8 @@ from logging.config import fileConfig
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
-from alembic import context
+# TODO: Fix type ignore by moving alembic/ directory?
+from alembic import context  # type: ignore[attr-defined]
 
 from letsrolld import db
 from letsrolld.db import models

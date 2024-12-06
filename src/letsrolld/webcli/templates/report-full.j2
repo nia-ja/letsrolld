@@ -1,0 +1,6 @@
+{% for section in report.sections %}
+## {{ section.name }}
+{% for film in section.films %}
+{{ film_renderer(film) }}
+{%- endfor %}
+{% endfor %}
