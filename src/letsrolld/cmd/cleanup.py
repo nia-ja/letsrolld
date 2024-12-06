@@ -41,6 +41,21 @@ def shorten_lb_urls(session, model, dry_run=False):
             session.rollback()
 
 
+def delete_orphaned_directors(session, model, dry_run=False):
+    try:
+        for director in session.query(model).all():
+            if not director.films:
+                print(
+                    f"Deleting orphaned director: {director.name} @ {director.lb_url}"
+                )
+                session.delete(director)
+    finally:
+        if not dry_run:
+            session.commit()
+        else:
+            session.rollback()
+
+
 def delete_orphaned_films(session, model, dry_run=False):
     try:
         for film in session.query(model).all():
@@ -115,6 +130,10 @@ _CLEANUP = [
     (
         models.Offer,
         delete_orphaned_offers,
+    ),
+    (
+        models.Director,
+        delete_orphaned_directors,
     ),
     # (
     #     models.Film,
