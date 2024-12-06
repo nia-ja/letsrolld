@@ -172,7 +172,7 @@ body {
   height: 60vh;
   margin: 20vh auto;
   border: 1px solid #1e033b;
-  background-color: rgba(30, 3, 59, 0.5);
+  background-color: rgba(30, 3, 59, 0.6);
   box-shadow: 0 5px 8px 0 rgba(30, 3, 59, 0.2), 0 7px 20px 0 rgba(30, 3, 59, 0.2);
   animation: modalopen 2s;
 }
@@ -180,6 +180,7 @@ body {
   text-transform: uppercase;
   color: #1e033b;
   font-size: 25px;
+  height: 15%;
 }
 .modal-content .modal-header .closeBtn {
   color: #999;
@@ -199,7 +200,8 @@ body {
   background-color: #eee;
 }
 .modal-content .modal-body {
-  height: 100%;
+  height: calc(80% - 20px);
+  margin-bottom: 20px;
 }
 
 @keyframes modalopen {
@@ -215,6 +217,7 @@ body {
 .offers .movie-offers-list {
   display: flex;
   flex-wrap: wrap;
+  margin-bottom: 15px;
 }
 .offers .movie-offers-list .movie-link-offer {
   display: inline-block;
@@ -229,6 +232,8 @@ body {
 .offers .movie-offers-list .movie-link-offer:hover {
   text-decoration: underline;
   text-decoration-color: #333;
+  background-color: rgba(30, 3, 59, 0.1);
+  border-radius: 5px;
 }
 .offers .movie-offers-list .movie-link-offer:hover .offer-name-tooltip {
   visibility: visible;
@@ -302,24 +307,38 @@ body {
 .offers .movie-offers-list .movie-link-offer .brand-icon:has(.logo-img.logo-vudu) {
   background-color: #2d6dbe;
 }
+.offers .movie-link-show_more {
+  color: #1e033b;
+}
+.offers .movie-link-show_more:hover {
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: #1e033b;
+}
 
 .offers-all {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
   flex-wrap: wrap;
+  gap: 10px;
+  row-gap: 10px;
   color: white;
   font-size: 36px;
-  width: 50%;
-  margin: 60px auto 0 auto;
+  width: 95%;
+  margin: 0 auto 20px auto;
 }
 .offers-all .movie-link {
   color: white;
   text-decoration: none;
+  background-color: rgba(30, 3, 59, 0.7);
+  border-radius: 5px;
+  padding: 7px 15px;
 }
 .offers-all .movie-link:hover {
-  text-decoration: underline;
-  text-decoration-color: white;
+  color: #1e033b;
+  background-color: rgba(255, 255, 255, 0.8);
 }
 .offers-all .movie-link-physical:hover {
   text-decoration: none;

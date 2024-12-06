@@ -57,9 +57,7 @@ export default class Movie {
 
         movieLeft.appendChild(cover);
 
-        // TODO: add a link for other services if they exist
         // other services -> open in modal, simple list with no logos
-
         if (this.offers.length > 0) {
             const movie_offers = new Offers(this.offers);
 
@@ -70,6 +68,7 @@ export default class Movie {
             const movie_offers_important = movie_offers.filterImportant();
             console.log(`Important offers from Offers class: ${movie_offers_important.length}`);
 
+            // TODO: rename function to getOffersElement
             const offers_el = this.getOffers(movie_offers_important, "movie-offers-list");
 
             const offers = document.createElement('div');
@@ -77,20 +76,20 @@ export default class Movie {
 
             // console.log(`my_offers: ${movie_important_offers.length}, all_offers: ${this.offers.length}`);
 
+            // if we have non-important offers
             if (offers_el) {
                 offers.appendChild(offers_el);
 
                 // console.log(`Offers_el number of childs:${offers_el.childNodes.length}`);
 
-                // TODO: add modal with "show more..."
                 if (movie_offers_important.length < movie_offers_all.length) {
-                    const moreLink = this.createLinkElem(null, "show_more", "show more ->");
+                    // TODO: make reusable
+                    const moreLink = this.createLinkElem(null, "show_more", "show more →");
                     moreLink.addEventListener("click", () => new Modal("Where to watch", null, movie_offers_all).fillInModal());
                     offers.appendChild(moreLink);
                 }
             } else {
-                // TODO: add modal with "where to watch"
-                const moreLink = this.createLinkElem(null, "show_more", "where to watch ->");
+                const moreLink = this.createLinkElem(null, "show_more", "where to watch →");
                 moreLink.addEventListener("click", () => new Modal("Where to watch", null, movie_offers_all).fillInModal());
                 offers.appendChild(moreLink);
             }
@@ -152,7 +151,6 @@ export default class Movie {
     }
 
     // TODO: move this into separate module
-    // TODO: add an option to expand list in modal window 
     // expects offers object that has name and url fields
     getOffers(offers, name) {
         const offersList = document.createElement("div");
