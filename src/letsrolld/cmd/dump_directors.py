@@ -15,8 +15,6 @@ def main():
     parser.add_argument("-f", "--force", help="output directors file", type=bool)
     args = parser.parse_args()
 
-    session = sessionmaker(bind=db.create_engine())()
-
     if not args.force and os.path.exists(args.output):
         print(f"Output file {args.output} already exists, exiting...")
         sys.exit(1)
@@ -24,6 +22,7 @@ def main():
     with open(args.output, "w") as csvfile:
         writer = csv.writer(csvfile, dialect=csv.unix_dialect)
         writer.writerow(["Name", "Letterboxd URI"])
+        session = sessionmaker(bind=db.create_engine())()
         for director in session.query(models.Director).order_by(models.Director.name):
             writer.writerow([director.name, director.lb_url])
 

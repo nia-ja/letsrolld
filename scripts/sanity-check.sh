@@ -11,8 +11,6 @@ StringContains() {
     return 1
 }
 
-DIRECTORS_FILE=directors.csv
-
 git worktree add ../sanity-check-env
 trap "git worktree remove ../sanity-check-env" EXIT
 
@@ -22,7 +20,7 @@ cd ../sanity-check-env
 alembic upgrade head
 
 # populate database with some data
-populate-directors -d ${DIRECTORS_FILE} -n 2
+populate-directors -d tests/files/directors.csv
 update-directors
 update-films
 update-offers
