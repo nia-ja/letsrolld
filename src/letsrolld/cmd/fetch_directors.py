@@ -30,9 +30,11 @@ def get_directors_by_films(film_list):
             ) as e:  # TODO: deduplicate error handling with update script
                 traceback.print_exception(e)
                 print(f"Retrying in {_SEC_WAIT_ON_FAIL} seconds...")
+                sys.stdout.flush()
                 time.sleep(_SEC_WAIT_ON_FAIL)
                 continue
         print(f"Processed {i + 1}/{len(film_list)} films")
+        sys.stdout.flush()
 
 
 def main():
