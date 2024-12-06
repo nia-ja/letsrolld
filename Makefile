@@ -17,6 +17,9 @@ test: lint
 
 # One can use e.g. https://letterboxd.com/hershwin/list/all-the-movies/ as the base list
 fetch-directors:
+	pdm run fetch-directors --new-only -i ./data/lists/everything.csv -o ${DIRECTORS_FILE} | $(RUN_LOG_CMD)
+
+fetch-directors-all:
 	pdm run fetch-directors -i ./data/lists/everything.csv -o ${DIRECTORS_FILE} | $(RUN_LOG_CMD)
 
 populate-directors:
