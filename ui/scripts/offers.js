@@ -18,7 +18,7 @@ export default class Offers {
 
     // NEED: a full list of services in the DB
     // only important services are shown on the main card component and use a logo
-    /* 
+    /*
     important services:
     - kanopy
     - hoopla
