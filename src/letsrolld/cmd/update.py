@@ -5,7 +5,7 @@ import sys
 import time
 import traceback
 
-from sqlalchemy import func, select, or_
+from sqlalchemy import func, select, or_, and_
 from sqlalchemy.orm import sessionmaker
 
 from letsrolld import db
@@ -15,7 +15,6 @@ from letsrolld import film as film_obj
 from letsrolld import http
 
 
-_MAX_RATING = 5
 _SEC_WAIT_ON_FAIL = 5
 _LAST_CHECKED_FIELD = "last_checked"
 _LAST_UPDATED_FIELD = "last_updated"
@@ -28,28 +27,39 @@ _MIN_REFRESH_FREQUENCY = datetime.timedelta(days=180)
 
 _MODEL_TO_THRESHOLD = {
     models.Film: datetime.timedelta(days=7),
-    models.Director: datetime.timedelta(days=1),
+    models.Director: datetime.timedelta(days=3),
 }
 
 
-def _get_obj_to_update_query(model, threshold, last_checked_field):
+def _get_obj_to_update_query(model, threshold, last_checked_field, match):
     field = getattr(model, last_checked_field)
-    return or_(
+    query_filter = or_(
         field < _NOW - threshold,
         field > _NOW,
         field == None,  # noqa
     )
+    if match:
+        return and_(
+            query_filter,
+            or_(
+                model.name.ilike(f"%{match}%"),
+                model.lb_url.ilike(f"%{match}%"),
+            ),
+        )
+    return query_filter
 
 
 def _seen_obj_query(model, seen):
     return model.id.notin_(seen)
 
 
-def get_obj_to_update(session, model, threshold, last_checked_field, seen):
+def get_obj_to_update(session, model, threshold, last_checked_field, seen, match):
     return (
         session.execute(
             select(model)
-            .filter(_get_obj_to_update_query(model, threshold, last_checked_field))
+            .filter(
+                _get_obj_to_update_query(model, threshold, last_checked_field, match)
+            )
             .filter(_seen_obj_query(model, seen))
             .limit(1)
         )
@@ -58,12 +68,14 @@ def get_obj_to_update(session, model, threshold, last_checked_field, seen):
     )
 
 
-def get_number_of_objs_to_update(session, model, threshold, last_checked_field):
+def get_number_of_objs_to_update(session, model, threshold, last_checked_field, match):
     try:
         return session.scalar(
             select(func.count())
             .select_from(model)
-            .filter(_get_obj_to_update_query(model, threshold, last_checked_field))
+            .filter(
+                _get_obj_to_update_query(model, threshold, last_checked_field, match)
+            )
         )
     finally:
         session.close()
@@ -112,7 +124,19 @@ def update_countries(session, countries):
 
 
 def update_offers(session, offers):
-    return update_objs(session, models.Offer, {o.technical_name for o in offers})
+    objs = []
+    for offer in offers:
+        model = models.Offer
+        name = offer.technical_name
+        db_obj = session.query(model).filter_by(name=name).first()
+        if db_obj is not None:
+            objs.append(db_obj)
+            continue
+        db_obj = model(name=name, monetization_type=offer.monetization_type)
+        session.add(db_obj)
+        objs.append(db_obj)
+        print(f"Adding {model.__name__.lower()}: {name}")
+    return objs
 
 
 def add_films(session, films):
@@ -183,7 +207,7 @@ def offer_threshold(f):
         return multiplier
     # refresh offers for newer films more often
     multiplier = max(0, _NOW.year - year(f)) + 1
-    # cap the multiplier at 14 (weeks)
+    # cap the multiplier at 14 days
     return min(14, multiplier)
 
 
@@ -228,6 +252,9 @@ def refresh_film(session, db_obj, api_obj):
     update_genres(session, api_obj.genres)
     update_countries(session, api_obj.countries)
 
+    # Since we have all the data by virtue of pulling genres, update offers too
+    refresh_offers(session, db_obj, api_obj)
+
     if not math.isclose(float(api_obj.rating), db_obj.rating):
         print(f"\t{db_obj.rating:.3f} -> {api_obj.rating}")
 
@@ -240,11 +267,13 @@ def refresh_film(session, db_obj, api_obj):
     db_obj.trailer_url = api_obj.trailer_url
     db_obj.genres = get_genres(session, api_obj.genres)
     db_obj.countries = get_countries(session, api_obj.countries)
+    db_obj.offers = get_offers(
+        session, {o.technical_name for o in api_obj.available_services}
+    )
     db_obj.last_updated = _NOW
 
 
 def refresh_offers(session, db_obj, api_obj):
-    # just in case genres or countries or offers changed
     db_offers = update_offers(session, api_obj.available_services)
 
     def get_offer_id(offer):
@@ -257,7 +286,7 @@ def refresh_offers(session, db_obj, api_obj):
             .filter_by(film_id=db_obj.id, offer_id=get_offer_id(offer.technical_name))
             .first()
         )
-        if  obj is not None:
+        if obj is not None:
             obj.url = offer.url
         else:
             obj = models.FilmOffer(
@@ -279,10 +308,13 @@ def run_update(
     last_checked_field,
     last_updated_field,
     dry_run=False,
+    match=None,
 ):
     model_name = model.__name__
 
-    n_objs = get_number_of_objs_to_update(session, model, threshold, last_checked_field)
+    n_objs = get_number_of_objs_to_update(
+        session, model, threshold, last_checked_field, match
+    )
 
     i = 1
     seen = set()
@@ -311,7 +343,9 @@ def run_update(
         i += 1
 
     while True:
-        obj = get_obj_to_update(session, model, threshold, last_checked_field, seen)
+        obj = get_obj_to_update(
+            session, model, threshold, last_checked_field, seen, match
+        )
         if obj is None:
             break
 
@@ -338,7 +372,12 @@ def parse_args():
     parser.add_argument("--debug", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--force", action="store_true")
+    parser.add_argument("--match")
     return parser.parse_args()
+
+
+def get_session():
+    return sessionmaker(bind=db.create_engine())()
 
 
 def main(
@@ -357,10 +396,12 @@ def main(
     while True:
         try:
             threshold = (
-                datetime.timedelta(0) if args.force else _MODEL_TO_THRESHOLD[model]
+                datetime.timedelta(0)
+                if (args.force or args.match)
+                else _MODEL_TO_THRESHOLD[model]
             )
             run_update(
-                sessionmaker(bind=db.create_engine())(),
+                get_session(),
                 model,
                 api_cls,
                 refresh_func,
@@ -369,6 +410,7 @@ def main(
                 last_checked_field,
                 last_updated_field,
                 dry_run=args.dry_run,
+                match=args.match,
             )
             break
         except Exception as e:
@@ -395,3 +437,44 @@ def offers_main():
         "last_offers_checked",
         "last_offers_updated",
     )
+
+
+# TODO: move this to cleanup script?
+# TODO: reuse generic main() machinery for services_main()
+def services_main():
+    session = get_session()
+    done = set()
+    while True:
+        offers = (
+            session.query(models.Offer)
+            .filter(models.Offer.monetization_type.is_(None))
+            .filter(models.Offer.id.notin_(done))
+            .all()
+        )
+        if not offers:
+            break
+        for offer in offers:
+            print(f"Offer {offer.name} has no monetization type, fixing...")
+            film = (
+                session.query(models.Film)
+                .join(models.FilmOffer)
+                .filter(models.FilmOffer.offer_id == offer.id)
+                .order_by(func.random())
+                .limit(1)
+                .first()
+            )
+            if film is None:
+                print(f"Offer {offer.name} has no film, skipping...")
+                done.add(offer.id)
+                continue
+            print(f"Offer {offer.name} is associated with film {film.name}, fixing...")
+            for api_offer in film_obj.Film(film.lb_url).available_services:
+                if api_offer.technical_name == offer.name:
+                    offer.monetization_type = api_offer.monetization_type
+                    print(
+                        f"Offer {offer.name} is now of type {offer.monetization_type}"
+                    )
+                    session.add(offer)
+                    done.add(offer.id)
+                    break
+        session.commit()

@@ -1,3 +1,4 @@
+import json
 import logging
 from http.client import HTTPConnection
 
@@ -5,6 +6,12 @@ import requests
 
 
 _CACHE_INSTALLED = False
+
+# TODO: use a library to fill these in
+_HEADERS = {
+    "Content-Type": "application/json",
+    "User-Agent": "PostmanRuntime/7.39.0",
+}
 
 
 # stolen from stackoverflow
@@ -23,5 +30,5 @@ def get_url(url):
     return requests.get(url).text
 
 
-def get_json(url, json):
-    return requests.post(url, json=json).json()
+def get_json(url, data):
+    return json.loads(requests.post(url, headers=_HEADERS, json=data).text)

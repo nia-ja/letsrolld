@@ -1,7 +1,9 @@
-from sqlalchemy import Integer, String, Numeric, DateTime
+import enum
+
+from sqlalchemy import Enum, Integer, String, Numeric, DateTime
 from sqlalchemy import Column, Table, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import Mapped, relationship, mapped_column
+from sqlalchemy.orm import Mapped, relationship, mapped_column, synonym
 
 Base = declarative_base()
 
@@ -14,7 +16,7 @@ film_genre_association_table = Table(
 )
 
 
-class Genre(Base):
+class Genre(Base):  # type: ignore[valid-type,misc]
     __tablename__ = "genres"
 
     id = Column(Integer, primary_key=True)
@@ -29,14 +31,14 @@ film_country_association_table = Table(
 )
 
 
-class Country(Base):
+class Country(Base):  # type: ignore[valid-type,misc]
     __tablename__ = "countries"
 
     id = Column(Integer, primary_key=True)
     name = Column(String, unique=True)
 
 
-class FilmOffer(Base):
+class FilmOffer(Base):  # type: ignore[valid-type,misc]
     __tablename__ = "film_offer_association_table"
 
     film_id = mapped_column(ForeignKey("films.id"), primary_key=True)
@@ -45,11 +47,27 @@ class FilmOffer(Base):
     url = Column(String, nullable=True)
 
 
-class Offer(Base):
+class MonetizationType(enum.Enum):
+    FREE = "FREE"
+    FLATRATE = "FLATRATE"
+    RENT = "RENT"
+    BUY = "BUY"
+    ADS = "ADS"
+    # TODO: what is that? should I expose it in render?
+    FAST = "FAST"
+    CINEMA = "CINEMA"
+    DISC = "DISC"
+
+    def __str__(self):
+        return str(self.value)
+
+
+class Offer(Base):  # type: ignore[valid-type,misc]
     __tablename__ = "offers"
 
     id = Column(Integer, primary_key=True)
     name = Column(String, unique=True)
+    monetization_type = Column(Enum(MonetizationType))  # type: ignore[var-annotated]
 
 
 director_film_association_table = Table(
@@ -60,7 +78,7 @@ director_film_association_table = Table(
 )
 
 
-class Film(Base):
+class Film(Base):  # type: ignore[valid-type,misc]
     __tablename__ = "films"
 
     id = Column(Integer, primary_key=True)
@@ -84,6 +102,7 @@ class Film(Base):
     countries: Mapped[list[Country]] = relationship(
         secondary=film_country_association_table
     )
+    offers: Mapped[list[Offer]] = relationship(secondary="film_offer_association_table")
 
     directors = relationship(
         "Director",
@@ -91,12 +110,10 @@ class Film(Base):
         back_populates="films",
     )
 
-    @property
-    def name(self):
-        return self.title
+    name = synonym("title")
 
 
-class Director(Base):
+class Director(Base):  # type: ignore[valid-type,misc]
     __tablename__ = "directors"
 
     id = Column(Integer, primary_key=True)

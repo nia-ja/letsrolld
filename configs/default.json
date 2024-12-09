@@ -1,63 +1,47 @@
 {
 	"Top Movies": {
-		"max_movies": 5,
-		"max_movies_per_director": 1,
-		"services": ["FREE", "criterionchannel"],
+		"max_movies": 7,
+		"services": ["FREE", "ADS", "FLATRATE", "RENT", "BUY"],
 		"min_rating": "3.85",
 		"min_length": 60,
-		"exclude_genre": ["documentary", "animation"]
+		"exclude_genres": ["documentary", "animation"]
 	},
 	"International": {
-		"max_movies": 3,
-		"max_movies_per_director": 1,
-		"services": ["FREE", "criterionchannel"],
+		"max_movies": 5,
+		"services": ["FREE", "ADS", "FLATRATE", "RENT", "BUY"],
 		"min_rating": "3.85",
 		"min_length": 60,
-		"exclude_genre": ["documentary", "animation"],
-		"exclude_country": ["USA", "UK", "Canada", "Australia"]
+		"exclude_genres": ["documentary", "animation"],
+		"exclude_countries": ["USA", "UK", "Canada", "Australia"]
 	},
-	"Something Free": {
+	"Horrors": {
 		"max_movies": 3,
-		"max_movies_per_director": 1,
-		"services": ["FREE", "criterionchannel"],
+		"services": ["FREE", "ADS", "FLATRATE", "RENT", "BUY"],
 		"min_rating": "3.75",
-		"min_length": 45,
-		"exclude_genre": ["documentary", "animation"]
-	},
-	"Horrors from the Past": {
-		"max_movies": 3,
-		"max_movies_per_director": 1,
-		"services": ["FREE", "criterionchannel"],
-		"min_rating": "3.65",
 		"genre": "horror",
-		"min_year": 1900,
-		"max_year": 1980,
 		"min_length": 60,
-		"exclude_genre": ["documentary", "animation"]
+		"exclude_genres": ["documentary", "animation"]
 	},
 	"Classics": {
 		"max_movies": 3,
-		"max_movies_per_director": 1,
-		"services": ["FREE", "criterionchannel"],
-		"min_rating": "3.95",
+		"services": ["FREE", "ADS", "FLATRATE", "RENT", "BUY"],
+		"min_rating": "3.90",
 		"min_year": 1900,
 		"max_year": 1970,
 		"min_length": 60,
-		"exclude_genre": ["documentary", "animation"]
+		"exclude_genres": ["documentary", "animation"]
 	},
 	"Animation": {
-		"max_movies": 3,
-		"max_movies_per_director": 1,
-		"services": ["FREE", "criterionchannel"],
+		"max_movies": 2,
+		"services": ["FREE", "ADS", "FLATRATE", "RENT", "BUY"],
 		"min_rating": "3.75",
 		"min_length": 60,
 		"genre": "animation",
-		"exclude_country": ["Japan"]
+		"exclude_countries": ["Japan"]
 	},
 	"Anime": {
-		"max_movies": 3,
-		"max_movies_per_director": 1,
-		"services": ["FREE", "criterionchannel"],
+		"max_movies": 2,
+		"services": ["FREE", "ADS", "FLATRATE", "RENT", "BUY"],
 		"min_rating": "3.75",
 		"min_length": 60,
 		"genre": "animation",
@@ -65,8 +49,7 @@
 	},
 	"Documentaries": {
 		"max_movies": 3,
-		"max_movies_per_director": 1,
-		"services": ["FREE", "criterionchannel"],
+		"services": ["FREE", "ADS", "FLATRATE", "RENT", "BUY"],
 		"min_rating": "3.75",
 		"min_length": 60,
 		"genre": "documentary"

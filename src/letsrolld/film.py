@@ -11,51 +11,7 @@ from letsrolld import justwatch as jw
 from letsrolld.base import BaseObject
 
 
-Offer = namedtuple("Offer", ["technical_name", "url"])
-
-
-KANOPY = "kanopy"
-HOOPLA = "hoopla"
-AMAZONPRIME = "amazonprime"
-AMAZON = "amazon"
-YOUTUBE = "youtube"
-CRITERION = "criterionchannel"
-
-PHYSICAL = "physical"
-
-SERVICES = [
-    KANOPY,
-    HOOPLA,
-    AMAZONPRIME,
-    AMAZON,
-    YOUTUBE,
-    CRITERION,
-    PHYSICAL,
-]
-
-FREE_ALIAS = "FREE"
-STREAM_ALIAS = "STREAM"
-ANY_ALIAS = "ANY"
-
-FREE_SERVICES = [KANOPY, HOOPLA, AMAZONPRIME]
-STREAM_SERVICES = FREE_SERVICES + [AMAZON, YOUTUBE, CRITERION]
-ANY_SERVICES = STREAM_SERVICES + [PHYSICAL]
-
-SERVICE_ALIASES = {
-    FREE_ALIAS: FREE_SERVICES,
-    STREAM_ALIAS: STREAM_SERVICES,
-    ANY_ALIAS: ANY_SERVICES,
-}
-
-
-def get_services(services):
-    res = set()
-    for s in services or []:
-        if s in SERVICE_ALIASES:
-            res.update(SERVICE_ALIASES[s])
-        elif s in SERVICES:
-            res.add(s)
-    return res
+Offer = namedtuple("Offer", ["technical_name", "url", "monetization_type"])
 
 
 class Film(BaseObject):
@@ -124,11 +80,19 @@ class Film(BaseObject):
     @property
     def available_services(self):
         services = [
-            Offer(technical_name=offer.technical_name, url=offer.url)
+            # TODO: confirm that api returns one of the known monetization types
+            Offer(
+                technical_name=offer.package.technical_name,
+                url=offer.url,
+                monetization_type=offer.monetization_type,
+            )
             for offer in self.offers
         ]
         if self.available_physical():
-            services.append(Offer(technical_name=PHYSICAL, url=None))
+            # TODO: use const for monetization type
+            services.append(
+                Offer(technical_name="physical", url=None, monetization_type="DISC")
+            )
         return services
 
     @functools.cached_property
@@ -139,12 +103,16 @@ class Film(BaseObject):
                 return None
             return link
 
-    # TODO: extract runtime from letterboxd if quickwatch is not available
     @functools.cached_property
     def runtime(self):
-        if self.jw is None:
-            return None
-        return self.jw.runtime_minutes
+        # first, try (structured) justwatch data
+        if self.jw is not None:
+            return self.jw.runtime_minutes
+        # fall back to letterboxd html
+        for p in self.soup.find_all("p", class_="text-link text-footer"):
+            match = re.search(r"(\d+)\smins", p.text)
+            if match:
+                return int(match.group(1))
 
     @functools.cached_property
     def _full_title(self):

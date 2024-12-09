@@ -1,0 +1,28 @@
+>>> {{ film.title }}
+  📅:{{ film.year }} | 📽:{{ film.directors|map(attribute='name')|join(', ') }}
+  ⌛:{{ film.runtime }}m ⭐:{{ film.rating }} 📎:{{ film.genres|join(',') }}
+{%- set ns = namespace(all_country_names=[]) -%}
+{%- for country in film.countries -%}
+  {%- set ns.all_country_names = ns.all_country_names + [(country.flag or '') + country.name] -%}
+{%- endfor %}
+  Countries: {{ ns.all_country_names|join(', ') }}
+  ---
+  Letterboxd: {{ film.lb_url }}
+  JustWatch: {{ film.jw_url }}
+  Trailer: {{ film.trailer_url }}
+  ---
+{{ film.description|wordwrap(70)|indent(2, first=True) }}
+  ---
+  Available @
+    {% for monetization_type in ('FREE', 'ADS', 'FLATRATE', 'RENT', 'BUY', 'DISC') -%}
+    {%- if monetization_type in offers -%}
+    {{ monetization_type }}:
+    {% for offer in offers[monetization_type] -%}
+    {%-   if offer.url -%}
+    {{ offer.name }}: {{ offer.url }}
+    {%-   else -%}
+    {{ offer.name }}
+    {%    endif %}
+    {% endfor %}
+    {% endif -%}
+    {% endfor -%}
